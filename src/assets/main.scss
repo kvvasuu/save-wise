@@ -1,14 +1,26 @@
-#app {
-  height: 100dvh;
-  width: 100vw;
+:root {
+  font-size: 16px;
+}
+
+body {
+  min-width: 100vw;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 #app {
-  height: 100dvh;
-  width: 100vw;
+  min-width: 100vw;
+  min-height: 100dvh;
   margin: 0;
   padding: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: grid;
+  grid-template-columns: 15fr 70fr 20fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
 }

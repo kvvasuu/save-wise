@@ -1,12 +1,6 @@
 <template>
   <div class="sidebar">
     <div class="logo">LOGO</div>
-    <div class="list">
-      <ul>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/settings">Settings</RouterLink>
-      </ul>
-    </div>
   </div>
 </template>
 
@@ -23,7 +17,7 @@ export default {
 .sidebar {
   height: 100%;
   width: 100%;
-  border-right: 2px solid rgb(228, 228, 228);
+  border-left: 2px solid rgb(228, 228, 228);
   display: flex;
   flex-direction: column;
   align-items: center;
