@@ -15,6 +15,9 @@
           <input placeholder="Password" type="password" class="input" />
         </div>
       </div>
+      <div class="caption">
+        <router-link to="/register">Forgot password?</router-link>
+      </div>
 
       <router-link to="/app"><button>Log in</button></router-link>
 
@@ -60,6 +63,12 @@ export default {
   a {
     width: 60%;
     margin: 2rem 0;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: #6485ff;
+    &:hover {
+      color: #604eff;
+    }
     button {
       padding: 1rem;
       width: 100%;
@@ -132,12 +141,20 @@ export default {
   }
 }
 
-.other {
+.other,
+.caption {
   font-size: 0.8rem;
   a {
     font-weight: 800;
-    text-decoration: none;
-    color: #6485ff;
+    margin: 0;
   }
+}
+
+.caption {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  text-align: right;
 }
 </style>
