@@ -3,8 +3,8 @@
     <div class="logo">LOGO</div>
     <div class="list">
       <ul>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/settings">Settings</RouterLink>
+        <RouterLink to="/app">Home</RouterLink>
+        <RouterLink to="/app/settings">Settings</RouterLink>
       </ul>
     </div>
   </div>

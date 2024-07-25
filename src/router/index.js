@@ -8,6 +8,7 @@ import AppView from "../views/AppView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    { path: "/:pathMatch(.*)*", redirect: "/" },
     {
       path: "/",
       name: "login",
@@ -24,12 +25,12 @@ const router = createRouter({
       component: AppView,
       children: [
         {
-          path: "/",
+          path: "",
           name: "home",
           component: HomeView,
         },
         {
-          path: "/settings",
+          path: "/app/settings",
           name: "settings",
           component: Settings,
         },
