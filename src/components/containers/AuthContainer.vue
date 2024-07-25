@@ -38,7 +38,12 @@ export default {
       background-color: #ffffff;
     }
     &.right {
-      background-color: #6485ff;
+      background: rgb(100, 133, 255);
+      background: url("../../assets/mask.png"),
+        linear-gradient(210deg, rgb(185, 166, 255) 0%, rgb(37, 68, 206) 100%);
+      background-blend-mode: soft-light;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
   }
   &.reverse {

@@ -5,9 +5,7 @@
       <router-link to="/app">Login</router-link>
       <router-link to="/register">Sign up</router-link>
     </template>
-    <template #right-column>
-      <img src="../../assets/logos/logo-tagline.svg" alt="" />
-    </template>
+    <template #right-column> </template>
   </AuthContainer>
 </template>
 
@@ -22,8 +20,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-img {
-  width: 100%;
-}
-</style>
+<style lang="scss" scoped></style>

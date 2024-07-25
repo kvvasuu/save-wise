@@ -1,7 +1,11 @@
 <template>
-  <AuthContainer :reverse="true">
-    <main>Register page</main>
-    <router-link to="/">Register</router-link>
+  <AuthContainer>
+    <template #left-column>
+      <div class="container"></div>
+      <main>Sign up</main>
+      <router-link to="/">Login</router-link>
+    </template>
+    <template #right-column> </template>
   </AuthContainer>
 </template>
 

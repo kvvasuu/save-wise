@@ -1,7 +1,7 @@
 <template>
   <div class="welcome-view">
     <RouterView v-slot="{ Component }">
-      <transition mode="out-in">
+      <transition name="flip" mode="out-in">
         <component :is="Component" />
       </transition>
     </RouterView>
@@ -22,5 +22,32 @@ import { RouterView } from "vue-router";
   align-items: center;
   justify-content: center;
   position: relative;
+  perspective: 100rem;
+  overflow: hidden;
+}
+
+.flip-enter-active {
+  transition: all 0.3s ease-out;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+.flip-leave-active {
+  transition: all 0.3s ease-in;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.flip-leave-from {
+  transform: rotateY(0deg);
+}
+.flip-enter-to {
+  transform: rotateY(0deg);
+}
+
+.flip-enter-from {
+  transform: rotateY(-90deg);
+}
+.flip-leave-to {
+  transform: rotateY(90deg);
 }
 </style>
