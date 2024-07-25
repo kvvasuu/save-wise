@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import Settings from "../views/Settings.vue";
+import AppView from "../views/app/AppView.vue";
+import HomeView from "../views/app/HomeView.vue";
+import Settings from "../views/app/Settings.vue";
 import RegisterPage from "../views/auth/RegisterPage.vue";
 import LoginPage from "../views/auth/LoginPage.vue";
-import AppView from "../views/AppView.vue";
+import WelcomeView from "../views/auth/WelcomeView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,14 +12,22 @@ const router = createRouter({
     { path: "/:pathMatch(.*)*", redirect: "/" },
     {
       path: "/",
-      name: "login",
-      component: LoginPage,
+      name: "welcome",
+      component: WelcomeView,
+      children: [
+        {
+          path: "",
+          name: "login",
+          component: LoginPage,
+        },
+        {
+          path: "/register",
+          name: "register",
+          component: RegisterPage,
+        },
+      ],
     },
-    {
-      path: "/register",
-      name: "register",
-      component: RegisterPage,
-    },
+
     {
       path: "/app",
       name: "app",

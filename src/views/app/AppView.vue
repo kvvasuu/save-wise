@@ -8,8 +8,8 @@
 
 <script>
 import { RouterView } from "vue-router";
-import Sidebar from "../components/Sidebar.vue";
-import RightBar from "../components/RightBar.vue";
+import Sidebar from "../../components/Sidebar.vue";
+import RightBar from "../../components/RightBar.vue";
 
 export default {
   components: {
