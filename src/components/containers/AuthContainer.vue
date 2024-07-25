@@ -1,11 +1,18 @@
 <template>
   <div class="container" :class="{ reverse: reverse }">
     <div class="column left">
-      <slot name="left-column"></slot>
+      <slot></slot>
     </div>
-
     <div class="column right">
-      <slot name="right-column"></slot>
+      <div class="inner">
+        <div class="logo">
+          <img
+            src="../../assets/logos/logo-tagline-horizontal.svg"
+            alt="SaveWise"
+            draggable="false"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -20,8 +27,8 @@ export default {
 .container {
   width: 60rem;
   aspect-ratio: 6 / 4;
-  border-radius: 2rem;
-  margin: 2rem;
+  border-radius: 1.6rem;
+  margin: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,7 +47,7 @@ export default {
     &.right {
       background: rgb(100, 133, 255);
       background: url("../../assets/mask.png"),
-        linear-gradient(210deg, rgb(185, 166, 255) 0%, rgb(37, 68, 206) 100%);
+        linear-gradient(210deg, rgb(190, 172, 255) 0%, rgb(54, 57, 223) 100%);
       background-blend-mode: soft-light;
       background-repeat: no-repeat;
       background-size: cover;
@@ -48,6 +55,22 @@ export default {
   }
   &.reverse {
     flex-direction: row-reverse;
+  }
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+  }
+  .logo {
+    padding: 2rem;
+    img {
+      height: 100%;
+      width: 100%;
+    }
   }
 }
 </style>

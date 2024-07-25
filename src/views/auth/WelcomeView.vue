@@ -24,6 +24,7 @@ import { RouterView } from "vue-router";
   position: relative;
   perspective: 100rem;
   overflow: hidden;
+  background-color: #f5f6fa;
 }
 
 .flip-enter-active {

@@ -1,5 +1,15 @@
 @import "./variables.scss";
 
+@font-face {
+  font-family: Montserrat;
+  src: url("../../../public/fonts/Montserrat.ttf");
+}
+
+@font-face {
+  font-family: Esteban;
+  src: url("../../../public/fonts/Esteban.ttf");
+}
+
 :root {
   font-size: 16px;
   font-family: Helvetica, Arial, sans-serif;
@@ -7,6 +17,10 @@
 
 html {
   height: 100%;
+}
+
+h1 {
+  font-family: Montserrat;
 }
 
 body {
