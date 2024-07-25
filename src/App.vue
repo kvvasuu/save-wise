@@ -1,35 +1,21 @@
 <template>
-  <div class="sidebar-left"><Sidebar></Sidebar></div>
-  <div class="center"><RouterView /></div>
-  <div class="sidebar-right"><RightBar></RightBar></div>
+  <RouterView></RouterView>
 </template>
 
 <script>
 import { RouterView } from "vue-router";
-import Sidebar from "./components/Sidebar.vue";
-import RightBar from "./components/RightBar.vue";
+import LoginPage from "./views/auth/LoginPage.vue";
+import RegisterPage from "./views/auth/RegisterPage.vue";
 
 export default {
   components: {
-    Sidebar,
-    RightBar,
+    LoginPage,
+    RegisterPage,
   },
   data() {
-    return {
-      dupa: "sadsadssddsada",
-    };
+    return {};
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.sidebar-left {
-  grid-area: 1 / 1 / 2 / 2;
-}
-.center {
-  grid-area: 1 / 2 / 2 / 3;
-}
-.sidebar-right {
-  grid-area: 1 / 3 / 2 / 4;
-}
-</style>
+<style lang="scss" scoped></style>
