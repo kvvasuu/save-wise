@@ -24,12 +24,18 @@
             />
           </div>
         </div>
-        <div class="other">
-          <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-          <label for="vehicle1">I agree to the </label>
-          <router-link to="/register">terms and conditions</router-link>
+        <div class="caption">
+          <input type="checkbox" id="terms" name="terms" value="terms" />
+          <label for="terms">I agree to the </label>
+          <router-link id="register-button" to="/register"
+            >terms and conditions</router-link
+          >
         </div>
         <router-link to="/login"><button>Register</button></router-link>
+        <div class="other">
+          Already have an account?
+          <router-link to="/login">Log in</router-link>
+        </div>
       </div>
     </div>
   </AuthContainer>
@@ -157,11 +163,7 @@ export default {
   }
 }
 
-.caption {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  text-align: right;
+.other {
+  width: auto;
 }
 </style>
