@@ -2,12 +2,12 @@
 
 @font-face {
   font-family: Montserrat;
-  src: url("../../../public/fonts/Montserrat.ttf");
+  src: url("../../../fonts/Montserrat.ttf");
 }
 
 @font-face {
   font-family: Esteban;
-  src: url("../../../public/fonts/Esteban.ttf");
+  src: url("../../../fonts/Esteban.ttf");
 }
 
 :root {
@@ -20,7 +20,7 @@ html {
 }
 
 h1 {
-  font-family: Montserrat;
+  font-family: Montserrat, Helvetica;
 }
 
 body {

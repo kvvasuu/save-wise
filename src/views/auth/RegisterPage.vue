@@ -2,9 +2,9 @@
   <AuthContainer :reverse="true">
     <div class="container">
       <div class="inner">
-        <div class="head">
+        <header>
           <h1>Sign up</h1>
-        </div>
+        </header>
 
         <div class="inputs">
           <div class="group" id="email">
@@ -27,7 +27,7 @@
         <div class="caption">
           <input type="checkbox" id="terms" name="terms" value="terms" />
           <label for="terms">I agree to the </label>
-          <router-link id="register-button" to="/register"
+          <router-link id="register-button" to="/terms" target="_blank"
             >terms and conditions</router-link
           >
         </div>
@@ -62,7 +62,7 @@ export default {
   width: 20rem;
   height: 100%;
   box-sizing: border-box;
-  .head {
+  header {
     display: flex;
     align-items: start;
     justify-content: center;

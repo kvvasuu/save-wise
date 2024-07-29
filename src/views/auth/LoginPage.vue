@@ -1,9 +1,9 @@
 <template>
   <AuthContainer>
     <div class="inner">
-      <div class="head">
+      <header>
         <h1>Log in</h1>
-      </div>
+      </header>
 
       <div class="inputs">
         <div class="group" id="email">
@@ -50,7 +50,8 @@ export default {
   width: 20rem;
   height: 100%;
   box-sizing: border-box;
-  .head {
+  overflow: hidden;
+  header {
     display: flex;
     align-items: start;
     justify-content: center;
