@@ -132,15 +132,13 @@ export default {
       outline: none;
       background-color: #f2eeff;
       color: #1e2438;
-      transition: 0.3s ease;
+
       margin: 0.4rem 0;
       &::placeholder {
         color: #6f7ca1;
       }
-      &:focus,
-      &:hover {
-        outline: none;
-        background-color: #f5f6fa;
+      &:focus {
+        outline: 2px solid rgba(96, 78, 255, 0.5);
       }
     }
     i {

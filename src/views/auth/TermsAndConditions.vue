@@ -162,6 +162,7 @@
   justify-content: flex-start;
   flex-direction: column;
   box-shadow: 0.3rem 0.3rem 1rem #1e24384f;
+  color: #1e2438;
   .inner {
     overflow: auto;
     aspect-ratio: 6 / 4;
@@ -207,6 +208,10 @@
       width: 90%;
       h3 {
         margin: 0;
+        color: #1e2438;
+      }
+      ul {
+        list-style-type: circle;
       }
     }
     a {
