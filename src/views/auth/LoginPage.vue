@@ -8,11 +8,33 @@
       <div class="inputs">
         <div class="group" id="email">
           <i class="fa-regular fa-envelope"></i>
-          <input placeholder="Email" type="email" class="input" />
+          <input
+            placeholder="Email"
+            type="email"
+            class="input"
+            v-model="email"
+            @keyup="error = false"
+            :class="{
+              'input-auth-error': error,
+            }"
+          />
         </div>
         <div class="group" id="password">
           <i class="fa-solid fa-lock"></i>
-          <input placeholder="Password" type="password" class="input" />
+          <input
+            placeholder="Password"
+            type="password"
+            class="input"
+            v-model="password"
+            @keyup="error = false"
+            @keydown.enter="login"
+            :class="{
+              'input-auth-error': error,
+            }"
+          />
+          <span class="input-error" v-if="error"
+            >Incorrect email or password</span
+          >
         </div>
       </div>
       <div class="caption">
@@ -32,6 +54,7 @@
 <script>
 import { RouterLink } from "vue-router";
 import AuthContainer from "@/components/containers/AuthContainer.vue";
+import { errorMessages } from "vue/compiler-sfc";
 
 export default {
   components: {
@@ -41,20 +64,26 @@ export default {
     return {
       email: "",
       password: "",
+      errorMessage: "",
+      error: false,
     };
   },
   methods: {
     login() {
-      if (
-        this.emailCorrect &&
-        this.passwordCorrect &&
-        this.passwordConfirmCorrect
-      ) {
-        this.$store.dispatch("register", {
+      this.error = false;
+      this.$store
+        .dispatch("login", {
           email: this.email,
           password: this.password,
+        })
+        .then(() => {
+          this.$router.push("/app");
+        })
+        .catch((error) => {
+          this.errorMessage = error;
+          this.error = true;
+          console.log(this.errorMessage);
         });
-      }
     },
   },
 };
@@ -149,6 +178,10 @@ button {
       &:focus {
         outline: 2px solid rgba(96, 78, 255, 0.5);
       }
+      &.input-auth-error {
+        outline: 2px solid rgb(255, 41, 41) !important;
+        margin-bottom: 0.6rem;
+      }
     }
     i {
       position: absolute;
@@ -175,5 +208,17 @@ button {
   justify-content: flex-end;
   width: 100%;
   text-align: right;
+}
+
+.input-error {
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgb(255, 41, 41);
+  bottom: -0.5rem;
+  left: 1rem;
+  pointer-events: none;
+  font-family: "Montserrat";
+  display: inline-block;
 }
 </style>

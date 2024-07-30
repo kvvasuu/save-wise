@@ -94,7 +94,6 @@ export default {
       passwordCorrect: false,
       passwordConfirm: "",
       passwordConfirmCorrect: false,
-      loading: false,
     };
   },
   methods: {

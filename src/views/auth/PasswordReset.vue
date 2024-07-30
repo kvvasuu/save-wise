@@ -27,7 +27,7 @@
           We'll send a verification code to this email if it matches an existing
           account.
         </div>
-        <button @click="toggleScreen" :disabled="!emailCorrect">Next</button>
+        <button @click="resetPassword">Send</button>
         <div class="other">
           <router-link to="/login">Back</router-link>
         </div>
@@ -35,26 +35,13 @@
 
       <div class="inner" v-else>
         <header>
-          <h1>Enter the 6-digit code</h1>
+          <h1>Reset email sent</h1>
         </header>
-
-        <div class="inputs">
-          <div class="group" id="code">
-            <i class="fa-regular fa-envelope"></i>
-            <input
-              placeholder="6-digit code"
-              type="text"
-              class="input"
-              maxlength="6"
-            />
-          </div>
-        </div>
         <div class="caption">
           Check <b>{{ passEmail }}</b> for a verification code.
         </div>
-        <button>Send</button>
         <div class="other">
-          <router-link to="/login">Cancel</router-link>
+          <router-link to="/login">back</router-link>
         </div>
       </div>
     </div>
@@ -77,8 +64,18 @@ export default {
     };
   },
   methods: {
-    toggleScreen() {
-      return this.emailCorrect ? (this.isSent = true) : (this.isSent = false);
+    resetPassword() {
+      this.validateEmail();
+      this.$store
+        .dispatch("passwordReset", {
+          email: this.email,
+        })
+        .then(() => {
+          this.isSent = true;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     validateEmail() {
       /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(this.email)
