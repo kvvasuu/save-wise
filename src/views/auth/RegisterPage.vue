@@ -64,11 +64,11 @@
         <div class="caption">
           <input type="checkbox" id="terms" name="terms" value="terms" />
           <label for="terms">I agree to the </label>
-          <router-link id="register-button" to="/terms" target="_blank"
+          <router-link id="terms-button" to="/terms" target="_blank"
             >terms and conditions</router-link
           >
         </div>
-        <router-link to="/login"><button>Register</button></router-link>
+        <button @click="register">register</button>
         <div class="other">
           Already have an account?
           <router-link to="/login">Log in</router-link>
@@ -94,6 +94,7 @@ export default {
       passwordCorrect: false,
       passwordConfirm: "",
       passwordConfirmCorrect: false,
+      loading: false,
     };
   },
   methods: {
@@ -111,6 +112,15 @@ export default {
       this.password === this.passwordConfirm
         ? (this.passwordConfirmCorrect = true)
         : (this.passwordConfirmCorrect = false);
+    },
+    register() {
+      if (
+        this.emailCorrect &&
+        this.passwordCorrect &&
+        this.passwordConfirmCorrect
+      ) {
+        this.store.dispatch("test", { dupa: "hehehe" });
+      }
     },
   },
 };

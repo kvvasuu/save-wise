@@ -27,7 +27,7 @@
           We'll send a verification code to this email if it matches an existing
           account.
         </div>
-        <button @click="toggleScreen">Next</button>
+        <button @click="toggleScreen" :disabled="!emailCorrect">Next</button>
         <div class="other">
           <router-link to="/login">Back</router-link>
         </div>
