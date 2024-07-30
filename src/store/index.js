@@ -3,7 +3,7 @@ import { auth } from "./auth";
 
 const store = createStore({
   modules: {
-    authe: auth,
+    auth: auth,
   },
   state() {
     return {};

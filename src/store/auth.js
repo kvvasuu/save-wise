@@ -1,7 +1,11 @@
-import { firebaseAuth, firebaseApp } from "./firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { firebaseAuth } from "./firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 
-const auth = createStore({
+const auth = {
   state() {
     return {};
   },
@@ -22,10 +26,23 @@ const auth = createStore({
           console.log(errorCode, errorMessage);
         });
     },
-    test(context, payload) {
-      console.log(payload);
+    async login(context, payload) {
+      await signInWithEmailAndPassword(
+        firebaseAuth,
+        payload.email,
+        payload.password
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+        });
     },
   },
-});
+};
 
 export { auth };

@@ -68,7 +68,7 @@
             >terms and conditions</router-link
           >
         </div>
-        <button @click="register">register</button>
+        <button @click="register">Register</button>
         <div class="other">
           Already have an account?
           <router-link to="/login">Log in</router-link>
@@ -104,7 +104,7 @@ export default {
         : (this.emailCorrect = false);
     },
     validatePassword() {
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g.test(this.email)
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g.test(this.password)
         ? (this.passwordCorrect = true)
         : (this.passwordCorrect = false);
     },
@@ -119,7 +119,10 @@ export default {
         this.passwordCorrect &&
         this.passwordConfirmCorrect
       ) {
-        this.store.dispatch("test", { dupa: "hehehe" });
+        this.$store.dispatch("register", {
+          email: this.email,
+          password: this.password,
+        });
       }
     },
   },
@@ -155,33 +158,35 @@ export default {
     &:hover {
       color: #604eff;
     }
-    button {
-      padding: 1rem;
-      width: 100%;
-      border: none;
-      outline: none;
-      background: linear-gradient(
-        130deg,
-        rgb(149, 121, 252) 0%,
-        rgb(54, 57, 223) 100%
-      );
-      background-position: 0 0;
-      background-size: 20rem 3rem;
-      color: #eee;
-      border-radius: 0.8rem;
-      font-family: Montserrat;
-      font-weight: 600;
-      box-shadow: 0.1rem 0.2rem 0.5rem rgba(30, 36, 56, 0.2);
-      cursor: pointer;
-      transition: all 0.3s ease-out;
-      &:hover {
-        transform: translateY(-3px);
-        background-position: 100% 50%;
-      }
-      span {
-        color: #aaa;
-      }
-    }
+  }
+}
+
+button {
+  padding: 1rem;
+  width: 60%;
+  margin: 2rem 0;
+  border: none;
+  outline: none;
+  background: linear-gradient(
+    130deg,
+    rgb(149, 121, 252) 0%,
+    rgb(54, 57, 223) 100%
+  );
+  background-position: 0 0;
+  background-size: 20rem 3rem;
+  color: #eee;
+  border-radius: 0.8rem;
+  font-family: Montserrat;
+  font-weight: 600;
+  box-shadow: 0.1rem 0.2rem 0.5rem rgba(30, 36, 56, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  &:hover {
+    transform: translateY(-3px);
+    background-position: 100% 50%;
+  }
+  span {
+    color: #aaa;
   }
 }
 
