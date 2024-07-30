@@ -13,7 +13,7 @@
               type="email"
               class="input"
               v-model="email"
-              @blur="validateEmail"
+              @change="validateEmail"
               :class="{
                 'input-auth-error': !emailCorrect && email.length != 0,
               }"

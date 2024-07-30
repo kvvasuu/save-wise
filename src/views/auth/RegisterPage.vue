@@ -8,20 +8,57 @@
 
         <div class="inputs">
           <div class="group" id="email">
+            <input
+              placeholder="Email"
+              type="email"
+              class="input"
+              v-model="email"
+              @change="validateEmail"
+              :class="{
+                'input-auth-error': !emailCorrect && email.length != 0,
+              }"
+            />
             <i class="fa-regular fa-envelope"></i>
-            <input placeholder="Email" type="email" class="input" />
+            <span class="input-error" v-if="!emailCorrect && email.length != 0"
+              >Please provide correct email</span
+            >
           </div>
           <div class="group" id="password">
+            <input
+              placeholder="Password"
+              type="password"
+              class="input"
+              v-model="password"
+              @change="validatePassword"
+              :class="{
+                'input-auth-error': !passwordCorrect && password.length != 0,
+              }"
+            />
             <i class="fa-solid fa-lock"></i>
-            <input placeholder="Password" type="password" class="input" />
+            <span
+              class="input-error"
+              v-if="!passwordCorrect && password.length != 0"
+              >Please provide correct password</span
+            >
           </div>
           <div class="group" id="password">
-            <i class="fa-solid fa-lock"></i>
             <input
               placeholder="Confirm password"
               type="password"
               class="input"
+              v-model="passwordConfirm"
+              @change="validatePasswordConfirm"
+              :class="{
+                'input-auth-error':
+                  !passwordConfirmCorrect && passwordConfirm.length != 0,
+              }"
             />
+            <i class="fa-solid fa-lock"></i>
+            <span
+              class="input-error"
+              v-if="!passwordConfirmCorrect && passwordConfirm.length != 0"
+              >Passwords are not the same</span
+            >
           </div>
         </div>
         <div class="caption">
@@ -48,6 +85,33 @@ import AuthContainer from "@/components/containers/AuthContainer.vue";
 export default {
   components: {
     AuthContainer,
+  },
+  data() {
+    return {
+      email: "",
+      emailCorrect: false,
+      password: "",
+      passwordCorrect: false,
+      passwordConfirm: "",
+      passwordConfirmCorrect: false,
+    };
+  },
+  methods: {
+    validateEmail() {
+      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(this.email)
+        ? (this.emailCorrect = true)
+        : (this.emailCorrect = false);
+    },
+    validatePassword() {
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g.test(this.email)
+        ? (this.passwordCorrect = true)
+        : (this.passwordCorrect = false);
+    },
+    validatePasswordConfirm() {
+      this.password === this.passwordConfirm
+        ? (this.passwordConfirmCorrect = true)
+        : (this.passwordConfirmCorrect = false);
+    },
   },
 };
 </script>
@@ -122,6 +186,7 @@ export default {
     align-items: center;
     position: relative;
     width: 100%;
+    margin: 0.4rem 0;
     .input {
       width: 100%;
       height: 3rem;
@@ -132,17 +197,21 @@ export default {
       outline: none;
       background-color: #f2eeff;
       color: #1e2438;
-
-      margin: 0.4rem 0;
+      margin: 0;
       &::placeholder {
         color: #6f7ca1;
       }
       &:focus {
         outline: 2px solid rgba(96, 78, 255, 0.5);
       }
+      &.input-auth-error {
+        outline: 2px solid rgb(255, 41, 41) !important;
+        margin-bottom: 0.6rem;
+      }
     }
     i {
       position: absolute;
+      top: 1rem;
       left: 1rem;
       color: #1e2438;
       width: 1rem;
@@ -163,5 +232,17 @@ export default {
 
 .other {
   width: auto;
+}
+
+.input-error {
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgb(255, 41, 41);
+  bottom: -0.5rem;
+  left: 1rem;
+  pointer-events: none;
+  font-family: "Montserrat";
+  display: inline-block;
 }
 </style>
