@@ -166,7 +166,7 @@
   .inner {
     overflow: auto;
     aspect-ratio: 6 / 4;
-    margin: 0.5rem 0;
+    margin: 0.2rem 0;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -229,7 +229,7 @@
     }
     &::-webkit-scrollbar-track {
       background: #f5f6fa00;
-      border-radius: 3px;
+      border-radius: 0.3rem;
     }
     &::-webkit-scrollbar-thumb {
       background: rgb(100, 133, 255);
@@ -239,7 +239,7 @@
         rgb(84, 86, 223) 100%
       );
 
-      border-radius: 3px;
+      border-radius: 0.3rem;
     }
   }
 }

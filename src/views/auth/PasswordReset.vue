@@ -1,29 +1,25 @@
 <template>
-  <AuthContainer>
-    <div class="inner">
-      <header>
-        <h1>Log in</h1>
-      </header>
+  <AuthContainer :reverse="true">
+    <div class="container">
+      <div class="inner">
+        <header>
+          <h1>Forgot password</h1>
+        </header>
 
-      <div class="inputs">
-        <div class="group" id="email">
-          <i class="fa-regular fa-envelope"></i>
-          <input placeholder="Email" type="email" class="input" />
+        <div class="inputs">
+          <div class="group" id="email">
+            <i class="fa-regular fa-envelope"></i>
+            <input placeholder="Email" type="email" class="input" />
+          </div>
         </div>
-        <div class="group" id="password">
-          <i class="fa-solid fa-lock"></i>
-          <input placeholder="Password" type="password" class="input" />
+        <div class="caption">
+          We'll send a verification code to this email if it matches an existing
+          account.
         </div>
-      </div>
-      <div class="caption">
-        <router-link to="/passwordReset">Forgot password?</router-link>
-      </div>
-
-      <router-link to="/app"><button>Log in</button></router-link>
-
-      <div class="other">
-        Don't have an account?
-        <router-link to="/register">Create account</router-link>
+        <button>Next</button>
+        <div class="other">
+          <router-link to="/login">Back</router-link>
+        </div>
       </div>
     </div>
   </AuthContainer>
@@ -69,33 +65,35 @@ export default {
     &:hover {
       color: #604eff;
     }
-    button {
-      padding: 1rem;
-      width: 100%;
-      border: none;
-      outline: none;
-      background: linear-gradient(
-        130deg,
-        rgb(149, 121, 252) 0%,
-        rgb(54, 57, 223) 100%
-      );
-      background-position: 0 0;
-      background-size: 20rem 3rem;
-      color: #eee;
-      border-radius: 0.8rem;
-      font-family: Montserrat;
-      font-weight: 600;
-      box-shadow: 0.1rem 0.2rem 0.5rem rgba(30, 36, 56, 0.2);
-      cursor: pointer;
-      transition: all 0.3s ease-out;
-      &:hover {
-        transform: translateY(-3px);
-        background-position: 100% 50%;
-      }
-      span {
-        color: #aaa;
-      }
-    }
+  }
+}
+
+button {
+  width: 60%;
+  margin: 2rem 0 1.2rem 0;
+  padding: 1rem;
+  border: none;
+  outline: none;
+  background: linear-gradient(
+    130deg,
+    rgb(149, 121, 252) 0%,
+    rgb(54, 57, 223) 100%
+  );
+  background-position: 0 0;
+  background-size: 20rem 3rem;
+  color: #eee;
+  border-radius: 0.8rem;
+  font-family: Montserrat;
+  font-weight: 600;
+  box-shadow: 0.1rem 0.2rem 0.5rem rgba(30, 36, 56, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  &:hover {
+    transform: translateY(-3px);
+    background-position: 100% 50%;
+  }
+  span {
+    color: #aaa;
   }
 }
 
@@ -120,6 +118,7 @@ export default {
       outline: none;
       background-color: #f2eeff;
       color: #1e2438;
+
       margin: 0.4rem 0;
       &::placeholder {
         color: #6f7ca1;
@@ -141,17 +140,8 @@ export default {
 .other,
 .caption {
   font-size: 0.8rem;
-  a {
-    font-weight: 800;
-    margin: 0;
-  }
-}
-
-.caption {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  text-align: right;
+  width: 80%;
+  margin: 1rem 0 0 0;
+  text-align: center;
 }
 </style>

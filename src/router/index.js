@@ -4,6 +4,7 @@ import HomeView from "../views/app/HomeView.vue";
 import Settings from "../views/app/Settings.vue";
 import RegisterPage from "../views/auth/RegisterPage.vue";
 import LoginPage from "../views/auth/LoginPage.vue";
+import PasswordReset from "@/views/auth/PasswordReset.vue";
 import WelcomeView from "../views/auth/WelcomeView.vue";
 import TermsAndConditions from "../views/auth/TermsAndConditions.vue";
 
@@ -25,6 +26,11 @@ const router = createRouter({
           path: "/register",
           name: "register",
           component: RegisterPage,
+        },
+        {
+          path: "/passwordReset",
+          name: "passwordReset",
+          component: PasswordReset,
         },
       ],
     },
