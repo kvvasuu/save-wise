@@ -1,24 +1,60 @@
 <template>
   <AuthContainer :reverse="true">
     <div class="container">
-      <div class="inner">
+      <div class="inner" v-if="!isSent">
         <header>
           <h1>Forgot password</h1>
         </header>
-
         <div class="inputs">
           <div class="group" id="email">
             <i class="fa-regular fa-envelope"></i>
-            <input placeholder="Email" type="email" class="input" />
+            <input
+              placeholder="Email"
+              type="email"
+              class="input"
+              v-model="email"
+              @blur="validateEmail"
+              :class="{
+                'input-auth-error': !emailCorrect && email.length != 0,
+              }"
+            />
+            <span class="input-error" v-if="!emailCorrect && email.length != 0"
+              >Please provide correct email</span
+            >
           </div>
         </div>
         <div class="caption">
           We'll send a verification code to this email if it matches an existing
           account.
         </div>
-        <button>Next</button>
+        <button @click="toggleScreen">Next</button>
         <div class="other">
           <router-link to="/login">Back</router-link>
+        </div>
+      </div>
+
+      <div class="inner" v-else>
+        <header>
+          <h1>Enter the 6-digit code</h1>
+        </header>
+
+        <div class="inputs">
+          <div class="group" id="code">
+            <i class="fa-regular fa-envelope"></i>
+            <input
+              placeholder="6-digit code"
+              type="text"
+              class="input"
+              maxlength="6"
+            />
+          </div>
+        </div>
+        <div class="caption">
+          Check <b>{{ passEmail }}</b> for a verification code.
+        </div>
+        <button>Send</button>
+        <div class="other">
+          <router-link to="/login">Cancel</router-link>
         </div>
       </div>
     </div>
@@ -32,6 +68,28 @@ import AuthContainer from "@/components/containers/AuthContainer.vue";
 export default {
   components: {
     AuthContainer,
+  },
+  data() {
+    return {
+      isSent: false,
+      email: "",
+      emailCorrect: true,
+    };
+  },
+  methods: {
+    toggleScreen() {
+      return this.emailCorrect ? (this.isSent = true) : (this.isSent = false);
+    },
+    validateEmail() {
+      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(this.email)
+        ? (this.emailCorrect = true)
+        : (this.emailCorrect = false);
+    },
+  },
+  computed: {
+    passEmail() {
+      return this.email;
+    },
   },
 };
 </script>
@@ -118,13 +176,15 @@ button {
       outline: none;
       background-color: #f2eeff;
       color: #1e2438;
-
       margin: 0.4rem 0;
       &::placeholder {
         color: #6f7ca1;
       }
       &:focus {
         outline: 2px solid rgba(96, 78, 255, 0.5);
+      }
+      &.input-auth-error {
+        outline: 2px solid rgb(255, 41, 41) !important;
       }
     }
     i {
@@ -133,6 +193,17 @@ button {
       color: #1e2438;
       width: 1rem;
       height: 1rem;
+    }
+    .input-error {
+      position: absolute;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: rgb(255, 41, 41);
+      bottom: -0.6rem;
+      left: 1rem;
+      pointer-events: none;
+      font-family: "Montserrat";
+      display: inline-block;
     }
   }
 }
