@@ -17,7 +17,14 @@ const router = createRouter({
       path: "/",
       name: "welcome",
       component: WelcomeView,
-      meta: { requiresAuth: false },
+      meta: { requiresUnauth: true },
+      beforeEnter: (to, from) => {
+        if (to.meta.requiresUnauth && store.state.auth.isLoggedIn) {
+          router.push("/app");
+        } else {
+          return true;
+        }
+      },
       children: [
         {
           path: "",

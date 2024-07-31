@@ -19,6 +19,19 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    handleBeforeUnload(event) {
+      const message = "Are you sure you want to leave?";
+      event.preventDefault();
+      return message;
+    },
+  },
+  mounted() {
+    window.addEventListener("beforeunload", this.handleBeforeUnload);
+  },
+  beforeUnmount() {
+    window.removeEventListener("beforeunload", this.handleBeforeUnload);
+  },
 };
 </script>
 
