@@ -4,7 +4,8 @@
       <header>
         <h1>Log in</h1>
         <span class="input-error" v-if="emailNotVerified"
-          >Your email address has not been verified yet.</span
+          >Your email address has not been verified yet.<br />Check your inbox
+          and click on the verification link.</span
         >
       </header>
 

@@ -7,6 +7,7 @@ import LoginPage from "../views/auth/LoginPage.vue";
 import PasswordReset from "@/views/auth/PasswordReset.vue";
 import WelcomeView from "../views/auth/WelcomeView.vue";
 import TermsAndConditions from "../views/auth/TermsAndConditions.vue";
+import store from "../store";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,7 @@ const router = createRouter({
       path: "/",
       name: "welcome",
       component: WelcomeView,
+      meta: { requiresAuth: false },
       children: [
         {
           path: "",
@@ -23,12 +25,12 @@ const router = createRouter({
           component: LoginPage,
         },
         {
-          path: "/register",
+          path: "register",
           name: "register",
           component: RegisterPage,
         },
         {
-          path: "/passwordReset",
+          path: "passwordReset",
           name: "passwordReset",
           component: PasswordReset,
         },
@@ -43,6 +45,14 @@ const router = createRouter({
       path: "/app",
       name: "app",
       component: AppView,
+      meta: { requiresAuth: true },
+      beforeEnter: (to, from) => {
+        if (to.meta.requiresAuth && !store.state.auth.isLoggedIn) {
+          router.push("/");
+        } else {
+          return true;
+        }
+      },
       children: [
         {
           path: "",
@@ -50,13 +60,21 @@ const router = createRouter({
           component: HomeView,
         },
         {
-          path: "/app/settings",
+          path: "settings",
           name: "settings",
           component: Settings,
         },
       ],
     },
   ],
+});
+
+router.beforeEach(async (from, to, next) => {
+  if (to.meta.requiresAuth && !store.state.auth.isLoggedIn) {
+    next({ name: "welcome" });
+  } else {
+    next();
+  }
 });
 
 export default router;

@@ -12,6 +12,7 @@ const auth = {
   state() {
     return {
       user: {},
+      isLoggedIn: false,
     };
   },
   actions: {
@@ -44,10 +45,10 @@ const auth = {
         )
           .then((userCredential) => {
             if (userCredential.user.emailVerified) {
-              context.state.user = userCredential.user;
               context.dispatch("authStateChange");
               resolve();
             } else {
+              context.dispatch("logout");
               reject("notverified");
             }
           })
@@ -63,6 +64,7 @@ const auth = {
         signOut(firebaseAuth)
           .then(() => {
             console.log("User signed out");
+            context.dispatch("authStateChange");
           })
           .catch((error) => {
             console.log(error);
@@ -85,9 +87,11 @@ const auth = {
     async authStateChange(context) {
       onAuthStateChanged(firebaseAuth, (user) => {
         if (user) {
-          const uid = user.uid;
+          context.state.user = user;
+          context.state.isLoggedIn = true;
         } else {
-          console.log("User signed out");
+          context.state.isLoggedIn = false;
+          console.log("User is not logged in");
         }
       });
     },

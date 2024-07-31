@@ -32,7 +32,7 @@
             type="password"
             class="input"
             v-model="password"
-            @keyup="validatePassword"
+            @blur="validatePassword"
             @click="passwordError = false"
             :class="{
               'input-auth-error': passwordError,
@@ -50,7 +50,7 @@
             class="input"
             v-model="passwordConfirm"
             @click="passwordConfirmError = false"
-            @keyup="validatePasswordConfirm"
+            @blur="validatePasswordConfirm"
             :class="{
               'input-auth-error': passwordConfirmError,
             }"
@@ -130,40 +130,37 @@ export default {
     validateEmail() {
       if (this.email.length == 0) {
         this.emailError = false;
+      }
+      if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(this.email)) {
+        this.emailCorrect = true;
+        this.emailError = false;
       } else {
-        if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(this.email)) {
-          this.emailCorrect = true;
-          this.emailError = false;
-        } else {
-          this.emailCorrect = false;
-          this.emailError = true;
-        }
+        this.emailCorrect = false;
+        this.emailError = true;
       }
     },
     validatePassword() {
       if (this.password.length == 0) {
         this.passwordError = false;
+      }
+      if (this.password.length >= 6) {
+        this.passwordCorrect = true;
+        this.passwordError = false;
       } else {
-        if (this.password.length >= 6) {
-          this.passwordCorrect = true;
-          this.passwordError = false;
-        } else {
-          this.passwordCorrect = false;
-          this.passwordError = true;
-        }
+        this.passwordCorrect = false;
+        this.passwordError = true;
       }
     },
     validatePasswordConfirm() {
       if (this.passwordConfirm.length == 0) {
         this.passwordConfirmError = false;
+      }
+      if (this.password === this.passwordConfirm) {
+        this.passwordConfirmCorrect = true;
+        this.passwordConfirmError = false;
       } else {
-        if (this.password === this.passwordConfirm) {
-          this.passwordConfirmCorrect = true;
-          this.passwordConfirmError = false;
-        } else {
-          this.passwordConfirmCorrect = false;
-          this.passwordConfirmError = true;
-        }
+        this.passwordConfirmCorrect = false;
+        this.passwordConfirmError = true;
       }
     },
     validateTerms() {

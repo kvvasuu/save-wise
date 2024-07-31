@@ -90,9 +90,6 @@ export default {
       width: 100%;
       height: 50%;
       justify-content: center;
-      .inner-container {
-        margin: 3rem 0 0 0;
-      }
       &.left {
         background-color: #ffffff;
         height: 70%;
