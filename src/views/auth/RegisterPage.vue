@@ -1,7 +1,7 @@
 <template>
   <AuthContainer :reverse="true">
     <div class="container">
-      <div class="inner">
+      <div class="inner" v-if="!registerComplete">
         <header>
           <h1>Sign up</h1>
           <span class="input-error" v-if="emailTakenError">{{
@@ -83,6 +83,19 @@
         <div class="other">
           Already have an account?
           <router-link to="/login">Log in</router-link>
+        </div>
+      </div>
+      <div class="inner" v-else>
+        <header>
+          <h1>Registration successful! Welcome aboard.</h1>
+          <i class="fa-solid fa-check"></i>
+        </header>
+
+        <div class="caption">
+          Please check <b>{{ passEmail }}</b> to confirm your registration."
+        </div>
+        <div class="other">
+          <router-link to="/login">Back</router-link>
         </div>
       </div>
     </div>
@@ -183,9 +196,8 @@ export default {
           .catch((error) => {
             this.emailTakenError = true;
             if (error === "auth/email-already-in-use") {
-              this.emailTakenErrorContent = `The provided email address is already registered in our system.
-            If you forgot your password, please use the password recovery
-            option.`;
+              this.emailTakenErrorContent =
+                "The provided email address is already registered in our system. If you forgot your password, please use the password recovery option.";
             } else {
               this.emailTakenErrorContent =
                 "Something went wrong. Try again later.";

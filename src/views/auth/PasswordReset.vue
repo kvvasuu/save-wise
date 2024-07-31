@@ -44,7 +44,7 @@
           Check <b>{{ passEmail }}</b> for a verification code.
         </div>
         <div class="other">
-          <router-link to="/login">back</router-link>
+          <router-link to="/login">Back</router-link>
         </div>
       </div>
     </div>
