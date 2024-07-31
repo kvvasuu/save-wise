@@ -27,7 +27,6 @@ export default {
     },
   },
   mounted() {
-    console.dir(this.$store.state.auth.user);
     window.addEventListener("beforeunload", this.handleBeforeUnload);
   },
   beforeUnmount() {

@@ -19,7 +19,7 @@ const router = createRouter({
       component: WelcomeView,
       meta: { requiresUnauth: true },
       beforeEnter: (to, from) => {
-        if (to.meta.requiresUnauth && store.state.auth.isLoggedIn) {
+        if (to.meta.requiresUnauth && store.getters.isLoggedIn) {
           router.push("/app");
         } else {
           return true;
@@ -54,7 +54,7 @@ const router = createRouter({
       component: AppView,
       meta: { requiresAuth: true },
       beforeEnter: (to, from) => {
-        if (to.meta.requiresAuth && !store.state.auth.isLoggedIn) {
+        if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
           router.push("/");
         } else {
           return true;
@@ -77,7 +77,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (from, to, next) => {
-  if (to.meta.requiresAuth && !store.state.auth.isLoggedIn) {
+  if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
     next({ name: "welcome" });
   } else {
     next();

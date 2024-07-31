@@ -12,8 +12,13 @@ const auth = {
   state() {
     return {
       user: {},
-      isLoggedIn: false,
+      token: null,
     };
+  },
+  getters: {
+    isLoggedIn(state) {
+      return !!state.token;
+    },
   },
   actions: {
     async register(context, payload) {
@@ -88,9 +93,9 @@ const auth = {
       onAuthStateChanged(firebaseAuth, (user) => {
         if (user) {
           context.state.user = user;
-          context.state.isLoggedIn = true;
+          context.state.token = user.accessToken;
         } else {
-          context.state.isLoggedIn = false;
+          context.state.token = null;
           console.log("User is not logged in");
         }
       });
