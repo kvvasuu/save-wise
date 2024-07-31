@@ -24,13 +24,14 @@ const auth = {
         )
           .then((userCredential) => {
             const user = userCredential.user;
-            sendEmailVerification(user);
-            resolve();
+            sendEmailVerification(firebaseAuth.currentUser).then(() => {
+              resolve();
+            });
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            reject(errorMessage);
+            reject(errorCode);
           });
       });
     },

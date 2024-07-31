@@ -13,12 +13,13 @@
               type="email"
               class="input"
               v-model="email"
-              @change="validateEmail"
+              @keyup="validateEmail"
+              @click="error = false"
               :class="{
-                'input-auth-error': !emailCorrect && email.length != 0,
+                'input-auth-error': error,
               }"
             />
-            <span class="input-error" v-if="!emailCorrect && email.length != 0"
+            <span class="input-error" v-if="error"
               >Please provide correct email</span
             >
           </div>
@@ -36,7 +37,9 @@
       <div class="inner" v-else>
         <header>
           <h1>Reset email sent</h1>
+          <i class="fa-solid fa-check"></i>
         </header>
+
         <div class="caption">
           Check <b>{{ passEmail }}</b> for a verification code.
         </div>
@@ -61,11 +64,11 @@ export default {
       isSent: false,
       email: "",
       emailCorrect: true,
+      error: false,
     };
   },
   methods: {
     resetPassword() {
-      this.validateEmail();
       this.$store
         .dispatch("passwordReset", {
           email: this.email,
@@ -74,13 +77,23 @@ export default {
           this.isSent = true;
         })
         .catch((error) => {
+          this.emailCorrect = false;
+          this.error = true;
           console.log(error);
         });
     },
     validateEmail() {
-      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(this.email)
-        ? (this.emailCorrect = true)
-        : (this.emailCorrect = false);
+      if (this.email.length === 0) {
+        this.error = false;
+      } else {
+        if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(this.email)) {
+          this.emailCorrect = true;
+          this.error = false;
+        } else {
+          this.emailCorrect = false;
+          this.error = true;
+        }
+      }
     },
   },
   computed: {
@@ -103,12 +116,15 @@ export default {
   box-sizing: border-box;
   header {
     display: flex;
-    align-items: start;
+    align-items: center;
     justify-content: center;
     flex-direction: column;
     width: 100%;
     h1 {
       font-weight: 700;
+    }
+    i {
+      font-size: 2rem;
     }
   }
   a {

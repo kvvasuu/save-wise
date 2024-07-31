@@ -4,6 +4,9 @@
       <div class="inner">
         <header>
           <h1>Sign up</h1>
+          <span class="input-error" v-if="emailTakenError">{{
+            emailTakenErrorContent
+          }}</span>
         </header>
 
         <div class="inputs">
@@ -13,13 +16,14 @@
               type="email"
               class="input"
               v-model="email"
-              @change="validateEmail"
+              @blur="validateEmail"
+              @click="emailError = false"
               :class="{
-                'input-auth-error': !emailCorrect && email.length != 0,
+                'input-auth-error': emailError,
               }"
             />
             <i class="fa-regular fa-envelope"></i>
-            <span class="input-error" v-if="!emailCorrect && email.length != 0"
+            <span class="input-error" v-if="emailError"
               >Please provide correct email</span
             >
           </div>
@@ -29,16 +33,15 @@
               type="password"
               class="input"
               v-model="password"
-              @change="validatePassword"
+              @keyup="validatePassword"
+              @click="passwordError = false"
               :class="{
-                'input-auth-error': !passwordCorrect && password.length != 0,
+                'input-auth-error': passwordError,
               }"
             />
             <i class="fa-solid fa-lock"></i>
-            <span
-              class="input-error"
-              v-if="!passwordCorrect && password.length != 0"
-              >Please provide correct password</span
+            <span class="input-error" v-if="passwordError"
+              >Password must be at least 6 characters long.</span
             >
           </div>
           <div class="group" id="password">
@@ -47,25 +50,33 @@
               type="password"
               class="input"
               v-model="passwordConfirm"
-              @change="validatePasswordConfirm"
+              @click="passwordConfirmError = false"
+              @keyup="validatePasswordConfirm"
               :class="{
-                'input-auth-error':
-                  !passwordConfirmCorrect && passwordConfirm.length != 0,
+                'input-auth-error': passwordConfirmError,
               }"
             />
             <i class="fa-solid fa-lock"></i>
-            <span
-              class="input-error"
-              v-if="!passwordConfirmCorrect && passwordConfirm.length != 0"
+            <span class="input-error" v-if="passwordConfirmError"
               >Passwords are not the same</span
             >
           </div>
         </div>
         <div class="caption">
-          <input type="checkbox" id="terms" name="terms" value="terms" />
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            value="terms"
+            v-model="checkbox"
+            @change="validateTerms"
+          />
           <label for="terms">I agree to the </label>
           <router-link id="terms-button" to="/terms" target="_blank"
             >terms and conditions</router-link
+          >
+          <span class="input-error" v-if="checkboxError"
+            >You must agree with terms and conditions</span
           >
         </div>
         <button @click="register">Register</button>
@@ -88,40 +99,99 @@ export default {
   },
   data() {
     return {
+      registerComplete: false,
       email: "",
       emailCorrect: false,
+      emailError: false,
       password: "",
       passwordCorrect: false,
+      passwordError: false,
       passwordConfirm: "",
       passwordConfirmCorrect: false,
+      passwordConfirmError: false,
+      checkbox: false,
+      checkboxError: false,
+      emailTakenError: false,
+      emailTakenErrorContent: "Something went wrong. Try again later.",
     };
   },
   methods: {
     validateEmail() {
-      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(this.email)
-        ? (this.emailCorrect = true)
-        : (this.emailCorrect = false);
+      if (this.email.length == 0) {
+        this.emailError = false;
+      } else {
+        if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(this.email)) {
+          this.emailCorrect = true;
+          this.emailError = false;
+        } else {
+          this.emailCorrect = false;
+          this.emailError = true;
+        }
+      }
     },
     validatePassword() {
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g.test(this.password)
-        ? (this.passwordCorrect = true)
-        : (this.passwordCorrect = false);
+      if (this.password.length == 0) {
+        this.passwordError = false;
+      } else {
+        if (this.password.length >= 6) {
+          this.passwordCorrect = true;
+          this.passwordError = false;
+        } else {
+          this.passwordCorrect = false;
+          this.passwordError = true;
+        }
+      }
     },
     validatePasswordConfirm() {
-      this.password === this.passwordConfirm
-        ? (this.passwordConfirmCorrect = true)
-        : (this.passwordConfirmCorrect = false);
+      if (this.passwordConfirm.length == 0) {
+        this.passwordConfirmError = false;
+      } else {
+        if (this.password === this.passwordConfirm) {
+          this.passwordConfirmCorrect = true;
+          this.passwordConfirmError = false;
+        } else {
+          this.passwordConfirmCorrect = false;
+          this.passwordConfirmError = true;
+        }
+      }
+    },
+    validateTerms() {
+      this.checkbox
+        ? (this.checkboxError = false)
+        : (this.checkboxError = true);
     },
     register() {
+      this.validateEmail();
+      this.validatePassword();
+      this.validatePasswordConfirm();
+      this.validateTerms();
+      this.emailTakenError = false;
       if (
         this.emailCorrect &&
         this.passwordCorrect &&
-        this.passwordConfirmCorrect
+        this.passwordConfirmCorrect &&
+        this.checkbox
       ) {
-        this.$store.dispatch("register", {
-          email: this.email,
-          password: this.password,
-        });
+        this.$store
+          .dispatch("register", {
+            email: this.email,
+            password: this.password,
+          })
+          .then(() => {
+            this.registerComplete = true;
+          })
+          .catch((error) => {
+            this.emailTakenError = true;
+            if (error === "auth/email-already-in-use") {
+              this.emailTakenErrorContent = `The provided email address is already registered in our system.
+            If you forgot your password, please use the password recovery
+            option.`;
+            } else {
+              this.emailTakenErrorContent =
+                "Something went wrong. Try again later.";
+            }
+            console.log(error);
+          });
       }
     },
   },
@@ -144,6 +214,13 @@ export default {
     justify-content: center;
     flex-direction: column;
     width: 100%;
+    .input-error {
+      position: relative;
+      font-size: 0.8rem;
+      margin: -0.5rem 0 0.5rem 0;
+      bottom: 0;
+      left: 0;
+    }
     h1 {
       font-weight: 700;
     }
@@ -238,6 +315,12 @@ button {
 .caption {
   font-size: 0.8rem;
   width: 100%;
+  margin: 0.4rem 0 0 0;
+  position: relative;
+  .input-error {
+    bottom: -0.8rem;
+    left: 1rem;
+  }
   a {
     font-weight: 800;
     margin: 0;

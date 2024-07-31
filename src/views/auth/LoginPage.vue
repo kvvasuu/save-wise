@@ -54,7 +54,6 @@
 <script>
 import { RouterLink } from "vue-router";
 import AuthContainer from "@/components/containers/AuthContainer.vue";
-import { errorMessages } from "vue/compiler-sfc";
 
 export default {
   components: {
@@ -82,6 +81,7 @@ export default {
         .catch((error) => {
           this.errorMessage = error;
           this.error = true;
+          this.password = "";
           console.log(this.errorMessage);
         });
     },
