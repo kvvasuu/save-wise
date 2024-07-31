@@ -3,6 +3,9 @@
     <div class="inner">
       <header>
         <h1>Log in</h1>
+        <span class="input-error" v-if="emailNotVerified"
+          >Your email address has not been verified yet.</span
+        >
       </header>
 
       <div class="inputs">
@@ -65,11 +68,13 @@ export default {
       password: "",
       errorMessage: "",
       error: false,
+      emailNotVerified: false,
     };
   },
   methods: {
     login() {
       this.error = false;
+      this.emailNotVerified = false;
       this.$store
         .dispatch("login", {
           email: this.email,
@@ -79,10 +84,15 @@ export default {
           this.$router.push("/app");
         })
         .catch((error) => {
-          this.errorMessage = error;
-          this.error = true;
+          if (error === "notverified") {
+            this.emailNotVerified = true;
+            console.log(error);
+          } else {
+            this.errorMessage = error;
+            this.error = true;
+            console.log(this.errorMessage);
+          }
           this.password = "";
-          console.log(this.errorMessage);
         });
     },
   },
@@ -107,6 +117,13 @@ export default {
     width: 100%;
     h1 {
       font-weight: 700;
+    }
+    .input-error {
+      position: relative;
+      font-size: 0.8rem;
+      margin: -0.5rem 0 0.5rem 0;
+      bottom: 0;
+      left: 0;
     }
   }
   a {

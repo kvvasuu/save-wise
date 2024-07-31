@@ -43,9 +43,13 @@ const auth = {
           payload.password
         )
           .then((userCredential) => {
-            context.state.user = userCredential.user;
-            context.dispatch("authStateChange");
-            resolve();
+            if (userCredential.user.emailVerified) {
+              context.state.user = userCredential.user;
+              context.dispatch("authStateChange");
+              resolve();
+            } else {
+              reject("notverified");
+            }
           })
           .catch((error) => {
             const errorCode = error.code;

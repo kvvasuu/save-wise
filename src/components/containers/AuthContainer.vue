@@ -1,7 +1,9 @@
 <template>
   <div class="container" :class="{ reverse: reverse }">
     <div class="column left">
-      <slot></slot>
+      <div class="inner-container">
+        <slot></slot>
+      </div>
     </div>
     <div class="column right">
       <div class="inner">
@@ -70,6 +72,43 @@ export default {
     img {
       height: 100%;
       width: 100%;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 40rem;
+    height: 90%;
+    aspect-ratio: auto;
+    margin: 1rem;
+    flex-direction: column-reverse;
+    &.reverse {
+      flex-direction: column-reverse;
+    }
+    .column {
+      width: 100%;
+      height: 50%;
+      justify-content: center;
+      .inner-container {
+        margin: 3rem 0 0 0;
+      }
+      &.left {
+        background-color: #ffffff;
+        height: 70%;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+      }
+      &.right {
+        background: rgb(100, 133, 255);
+        background: url("../../assets/mask.png"),
+          linear-gradient(210deg, rgb(190, 172, 255) 0%, rgb(54, 57, 223) 100%);
+        background-blend-mode: soft-light;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 30%;
+      }
     }
   }
 }

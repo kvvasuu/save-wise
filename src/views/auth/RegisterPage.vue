@@ -1,102 +1,100 @@
 <template>
   <AuthContainer :reverse="true">
-    <div class="container">
-      <div class="inner" v-if="!registerComplete">
-        <header>
-          <h1>Sign up</h1>
-          <span class="input-error" v-if="emailTakenError">{{
-            emailTakenErrorContent
-          }}</span>
-        </header>
+    <div class="inner" v-if="!registerComplete">
+      <header>
+        <h1>Sign up</h1>
+        <span class="input-error" v-if="emailTakenError">{{
+          emailTakenErrorContent
+        }}</span>
+      </header>
 
-        <div class="inputs">
-          <div class="group" id="email">
-            <input
-              placeholder="Email"
-              type="email"
-              class="input"
-              v-model="email"
-              @blur="validateEmail"
-              @click="emailError = false"
-              :class="{
-                'input-auth-error': emailError,
-              }"
-            />
-            <i class="fa-regular fa-envelope"></i>
-            <span class="input-error" v-if="emailError"
-              >Please provide correct email</span
-            >
-          </div>
-          <div class="group" id="password">
-            <input
-              placeholder="Password"
-              type="password"
-              class="input"
-              v-model="password"
-              @keyup="validatePassword"
-              @click="passwordError = false"
-              :class="{
-                'input-auth-error': passwordError,
-              }"
-            />
-            <i class="fa-solid fa-lock"></i>
-            <span class="input-error" v-if="passwordError"
-              >Password must be at least 6 characters long.</span
-            >
-          </div>
-          <div class="group" id="password">
-            <input
-              placeholder="Confirm password"
-              type="password"
-              class="input"
-              v-model="passwordConfirm"
-              @click="passwordConfirmError = false"
-              @keyup="validatePasswordConfirm"
-              :class="{
-                'input-auth-error': passwordConfirmError,
-              }"
-            />
-            <i class="fa-solid fa-lock"></i>
-            <span class="input-error" v-if="passwordConfirmError"
-              >Passwords are not the same</span
-            >
-          </div>
-        </div>
-        <div class="caption">
+      <div class="inputs">
+        <div class="group" id="email">
           <input
-            type="checkbox"
-            id="terms"
-            name="terms"
-            value="terms"
-            v-model="checkbox"
-            @change="validateTerms"
+            placeholder="Email"
+            type="email"
+            class="input"
+            v-model="email"
+            @blur="validateEmail"
+            @click="emailError = false"
+            :class="{
+              'input-auth-error': emailError,
+            }"
           />
-          <label for="terms">I agree to the </label>
-          <router-link id="terms-button" to="/terms" target="_blank"
-            >terms and conditions</router-link
-          >
-          <span class="input-error" v-if="checkboxError"
-            >You must agree with terms and conditions</span
+          <i class="fa-regular fa-envelope"></i>
+          <span class="input-error" v-if="emailError"
+            >Please provide correct email</span
           >
         </div>
-        <button @click="register">Register</button>
-        <div class="other">
-          Already have an account?
-          <router-link to="/login">Log in</router-link>
+        <div class="group" id="password">
+          <input
+            placeholder="Password"
+            type="password"
+            class="input"
+            v-model="password"
+            @keyup="validatePassword"
+            @click="passwordError = false"
+            :class="{
+              'input-auth-error': passwordError,
+            }"
+          />
+          <i class="fa-solid fa-lock"></i>
+          <span class="input-error" v-if="passwordError"
+            >Password must be at least 6 characters long.</span
+          >
+        </div>
+        <div class="group" id="password">
+          <input
+            placeholder="Confirm password"
+            type="password"
+            class="input"
+            v-model="passwordConfirm"
+            @click="passwordConfirmError = false"
+            @keyup="validatePasswordConfirm"
+            :class="{
+              'input-auth-error': passwordConfirmError,
+            }"
+          />
+          <i class="fa-solid fa-lock"></i>
+          <span class="input-error" v-if="passwordConfirmError"
+            >Passwords are not the same</span
+          >
         </div>
       </div>
-      <div class="inner" v-else>
-        <header>
-          <h1>Registration successful! Welcome aboard.</h1>
-          <i class="fa-solid fa-check"></i>
-        </header>
+      <div class="caption">
+        <input
+          type="checkbox"
+          id="terms"
+          name="terms"
+          value="terms"
+          v-model="checkbox"
+          @change="validateTerms"
+        />
+        <label for="terms">I agree to the </label>
+        <router-link id="terms-button" to="/terms" target="_blank"
+          >terms and conditions</router-link
+        >
+        <span class="input-error" v-if="checkboxError"
+          >You must agree with terms and conditions</span
+        >
+      </div>
+      <button @click="register">Register</button>
+      <div class="other">
+        Already have an account?
+        <router-link to="/login">Log in</router-link>
+      </div>
+    </div>
+    <div class="inner" v-else>
+      <header class="registration-complete">
+        <h1>Registration successful! Welcome aboard.</h1>
+        <i class="fa-solid fa-check"></i>
+      </header>
 
-        <div class="caption">
-          Please check <b>{{ passEmail }}</b> to confirm your registration."
-        </div>
-        <div class="other">
-          <router-link to="/login">Back</router-link>
-        </div>
+      <div class="caption registration-complete">
+        Please check <b>{{ passEmail }}</b> to confirm your registration.
+      </div>
+      <div class="other">
+        <router-link to="/login">Back</router-link>
       </div>
     </div>
   </AuthContainer>
@@ -207,6 +205,11 @@ export default {
       }
     },
   },
+  computed: {
+    passEmail() {
+      return this.email;
+    },
+  },
 };
 </script>
 
@@ -226,6 +229,11 @@ export default {
     justify-content: center;
     flex-direction: column;
     width: 100%;
+    &.registration-complete {
+      align-items: center;
+      margin: 0 0 1rem 0;
+      text-align: center;
+    }
     .input-error {
       position: relative;
       font-size: 0.8rem;
@@ -235,6 +243,9 @@ export default {
     }
     h1 {
       font-weight: 700;
+    }
+    i {
+      font-size: 2rem;
     }
   }
   a {
@@ -329,6 +340,11 @@ button {
   width: 100%;
   margin: 0.4rem 0 0 0;
   position: relative;
+  &.registration-complete {
+    align-items: center;
+    text-align: center;
+    margin: 0 0 1rem 0;
+  }
   .input-error {
     bottom: -0.8rem;
     left: 1rem;
