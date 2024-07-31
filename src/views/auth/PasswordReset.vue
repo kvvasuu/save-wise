@@ -13,7 +13,7 @@
               type="email"
               class="input"
               v-model="email"
-              @keyup="validateEmail"
+              @blur="validateEmail"
               @click="error = false"
               :class="{
                 'input-auth-error': error,
@@ -82,6 +82,7 @@ export default {
           console.log(error);
         });
     },
+
     validateEmail() {
       if (this.email.length === 0) {
         this.error = false;
