@@ -1,5 +1,8 @@
 <template>
-  <main><router-link to="/login">Back</router-link></main>
+  <main>
+    <input type="text" />
+    <router-link to="/login">Back</router-link>
+  </main>
 </template>
 
 <script>

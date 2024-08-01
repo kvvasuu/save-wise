@@ -1,6 +1,8 @@
 <template>
   <div class="sidebar">
-    <div class="logo">LOGO</div>
+    <div class="logo">
+      <img src="../assets/logos/logo-horizontal.png" alt="SaveWise" />
+    </div>
     <div class="list">
       <ul>
         <RouterLink to="/app">Home</RouterLink>
@@ -23,7 +25,7 @@ export default {
 .sidebar {
   height: 100%;
   width: 100%;
-  border-right: 2px solid rgb(228, 228, 228);
+  border-right: 1px solid rgb(228, 228, 228);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,5 +45,18 @@ ul {
   justify-content: flex-start;
   padding: 0;
   margin: 0;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2eeff;
+  border: none;
+  border-radius: 3rem;
+  margin: 1rem;
+  padding: 0.3rem 1.8rem;
+  img {
+    width: 100%;
+  }
 }
 </style>
