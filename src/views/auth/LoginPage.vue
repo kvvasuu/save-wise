@@ -45,7 +45,7 @@
         <router-link to="/passwordReset">Forgot password?</router-link>
       </div>
 
-      <button @click="login">Log in</button>
+      <basic-button @click="login">Log in</basic-button>
 
       <div class="other">
         Don't have an account?
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="inner" v-else>
-      <Spinner></Spinner>
+      <basic-spinner></basic-spinner>
     </div>
   </AuthContainer>
 </template>
@@ -144,35 +144,6 @@ export default {
     &:hover {
       color: #604eff;
     }
-  }
-}
-
-button {
-  padding: 1rem;
-  width: 60%;
-  margin: 2rem 0;
-  border: none;
-  outline: none;
-  background: linear-gradient(
-    130deg,
-    rgb(149, 121, 252) 0%,
-    rgb(54, 57, 223) 100%
-  );
-  background-position: 0 0;
-  background-size: 20rem 3rem;
-  color: #eee;
-  border-radius: 0.8rem;
-  font-family: Montserrat;
-  font-weight: 600;
-  box-shadow: 0.1rem 0.2rem 0.5rem rgba(30, 36, 56, 0.2);
-  cursor: pointer;
-  transition: all 0.3s ease-out;
-  &:hover {
-    transform: translateY(-3px);
-    background-position: 100% 50%;
-  }
-  span {
-    color: #aaa;
   }
 }
 

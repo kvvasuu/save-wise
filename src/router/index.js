@@ -76,12 +76,4 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(async (from, to, next) => {
-  if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
-    next({ name: "welcome" });
-  } else {
-    next();
-  }
-});
-
 export default router;

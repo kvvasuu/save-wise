@@ -34,7 +34,15 @@ export default {
       signInWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
         .then((userCredential) => {
           if (userCredential.user.emailVerified) {
-            context.dispatch("authStateChange");
+            onAuthStateChanged(firebaseAuth, (user) => {
+              if (user) {
+                context.state.user = user;
+                context.state.token = user.accessToken;
+              } else {
+                context.state.user = {};
+                context.state.token = null;
+              }
+            });
             resolve();
           } else {
             context.dispatch("logout");
@@ -52,8 +60,7 @@ export default {
     return new Promise((resolve, reject) => {
       signOut(firebaseAuth)
         .then(() => {
-          console.log("User signed out");
-          context.dispatch("authStateChange");
+          resolve();
         })
         .catch((error) => {
           console.log(error);
@@ -71,17 +78,6 @@ export default {
           const errorMessage = error.message;
           reject(errorMessage);
         });
-    });
-  },
-  async authStateChange(context) {
-    onAuthStateChanged(firebaseAuth, (user) => {
-      if (user) {
-        context.state.user = user;
-        context.state.token = user.accessToken;
-      } else {
-        context.state.token = null;
-        console.log("User is not logged in");
-      }
     });
   },
 };

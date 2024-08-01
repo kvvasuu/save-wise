@@ -1,6 +1,6 @@
 <template>
   <div class="app-view">
-    <div class="sidebar-left"><Sidebar></Sidebar></div>
+    <div class="sidebar-outer"><Sidebar></Sidebar></div>
     <div class="center">
       <router-view v-slot="{ Component }">
         <KeepAlive>
@@ -8,7 +8,6 @@
         </KeepAlive>
       </router-view>
     </div>
-    <div class="sidebar-right"><RightBar></RightBar></div>
   </div>
 </template>
 
@@ -43,26 +42,20 @@ export default {
 
 <style lang="scss" scoped>
 .app-view {
-  min-width: 100vw;
-  min-height: 100dvh;
+  width: 100vw;
+  height: 100dvh;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: 20fr 70fr 15fr;
-  grid-template-rows: 1fr;
-  grid-column-gap: 0;
-  grid-row-gap: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.sidebar-left {
-  grid-area: 1 / 1 / 2 / 2;
-  height: auto;
-  width: auto;
+.sidebar-outer {
+  width: 14rem;
+  height: 100%;
 }
 .center {
-  grid-area: 1 / 2 / 2 / 3;
-}
-.sidebar-right {
-  grid-area: 1 / 3 / 2 / 4;
+  height: 100%;
 }
 </style>
