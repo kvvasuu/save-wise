@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import AppView from "../views/app/AppView.vue";
-import HomeView from "../views/app/HomeView.vue";
+import DashBoard from "../views/app/DashBoard.vue";
 import Settings from "../views/app/Settings.vue";
 import RegisterPage from "../views/auth/RegisterPage.vue";
 import LoginPage from "../views/auth/LoginPage.vue";
@@ -63,12 +63,12 @@ const router = createRouter({
       children: [
         {
           path: "",
-          name: "home",
-          component: HomeView,
+          name: "Dashboard",
+          component: DashBoard,
         },
         {
           path: "settings",
-          name: "settings",
+          name: "Settings",
           component: Settings,
         },
       ],

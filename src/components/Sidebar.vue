@@ -108,13 +108,14 @@ ul {
 }
 
 .router-link-exact-active {
+  cursor: default;
   .list-item-inner {
     color: #ffcb3d !important;
   }
   &:hover {
     background-color: transparent !important;
   }
-  cursor: default;
+
   &::before {
     content: "";
     position: absolute;
