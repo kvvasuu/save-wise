@@ -12,13 +12,13 @@
                 <i class="fa-solid fa-house"></i><span>Dashboard</span>
               </div>
             </RouterLink>
-            <RouterLink to="/app/settings" class="list-item">
+            <RouterLink to="/app/transactions" class="list-item">
               <div class="list-item-inner">
                 <i class="fa-solid fa-file-invoice"></i
                 ><span>Transactions</span>
               </div>
             </RouterLink>
-            <RouterLink to="/app/settings" class="list-item">
+            <RouterLink to="/app/accounts" class="list-item">
               <div class="list-item-inner">
                 <i class="fa-solid fa-user"></i><span>Accounts</span>
               </div>
@@ -77,7 +77,7 @@ export default {
     justify-content: space-between;
     box-sizing: border-box;
     background-color: rgba(97, 97, 97, 0.4);
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(4px);
   }
 }
 .list {

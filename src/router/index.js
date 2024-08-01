@@ -7,6 +7,8 @@ import LoginPage from "../views/auth/LoginPage.vue";
 import PasswordReset from "@/views/auth/PasswordReset.vue";
 import WelcomeView from "../views/auth/WelcomeView.vue";
 import TermsAndConditions from "../views/auth/TermsAndConditions.vue";
+import Transactions from "../views/app/Transactions.vue";
+import Accounts from "../views/app/Accounts.vue";
 import store from "../store";
 
 const router = createRouter({
@@ -65,6 +67,16 @@ const router = createRouter({
           path: "",
           name: "Dashboard",
           component: DashBoard,
+        },
+        {
+          path: "transactions",
+          name: "Transactions",
+          component: Transactions,
+        },
+        {
+          path: "accounts",
+          name: "Accounts",
+          component: Accounts,
         },
         {
           path: "settings",
