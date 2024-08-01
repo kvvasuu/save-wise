@@ -10,7 +10,7 @@
         <div class="other">
           <div class="buttons">
             <div class="button">
-              <basic-icon :color="'red'"
+              <basic-icon :color="'#828a9e'" :background="'#f5f6fa'"
                 ><i class="fa-solid fa-gear"></i
               ></basic-icon>
             </div>
@@ -100,8 +100,7 @@ export default {
       height: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 30%;
+      justify-content: flex-end;
       .buttons {
         height: 80%;
         display: flex;
@@ -112,10 +111,11 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
+          margin: 0 1rem;
         }
       }
       .avatar-wrapper {
-        height: 90%;
+        height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;

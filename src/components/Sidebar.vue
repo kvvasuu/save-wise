@@ -101,7 +101,8 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1rem;
+  padding: 0 1rem;
+  height: 5.6rem;
   img {
     width: 90%;
   }
