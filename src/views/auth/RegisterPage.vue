@@ -1,6 +1,6 @@
 <template>
   <AuthContainer :reverse="true">
-    <div class="inner" v-if="!registerComplete">
+    <div class="inner" v-if="!registerComplete && !isLoading">
       <header>
         <h1>Sign up</h1>
         <span class="input-error" v-if="emailTakenError">{{
@@ -84,6 +84,9 @@
         <router-link to="/login">Log in</router-link>
       </div>
     </div>
+    <div class="inner" v-else-if="!registerComplete && isLoading">
+      <Spinner></Spinner>
+    </div>
     <div class="inner" v-else>
       <header class="registration-complete">
         <h1>Registration successful! Welcome aboard.</h1>
@@ -111,6 +114,7 @@ export default {
   data() {
     return {
       registerComplete: false,
+      isLoading: false,
       email: "",
       emailCorrect: false,
       emailError: false,
@@ -174,6 +178,7 @@ export default {
       this.validatePasswordConfirm();
       this.validateTerms();
       this.emailTakenError = false;
+      this.isLoading = true;
       if (
         this.emailCorrect &&
         this.passwordCorrect &&
@@ -198,6 +203,9 @@ export default {
                 "Something went wrong. Try again later.";
             }
             console.log(error);
+          })
+          .finally(() => {
+            this.isLoading = false;
           });
       }
     },

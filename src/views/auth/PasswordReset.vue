@@ -1,7 +1,7 @@
 <template>
   <AuthContainer :reverse="true">
     <div class="container">
-      <div class="inner" v-if="!isSent">
+      <div class="inner" v-if="!isSent && !isLoading">
         <header>
           <h1>Forgot password</h1>
         </header>
@@ -33,7 +33,9 @@
           <router-link to="/login">Back</router-link>
         </div>
       </div>
-
+      <div class="inner" v-else-if="!isSent && isLoading">
+        <Spinner></Spinner>
+      </div>
       <div class="inner" v-else>
         <header>
           <h1>Reset email sent</h1>
@@ -62,6 +64,7 @@ export default {
   data() {
     return {
       isSent: false,
+      isLoading: false,
       email: "",
       emailCorrect: true,
       error: false,
@@ -69,6 +72,7 @@ export default {
   },
   methods: {
     resetPassword() {
+      this.isLoading = true;
       this.$store
         .dispatch("passwordReset", {
           email: this.email,
@@ -80,6 +84,9 @@ export default {
           this.emailCorrect = false;
           this.error = true;
           console.log(error);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
 

@@ -1,6 +1,6 @@
 <template>
   <AuthContainer>
-    <div class="inner">
+    <div class="inner" v-if="!isLoading">
       <header>
         <h1>Log in</h1>
         <span class="input-error" v-if="emailNotVerified"
@@ -52,6 +52,9 @@
         <router-link to="/register">Create account</router-link>
       </div>
     </div>
+    <div class="inner" v-else>
+      <Spinner></Spinner>
+    </div>
   </AuthContainer>
 </template>
 
@@ -70,12 +73,14 @@ export default {
       errorMessage: "",
       error: false,
       emailNotVerified: false,
+      isLoading: false,
     };
   },
   methods: {
     login() {
       this.error = false;
       this.emailNotVerified = false;
+      this.isLoading = true;
       this.$store
         .dispatch("login", {
           email: this.email,
@@ -94,6 +99,9 @@ export default {
             console.log(this.errorMessage);
           }
           this.password = "";
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
   },
