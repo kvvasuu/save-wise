@@ -85,6 +85,10 @@ export default {
           localStorage.removeItem("userId");
           localStorage.removeItem("token");
           localStorage.removeItem("tokenExpirationTime");
+          context.commit("setUser", {
+            user: null,
+            token: null,
+          });
           resolve();
         })
         .catch((error) => {
