@@ -37,8 +37,10 @@ export default {
           if (userCredential.user.emailVerified) {
             onAuthStateChanged(firebaseAuth, (user) => {
               if (user) {
-                context.state.user = user.uid;
-                context.state.token = user.accessToken;
+                context.commit("setUser", {
+                  user: user.uid,
+                  token: user.accessToken,
+                });
 
                 const tokenExpiration =
                   +user.stsTokenManager.expirationTime * 1000;
@@ -55,8 +57,11 @@ export default {
                 console.log("login");
               } else {
                 console.log("logout");
-                context.state.user = null;
-                context.state.token = null;
+
+                context.commit("setUser", {
+                  user: null,
+                  token: null,
+                });
               }
             });
             resolve();
@@ -111,8 +116,10 @@ export default {
     }
 
     if (userId && token) {
-      context.state.user = userId;
-      context.state.token = token;
+      context.commit("setUser", {
+        user: userId,
+        token: token,
+      });
     }
   },
 };

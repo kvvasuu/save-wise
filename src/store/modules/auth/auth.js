@@ -12,6 +12,12 @@ const auth = {
       return !!state.token && !!state.user;
     },
   },
+  mutations: {
+    setUser(state, payload) {
+      state.user = payload.user;
+      state.token = payload.token;
+    },
+  },
   actions: actions,
 };
 
