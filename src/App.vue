@@ -15,6 +15,11 @@ export default {
   data() {
     return {};
   },
+  created() {
+    this.$store.dispatch("autoLogin").then(() => {
+      this.$router.replace("/app");
+    });
+  },
 };
 </script>
 

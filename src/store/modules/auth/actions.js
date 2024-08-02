@@ -7,6 +7,7 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
 } from "firebase/auth";
+import router from "../../../router";
 
 export default {
   async register(context, payload) {
@@ -36,10 +37,25 @@ export default {
           if (userCredential.user.emailVerified) {
             onAuthStateChanged(firebaseAuth, (user) => {
               if (user) {
-                context.state.user = user;
+                context.state.user = user.uid;
                 context.state.token = user.accessToken;
+
+                const tokenExpiration =
+                  +user.stsTokenManager.expirationTime * 1000;
+                const tokenExpirationTime =
+                  new Date().getTime() + tokenExpiration;
+
+                localStorage.setItem("userId", user.uid);
+                localStorage.setItem("token", user.accessToken);
+                localStorage.setItem(
+                  "tokenExpirationTime",
+                  tokenExpirationTime
+                );
+                router.replace("/app");
+                console.log("login");
               } else {
-                context.state.user = {};
+                console.log("logout");
+                context.state.user = null;
                 context.state.token = null;
               }
             });
@@ -60,6 +76,10 @@ export default {
     return new Promise((resolve, reject) => {
       signOut(firebaseAuth)
         .then(() => {
+          router.replace("/");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("token");
+          localStorage.removeItem("tokenExpirationTime");
           resolve();
         })
         .catch((error) => {
@@ -79,5 +99,20 @@ export default {
           reject(errorMessage);
         });
     });
+  },
+  async autoLogin(context) {
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    const expiresIn =
+      +localStorage.getItem("tokenExpirationTime") - new Date().getTime();
+
+    if (expiresIn < 100000) {
+      return;
+    }
+
+    if (userId && token) {
+      context.state.user = userId;
+      context.state.token = token;
+    }
   },
 };

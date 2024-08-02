@@ -86,9 +86,6 @@ export default {
           email: this.email,
           password: this.password,
         })
-        .then(() => {
-          this.$router.push("/app");
-        })
         .catch((error) => {
           if (error === "notverified") {
             this.emailNotVerified = true;
