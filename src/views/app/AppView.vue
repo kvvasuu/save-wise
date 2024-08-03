@@ -4,7 +4,7 @@
     <div class="center">
       <div class="navbar">
         <div class="title">
-          <h2>{{ $route.matched[1].name }}</h2>
+          <h2>{{ $route.meta.title }}</h2>
         </div>
         <div class="other">
           <div class="buttons">
@@ -28,14 +28,12 @@
 
 <script>
 import { RouterView } from "vue-router";
-import Sidebar from "../../components/Sidebar.vue";
-import RightBar from "../../components/RightBar.vue";
+import Sidebar from "./Sidebar.vue";
 import UserAvatar from "@/components/misc/UserAvatar.vue";
 
 export default {
   components: {
     Sidebar,
-    RightBar,
     UserAvatar,
   },
 };
@@ -96,7 +94,8 @@ export default {
         }
       }
       .avatar-wrapper {
-        height: 100%;
+        height: 3rem;
+        width: 3rem;
         display: flex;
         align-items: center;
         justify-content: center;

@@ -22,11 +22,11 @@ const router = createRouter({
       name: "Welcome",
       component: WelcomeView,
       meta: { requiresUnauth: true },
-      beforeEnter: (to, from) => {
+      beforeEnter: (to, from, next) => {
         if (to.meta.requiresUnauth && store.getters.isLoggedIn) {
-          router.push({ name: "App" });
+          next("/app");
         } else {
-          return true;
+          next();
         }
       },
       children: [
@@ -56,34 +56,38 @@ const router = createRouter({
       path: "/app",
       name: "App",
       component: AppView,
-      meta: { requiresAuth: true },
-      beforeEnter: (to, from) => {
+      meta: { requiresAuth: true, title: "Dashboard" },
+      beforeEnter: (to, from, next) => {
         if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
-          router.push({ name: "Welcome" });
+          next("/welcome");
         } else {
-          return true;
+          next();
         }
       },
       children: [
         {
-          path: "",
+          path: "app",
           name: "Dashboard",
           component: DashBoard,
+          meta: { title: "Dashboard" },
         },
         {
           path: "transactions",
           name: "Transactions",
           component: Transactions,
+          meta: { title: "Transactions" },
         },
         {
           path: "accounts",
           name: "Accounts",
           component: Accounts,
+          meta: { title: "Accounts" },
         },
         {
           path: "settings",
           name: "Settings",
           component: Settings,
+          meta: { title: "Settings" },
           children: [
             {
               path: "",

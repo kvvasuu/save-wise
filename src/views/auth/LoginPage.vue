@@ -42,16 +42,14 @@
         </div>
       </div>
       <div class="caption">
-        <router-link :to="{ name: 'PasswordReset' }"
-          >Forgot password?</router-link
-        >
+        <router-link to="passwordReset">Forgot password?</router-link>
       </div>
 
       <basic-button @click="login">Log in</basic-button>
 
       <div class="other">
         Don't have an account?
-        <router-link :to="{ name: 'Register' }">Create account</router-link>
+        <router-link to="register">Create account</router-link>
       </div>
     </div>
     <div class="inner" v-else>

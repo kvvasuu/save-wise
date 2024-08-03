@@ -35,14 +35,6 @@ export default {
       signInWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
         .then((userCredential) => {
           if (userCredential.user.emailVerified) {
-            console.log(userCredential);
-
-            localStorage.setItem("userId", userCredential.user.uid);
-            localStorage.setItem("token", userCredential.user.accessToken);
-            localStorage.setItem(
-              "tokenExpirationTime",
-              userCredential.user.stsTokenManager.expirationTime
-            );
             resolve();
           } else {
             context.dispatch("logout");
@@ -75,40 +67,24 @@ export default {
     });
   },
   async autoLogin(context) {
+    context.commit("setLoading", true);
+
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         context.commit("setUser", {
           user: user.uid,
           token: user.accessToken,
         });
-
-        router.replace({ name: "App" });
+        router.push("/app");
+        context.commit("setLoading", false);
       } else {
         context.commit("setUser", {
           user: null,
           token: null,
         });
-        router.replace({ name: "Welcome" });
-
-        localStorage.removeItem("userId");
-        localStorage.removeItem("token");
-        localStorage.removeItem("tokenExpirationTime");
+        router.push("/");
+        context.commit("setLoading", false);
       }
     });
-    const userId = localStorage.getItem("userId");
-    const token = localStorage.getItem("token");
-    const expiresIn =
-      +localStorage.getItem("tokenExpirationTime") - new Date().getTime();
-
-    if (expiresIn < 3600) {
-      return;
-    }
-
-    if (userId && token) {
-      context.commit("setUser", {
-        user: userId,
-        token: token,
-      });
-    }
   },
 };

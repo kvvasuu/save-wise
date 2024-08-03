@@ -1,11 +1,20 @@
 <template>
   <div class="content">
-    <div class="picture">pictra</div>
+    <div class="picture">
+      <div class="avatar-wrapper"><user-avatar></user-avatar></div>
+    </div>
     <div class="form">dsaddsa</div>
   </div>
 </template>
 
-<script></script>
+<script>
+import UserAvatar from "@/components/misc/UserAvatar.vue";
+export default {
+  components: {
+    UserAvatar,
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .content {
@@ -17,6 +26,16 @@
   .picture {
     width: 10rem;
     height: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    .avatar-wrapper {
+      height: 8rem;
+      width: 8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
   .form {
     width: calc(100% - 10rem);

@@ -3,27 +3,27 @@
     <div class="sidebar">
       <div class="top-section">
         <div class="logo">
-          <img src="../assets/logos/logo-horizontal.svg" alt="SaveWise" />
+          <img src="../../assets/logos/logo-horizontal.svg" alt="SaveWise" />
         </div>
         <div class="list">
           <ul>
-            <RouterLink :to="{ name: 'App' }">
+            <RouterLink to="/app" exact-active-class="router-active">
               <div class="list-item-inner">
                 <i class="fa-solid fa-house"></i><span>Dashboard</span>
               </div>
             </RouterLink>
-            <RouterLink :to="{ name: 'Transactions' }">
+            <RouterLink to="/app/transactions" active-class="router-active">
               <div class="list-item-inner">
                 <i class="fa-solid fa-file-invoice"></i
                 ><span>Transactions</span>
               </div>
             </RouterLink>
-            <RouterLink :to="{ name: 'Accounts' }">
+            <RouterLink to="/app/accounts" active-class="router-active">
               <div class="list-item-inner">
                 <i class="fa-solid fa-user"></i><span>Accounts</span>
               </div>
             </RouterLink>
-            <RouterLink :to="{ name: 'Settings' }">
+            <RouterLink to="/app/settings" active-class="router-active">
               <div class="list-item-inner">
                 <i class="fa-solid fa-gear"></i><span>Settings</span>
               </div>
@@ -60,7 +60,7 @@ export default {
   height: 100%;
   width: 100%;
   background: rgb(100, 133, 255);
-  background: url("../assets/mask-long.png"),
+  background: url("../../assets/mask-long.png"),
     linear-gradient(35deg, rgb(190, 172, 255) 0%, rgb(54, 57, 223) 100%);
   background-blend-mode: soft-light;
   background-repeat: no-repeat;
@@ -106,8 +106,7 @@ ul {
   }
 }
 
-.router-link-exact-active {
-  cursor: default;
+.router-active {
   .list-item-inner {
     color: #ffcb3d !important;
   }
@@ -125,7 +124,7 @@ ul {
     height: 88%;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
-    transition: 0.3s ease;
+    animation: linkAppear 0.4s ease forwards;
   }
 }
 
@@ -142,7 +141,7 @@ a {
     color: #fff5d9;
     display: flex;
     align-items: center;
-    transition: 0.3s ease;
+    transition: 0.4s ease;
     i {
       font-size: 1.6rem;
       margin: 0 1rem 0 0.2rem;
@@ -164,6 +163,19 @@ a {
   i {
     transform: rotate(180deg);
     margin: 0 0.3rem;
+  }
+}
+
+@keyframes linkAppear {
+  0% {
+    height: 0%;
+    top: 50%;
+    left: 0;
+  }
+  100% {
+    top: 6%;
+    height: 88%;
+    left: 0;
   }
 }
 </style>

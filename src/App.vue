@@ -1,5 +1,6 @@
 <template>
-  <RouterView></RouterView>
+  <basic-spinner v-if="$store.getters.isLoading"></basic-spinner>
+  <RouterView v-else></RouterView>
 </template>
 
 <script>
@@ -12,13 +13,8 @@ export default {
     LoginPage,
     RegisterPage,
   },
-  data() {
-    return {};
-  },
   created() {
-    this.$store.dispatch("autoLogin").then(() => {
-      this.$router.replace({ name: "App" });
-    });
+    this.$store.dispatch("autoLogin");
   },
 };
 </script>
