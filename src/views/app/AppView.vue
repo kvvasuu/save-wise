@@ -79,7 +79,6 @@ export default {
             this.toggleWelcomeScreen();
           });
       }
-      this.toggleWelcomeScreen();
     },
     toggleWelcomeScreen() {
       this.welcomeScreen = !this.welcomeScreen;
