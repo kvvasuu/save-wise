@@ -23,11 +23,35 @@
         </router-view>
       </div>
     </div>
+    <Transition name="fade">
+      <modal-container v-if="welcomeScreen">
+        <template #title>Welcome to SaveWise!</template>
+        <p>
+          We're excited to have you on board. To get the most out of SaveWise,
+          we recommend you complete your profile information in the "Settings"
+          panel.
+        </p>
+
+        <ul>
+          <p>By doing so, you'll be able to:</p>
+          <li>Set personalized saving goals</li>
+          <li>Receive tailored insights and recommendations</li>
+          <li>Enhance your overall experience</li>
+        </ul>
+
+        <p>Ready to get started?</p>
+        <div class="button">
+          <basic-button @click="toggleWelcomeScreen">
+            Go to Settings
+          </basic-button>
+        </div>
+      </modal-container>
+    </Transition>
   </div>
 </template>
 
 <script>
-import { RouterView } from "vue-router";
+import { RouterView, RouterLink } from "vue-router";
 import Sidebar from "./Sidebar.vue";
 import UserAvatar from "@/components/misc/UserAvatar.vue";
 
@@ -35,6 +59,41 @@ export default {
   components: {
     Sidebar,
     UserAvatar,
+  },
+  data() {
+    return {
+      welcomeScreen: false,
+    };
+  },
+  methods: {
+    createInitialDatabaseRecord(data) {
+      const userId = this.$store.getters.getUserId;
+      const email = this.$store.getters.getUser.email;
+      if (data === null) {
+        this.$store
+          .dispatch("setUserData", {
+            userId: userId,
+            email: email,
+          })
+          .then(() => {
+            this.toggleWelcomeScreen();
+          });
+      }
+      this.toggleWelcomeScreen();
+    },
+    toggleWelcomeScreen() {
+      this.welcomeScreen = !this.welcomeScreen;
+      if (!this.welcomeScreen) {
+        this.$router.push("app/settings");
+      }
+    },
+  },
+  mounted() {
+    this.$store
+      .dispatch("getUserData", {
+        userId: this.$store.getters.getUserId,
+      })
+      .then((data) => this.createInitialDatabaseRecord(data));
   },
 };
 </script>
@@ -112,6 +171,15 @@ export default {
     width: 100%;
     padding: 2rem;
     box-sizing: border-box;
+  }
+}
+
+.content {
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
   }
 }
 </style>

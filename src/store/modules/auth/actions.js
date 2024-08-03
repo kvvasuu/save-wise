@@ -72,8 +72,9 @@ export default {
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         context.commit("setUser", {
-          user: user.uid,
+          user: user,
           token: user.accessToken,
+          userId: user.uid,
         });
         router.push("/app");
         context.commit("setLoading", false);
@@ -81,6 +82,7 @@ export default {
         context.commit("setUser", {
           user: null,
           token: null,
+          userId: null,
         });
         router.push("/");
         context.commit("setLoading", false);
