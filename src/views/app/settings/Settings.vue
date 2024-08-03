@@ -31,14 +31,16 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1rem 2rem;
   box-sizing: border-box;
   box-shadow: 0.3rem 0.4rem 0.6rem rgba(128, 128, 128, 0.2);
 }
 
 .navbar {
-  height: 4rem;
+  height: 3rem;
   width: 100%;
+  border-bottom: 2px solid #eeeeee;
+  box-sizing: border-box;
   ul {
     display: flex;
     align-items: center;
@@ -46,6 +48,7 @@ main {
     padding: 0;
     margin: 0;
     width: 100%;
+    height: 100%;
     a {
       list-style: none;
       cursor: pointer;
@@ -89,12 +92,12 @@ main {
   0% {
     width: 0%;
     left: 50%;
-    bottom: 0;
+    bottom: -2px;
   }
   100% {
-    left: 6%;
-    width: 88%;
-    bottom: 0;
+    left: 0;
+    width: 100%;
+    bottom: -2px;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="avatar">
-    <i class="fa-solid fa-user"></i>
+    <img src="../../assets/images/avatar-placeholder.png" alt="" />
   </div>
 </template>
 
@@ -14,10 +14,9 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  i {
-    margin: 0.8rem 0 0 0;
-    font-size: 2.4rem;
-    color: #f5f6fa;
+  img {
+    width: 100%;
+    height: 100%;
   }
 }
 </style>
