@@ -17,7 +17,7 @@ export default {
   },
   created() {
     this.$store.dispatch("autoLogin").then(() => {
-      this.$router.replace("/app");
+      this.$router.replace({ name: "App" });
     });
   },
 };

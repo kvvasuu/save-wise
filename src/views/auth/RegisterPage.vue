@@ -71,7 +71,7 @@
           @change="validateTerms"
         />
         <label for="terms">I agree to the </label>
-        <router-link id="terms-button" to="/terms" target="_blank"
+        <router-link id="terms-button" :to="{ name: 'Terms' }" target="_blank"
           >terms and conditions</router-link
         >
         <span class="input-error" v-if="checkboxError"
@@ -81,7 +81,7 @@
       <basic-button @click="register">Register</basic-button>
       <div class="other">
         Already have an account?
-        <router-link to="/login">Log in</router-link>
+        <router-link :to="{ name: 'Login' }">Log in</router-link>
       </div>
     </div>
     <div class="inner" v-else-if="!registerComplete && isLoading">
@@ -97,7 +97,7 @@
         Please check <b>{{ passEmail }}</b> to confirm your registration.
       </div>
       <div class="other">
-        <router-link to="/login">Back</router-link>
+        <router-link :to="{ name: 'Login' }">Back</router-link>
       </div>
     </div>
   </AuthContainer>

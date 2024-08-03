@@ -31,7 +31,7 @@
 
         <basic-button @click="resetPassword">Send</basic-button>
         <div class="other">
-          <router-link to="/login">Back</router-link>
+          <router-link :to="{ name: 'Login' }">Back</router-link>
         </div>
       </div>
       <div class="inner" v-else-if="!isSent && isLoading">
@@ -47,7 +47,7 @@
           Check <b>{{ passEmail }}</b> for a verification code.
         </div>
         <div class="other">
-          <router-link to="/login">Back</router-link>
+          <router-link :to="{ name: 'Login' }">Back</router-link>
         </div>
       </div>
     </div>

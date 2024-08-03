@@ -1,18 +1,17 @@
 <template>
   <div class="app-view">
     <div class="sidebar-outer"><Sidebar></Sidebar></div>
-
     <div class="center">
       <div class="navbar">
         <div class="title">
-          <h2>{{ $route.name }}</h2>
+          <h2>{{ $route.matched[1].name }}</h2>
         </div>
         <div class="other">
           <div class="buttons">
             <div class="button">
-              <basic-icon :color="'#828a9e'" :background="'#f5f6fa'"
+              <!-- <basic-icon :color="'#828a9e'" :background="'#f5f6fa'"
                 ><i class="fa-solid fa-gear"></i
-              ></basic-icon>
+              ></basic-icon> -->
             </div>
           </div>
           <div class="avatar-wrapper"><user-avatar></user-avatar></div>
@@ -20,9 +19,7 @@
       </div>
       <div class="app-container">
         <router-view v-slot="{ Component }">
-          <KeepAlive>
-            <component :is="Component" />
-          </KeepAlive>
+          <component :is="Component" />
         </router-view>
       </div>
     </div>
@@ -114,6 +111,8 @@ export default {
     flex-direction: column;
     height: calc(100% - 5.6rem);
     width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
   }
 }
 </style>

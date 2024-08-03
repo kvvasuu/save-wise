@@ -82,13 +82,13 @@ export default {
           token: user.accessToken,
         });
 
-        router.replace("/app");
+        router.replace({ name: "App" });
       } else {
         context.commit("setUser", {
           user: null,
           token: null,
         });
-        router.replace("/");
+        router.replace({ name: "Welcome" });
 
         localStorage.removeItem("userId");
         localStorage.removeItem("token");

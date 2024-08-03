@@ -7,23 +7,23 @@
         </div>
         <div class="list">
           <ul>
-            <RouterLink to="/app" class="list-item">
+            <RouterLink :to="{ name: 'App' }">
               <div class="list-item-inner">
                 <i class="fa-solid fa-house"></i><span>Dashboard</span>
               </div>
             </RouterLink>
-            <RouterLink to="/app/transactions" class="list-item">
+            <RouterLink :to="{ name: 'Transactions' }">
               <div class="list-item-inner">
                 <i class="fa-solid fa-file-invoice"></i
                 ><span>Transactions</span>
               </div>
             </RouterLink>
-            <RouterLink to="/app/accounts" class="list-item">
+            <RouterLink :to="{ name: 'Accounts' }">
               <div class="list-item-inner">
                 <i class="fa-solid fa-user"></i><span>Accounts</span>
               </div>
             </RouterLink>
-            <RouterLink to="/app/settings" class="list-item">
+            <RouterLink :to="{ name: 'Settings' }">
               <div class="list-item-inner">
                 <i class="fa-solid fa-gear"></i><span>Settings</span>
               </div>
@@ -129,7 +129,7 @@ ul {
   }
 }
 
-.list-item {
+a {
   width: 100%;
   position: relative;
   transition: 0.3s ease;
