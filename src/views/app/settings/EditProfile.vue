@@ -11,7 +11,12 @@
         <div class="inputs">
           <div class="group">
             <label for="firstName">First Name</label>
-            <input type="text" class="input" id="firstName" />
+            <input
+              type="text"
+              class="input"
+              id="firstName"
+              v-model="firstName"
+            />
           </div>
           <div class="group">
             <label for="email">Email</label>
@@ -21,11 +26,12 @@
               id="email"
               value="test111@test.com"
               disabled
+              v-model="email"
             />
           </div>
           <div class="group">
             <label for="city">City</label>
-            <input type="text" class="input" id="city" />
+            <input type="text" class="input" id="city" v-model="city" />
           </div>
         </div>
       </div>
@@ -33,7 +39,7 @@
         <div class="inputs">
           <div class="group">
             <label for="lastName">Last Name</label>
-            <input type="text" class="input" id="lastName" />
+            <input type="text" class="input" id="lastName" v-model="lastName" />
           </div>
           <div class="group">
             <label for="password">Password</label>
@@ -41,16 +47,18 @@
               type="password"
               class="input"
               id="password"
-              value="21321312"
+              value="********"
               disabled
             />
           </div>
           <div class="group">
             <label for="country">Country</label>
-            <input type="text" class="input" id="country" />
+            <input type="text" class="input" id="country" v-model="country" />
           </div>
         </div>
-        <div class="button"><basic-button>Save</basic-button></div>
+        <div class="button">
+          <basic-button @click="saveUserInformation">Save</basic-button>
+        </div>
       </div>
     </div>
   </div>
@@ -61,6 +69,33 @@ import UserAvatar from "@/components/misc/UserAvatar.vue";
 export default {
   components: {
     UserAvatar,
+  },
+  data() {
+    return {
+      firstName: "",
+      lastName: "",
+      email: "",
+      city: "",
+      country: "",
+    };
+  },
+  methods: {
+    saveUserInformation() {
+      this.$store.dispatch("setProfileInformation", {
+        firstname: this.firstName,
+        lastname: this.lastName,
+        city: this.city,
+        country: this.country,
+      });
+    },
+  },
+  created() {
+    const user = this.$store.getters.getUserDatabase;
+    this.firstName = user.firstname;
+    this.lastName = user.lastname;
+    this.email = user.email;
+    this.city = user.city;
+    this.country = user.country;
   },
 };
 </script>

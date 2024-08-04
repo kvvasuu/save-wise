@@ -4,22 +4,30 @@ const database = {
   state() {
     return {
       user: null,
-      token: null,
-      loading: true,
     };
   },
   getters: {
     getUserDisplayName(state) {
-      console.log(state.user);
+      if (!!state.user) {
+        if (state.user.firstname && state.user.lastname) {
+          return `${state.user.firstname} ${state.user.lastname}`;
+        } else return state.user.email;
+      }
+    },
+    getPhotoUrl(state) {
+      if (!!state.user) {
+        return state.user.photoUrl;
+      }
+    },
+    getUserDatabase(state) {
+      if (!!state.user) {
+        return state.user;
+      }
     },
   },
   mutations: {
-    setUser(state, payload) {
+    setUserDatabase(state, payload) {
       state.user = payload.user;
-      state.token = payload.token;
-    },
-    setLoading(state, value) {
-      state.loading = value;
     },
   },
   actions: actions,

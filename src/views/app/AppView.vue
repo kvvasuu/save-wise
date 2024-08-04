@@ -6,13 +6,9 @@
         <div class="title">
           <h2>{{ $route.meta.title }}</h2>
         </div>
-        <div class="other">
-          <div class="buttons">
-            <div class="button">
-              <!-- <basic-icon :color="'#828a9e'" :background="'#f5f6fa'"
-                ><i class="fa-solid fa-gear"></i
-              ></basic-icon> -->
-            </div>
+        <div class="user">
+          <div class="username">
+            <h4>{{ displayName }}</h4>
           </div>
           <div class="avatar-wrapper"><user-avatar></user-avatar></div>
         </div>
@@ -65,6 +61,11 @@ export default {
       welcomeScreen: false,
     };
   },
+  computed: {
+    displayName() {
+      return this.$store.getters.getUserDisplayName;
+    },
+  },
   methods: {
     createInitialDatabaseRecord(data) {
       const userId = this.$store.getters.getUserId;
@@ -72,7 +73,7 @@ export default {
 
       if (data === null) {
         this.$store
-          .dispatch("setUserData", {
+          .dispatch("setInitialUserData", {
             userId: userId,
             email: email,
           })
@@ -98,9 +99,7 @@ export default {
   },
   mounted() {
     this.$store
-      .dispatch("getUserData", {
-        userId: this.$store.getters.getUserId,
-      })
+      .dispatch("getUserData")
       .then((data) => this.createInitialDatabaseRecord(data));
   },
   created() {
@@ -150,23 +149,13 @@ export default {
         font-weight: 700;
       }
     }
-    .other {
+    .user {
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      .buttons {
-        height: 80%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .button {
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 1rem;
-        }
+      .username {
+        margin: 0 1rem;
       }
       .avatar-wrapper {
         height: 3rem;

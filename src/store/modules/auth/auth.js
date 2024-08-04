@@ -6,16 +6,12 @@ const auth = {
       userId: null,
       user: null,
       token: null,
-      loading: true,
       rememberMe: true,
     };
   },
   getters: {
     isLoggedIn(state) {
       return !!state.token && !!state.user;
-    },
-    isLoading(state) {
-      return state.loading;
     },
     getUserId(state) {
       return state.userId;
@@ -33,9 +29,7 @@ const auth = {
       state.token = payload.token;
       state.userId = payload.userId;
     },
-    setLoading(state, value) {
-      state.loading = value;
-    },
+
     setRememberMe(state, value) {
       state.rememberMe = value;
     },

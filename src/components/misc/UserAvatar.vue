@@ -1,8 +1,19 @@
 <template>
   <div class="avatar">
-    <img src="../../assets/images/avatar-placeholder.png" alt="" />
+    <img :src="passPhotoUrl" alt="" />
   </div>
 </template>
+
+<script>
+import avatar from "../../assets/images/avatar-placeholder.png";
+export default {
+  computed: {
+    passPhotoUrl() {
+      return this.$store.getters.getPhotoUrl ?? avatar;
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .avatar {
