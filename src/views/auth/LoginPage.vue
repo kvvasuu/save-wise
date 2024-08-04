@@ -52,7 +52,6 @@
             type="checkbox"
             id="rememberMe"
             name="rememberMe"
-            value="rememberMe"
             v-model="rememberMe"
           />
           <label for="rememberMe">Remember me</label>

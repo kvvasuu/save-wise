@@ -96,7 +96,7 @@ export default {
   display: flex;
   align-items: start;
   justify-content: center;
-  padding: 3rem 2rem;
+  padding: 3rem 2rem 0 2rem;
   .picture {
     width: 10rem;
     height: 100%;
@@ -141,7 +141,7 @@ export default {
       justify-content: center;
       flex-direction: row;
       flex-wrap: wrap;
-      max-width: 64rem;
+      max-width: 50rem;
     }
     .button {
       width: 20rem;
@@ -154,13 +154,13 @@ export default {
       justify-content: center;
       flex-direction: column;
       position: relative;
-      width: 20rem;
       box-sizing: border-box;
       font-family: Montserrat;
       font-weight: 600;
       font-size: 0.9rem;
       color: #1e2438;
-      margin: 0 1rem 1rem 1rem;
+      margin: 0 1rem 0.6rem 1rem;
+      width: 20rem;
       .input {
         width: 100%;
         height: 3rem;
@@ -172,12 +172,28 @@ export default {
         color: #828a9e;
         margin: 0.4rem 0;
         box-sizing: border-box;
-
         &:focus {
           outline: 2px solid #6485ff;
         }
       }
     }
+  }
+}
+
+@media (max-width: 1216px) {
+  .content {
+    .form {
+      .group {
+        width: 16rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
   }
 }
 </style>

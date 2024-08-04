@@ -21,6 +21,7 @@ export default {
           const user = userCredential.user;
           sendEmailVerification(firebaseAuth.currentUser).then(() => {
             resolve();
+            context.dispatch("logout");
           });
         })
         .catch((error) => {
@@ -35,6 +36,7 @@ export default {
       signInWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
         .then((userCredential) => {
           if (userCredential.user.emailVerified) {
+            context.commit("setRememberMe", payload.rememberMe);
             resolve();
           } else {
             context.dispatch("logout");
@@ -76,7 +78,6 @@ export default {
           token: user.accessToken,
           userId: user.uid,
         });
-        console.log(user);
         if (user.emailVerified) {
           router.replace("/app");
         }
@@ -87,8 +88,8 @@ export default {
           token: null,
           userId: null,
         });
-        router.replace("/");
         context.commit("setRememberMe", false);
+        router.replace("/");
         context.commit("setLoading", false);
       }
     });
