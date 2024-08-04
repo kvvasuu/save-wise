@@ -22,6 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 11;
   .inner-modal {
     height: 40rem;
     width: 60rem;

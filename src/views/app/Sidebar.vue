@@ -3,27 +3,51 @@
     <div class="sidebar">
       <div class="top-section">
         <div class="logo">
-          <img src="../../assets/logos/logo-horizontal.svg" alt="SaveWise" />
+          <img
+            src="../../assets/logos/logo-horizontal.svg"
+            alt="SaveWise"
+            draggable="false"
+          />
         </div>
         <div class="list">
           <ul>
-            <RouterLink to="/app" exact-active-class="router-active">
+            <RouterLink
+              to="/app"
+              exact-active-class="router-active"
+              @click="hideSidebar"
+              draggable="false"
+            >
               <div class="list-item-inner">
                 <i class="fa-solid fa-house"></i><span>Dashboard</span>
               </div>
             </RouterLink>
-            <RouterLink to="/app/transactions" active-class="router-active">
+            <RouterLink
+              to="/app/transactions"
+              active-class="router-active"
+              @click="hideSidebar"
+              draggable="false"
+            >
               <div class="list-item-inner">
                 <i class="fa-solid fa-file-invoice"></i
                 ><span>Transactions</span>
               </div>
             </RouterLink>
-            <RouterLink to="/app/accounts" active-class="router-active">
+            <RouterLink
+              to="/app/accounts"
+              active-class="router-active"
+              @click="hideSidebar"
+              draggable="false"
+            >
               <div class="list-item-inner">
                 <i class="fa-solid fa-user"></i><span>Accounts</span>
               </div>
             </RouterLink>
-            <RouterLink to="/app/settings" active-class="router-active">
+            <RouterLink
+              to="/app/settings"
+              active-class="router-active"
+              @click="hideSidebar"
+              draggable="false"
+            >
               <div class="list-item-inner">
                 <i class="fa-solid fa-gear"></i><span>Settings</span>
               </div>
@@ -34,22 +58,25 @@
       <div class="footer">
         <basic-button @click="logout"
           ><i class="fa-solid fa-arrow-right-from-bracket"></i
-          >Logout</basic-button
+          ><span>Logout</span></basic-button
         >
       </div>
     </div>
+    <div class="sidebar-modal" @click="hideSidebar" v-if="sidebarVisible"></div>
   </div>
 </template>
 
 <script>
 import { RouterLink } from "vue-router";
 export default {
-  data() {
-    return {};
-  },
+  emits: ["hideSidebar"],
+  props: ["sidebarVisible"],
   methods: {
     logout() {
       this.$store.dispatch("logout");
+    },
+    hideSidebar() {
+      this.$emit("hideSidebar");
     },
   },
 };
@@ -59,13 +86,15 @@ export default {
 .sidebar-background {
   height: 100%;
   width: 100%;
-  background: rgb(100, 133, 255);
-  background: url("../../assets/mask-long.png"),
-    linear-gradient(35deg, rgb(190, 172, 255) 0%, rgb(54, 57, 223) 100%);
-  background-blend-mode: soft-light;
-  background-repeat: no-repeat;
-  background-size: cover;
-
+  background-color: #1e2438;
+  position: relative;
+  .sidebar-modal {
+    position: absolute;
+    height: 100%;
+    width: 100vw;
+    top: 0;
+    left: 100%;
+  }
   .sidebar {
     height: 100%;
     width: 100%;
@@ -74,9 +103,11 @@ export default {
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
-    background-color: rgba(97, 97, 97, 0.4);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(1px);
   }
+}
+.top-section {
+  width: 100%;
 }
 .list {
   display: flex;
@@ -84,7 +115,8 @@ export default {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  margin: 3rem 0;
+  margin: 3rem 0 0 0;
+  user-select: none;
 }
 ul {
   display: flex;
@@ -108,7 +140,7 @@ ul {
 
 .router-active {
   .list-item-inner {
-    color: #ffcb3d !important;
+    color: #6485ff !important;
   }
   &:hover {
     background-color: transparent !important;
@@ -119,7 +151,7 @@ ul {
     position: absolute;
     left: 0;
     top: 6%;
-    background-color: #ffcb3d;
+    background-color: #6485ff;
     width: 0.3rem;
     height: 88%;
     border-top-right-radius: 1rem;
@@ -138,7 +170,7 @@ a {
   .list-item-inner {
     margin: 0 0 0 1rem;
     padding: 1rem;
-    color: #fff5d9;
+    color: #fafafa;
     display: flex;
     align-items: center;
     transition: 0.4s ease;
@@ -159,7 +191,21 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 8rem;
+  button {
+    background: linear-gradient(
+      130deg,
+      rgb(119, 94, 209) 0%,
+      rgb(54, 57, 223) 70%
+    );
+    background-position: 0 0;
+    background-size: 30rem 3rem;
+    box-shadow: 0.1rem 0.2rem 0.5rem rgba(30, 36, 56, 0.2);
+    &:hover {
+      transform: translateY(-3px);
+      background-position: 50% 50%;
+    }
+  }
   i {
     transform: rotate(180deg);
     margin: 0 0.3rem;
@@ -176,6 +222,17 @@ a {
     top: 6%;
     height: 88%;
     left: 0;
+  }
+}
+
+@media (max-height: 460px) {
+  .list {
+    margin: 0;
+  }
+  .footer {
+    button {
+      margin: 0 0 2rem 0;
+    }
   }
 }
 </style>

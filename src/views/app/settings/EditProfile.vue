@@ -144,7 +144,7 @@ export default {
       max-width: 50rem;
     }
     .button {
-      width: 20rem;
+      width: 12rem;
       display: flex;
       justify-content: center;
     }
@@ -194,6 +194,26 @@ export default {
   .content {
     flex-direction: column;
     align-items: center;
+    padding: 3rem 0 0 0;
+    .picture {
+      width: 16rem;
+      height: 16rem;
+      .avatar-wrapper {
+        width: 16rem;
+        height: 16rem;
+        button {
+          bottom: 0.6rem;
+          right: 0.6rem;
+          padding: 1rem;
+          i {
+            font-size: 1.6rem;
+          }
+        }
+      }
+    }
+    .form {
+      margin: 2rem 0 0 0;
+    }
   }
 }
 </style>

@@ -53,7 +53,7 @@ a {
   justify-content: center;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 460px) {
   :root {
     font-size: 14px;
   }
@@ -61,6 +61,6 @@ a {
 
 @media (max-width: 600px) {
   :root {
-    font-size: 16px;
+    font-size: 12px;
   }
 }

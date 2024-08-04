@@ -7,3 +7,16 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+.slide-vertical-enter-active,
+.slide-vertical-leave-active {
+  transition: all 0.5s ease;
+}
+
+.slide-vertical-enter-from {
+  transform: translateY(10rem);
+}
+
+.slide-vertical-leave-to {
+  transform: translateY(-10rem);
+}

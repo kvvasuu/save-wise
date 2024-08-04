@@ -7,17 +7,17 @@
 <style lang="scss" scoped>
 button {
   padding: 1rem;
-  width: 60%;
+  width: 100%;
   margin: 2rem 0;
   border: none;
   outline: none;
   background: linear-gradient(
     130deg,
     rgb(149, 121, 252) 0%,
-    rgb(54, 57, 223) 100%
+    rgb(54, 57, 223) 70%
   );
   background-position: 0 0;
-  background-size: 20rem 3rem;
+  background-size: 30rem 3rem;
   color: #eee;
   border-radius: 0.8rem;
   font-family: Montserrat;
@@ -27,7 +27,7 @@ button {
   transition: all 0.3s ease-out;
   &:hover {
     transform: translateY(-3px);
-    background-position: 100% 50%;
+    background-position: 50% 50%;
   }
 }
 </style>

@@ -1,15 +1,25 @@
 <template>
   <div class="app-view">
-    <div class="sidebar-outer"><Sidebar></Sidebar></div>
-    <div class="center">
+    <div class="sidebar-outer" :class="{ 'show-sidebar': sidebarVisible }">
+      <Sidebar
+        @hide-sidebar="hideSidebar"
+        :sidebarVisible="sidebarVisible"
+      ></Sidebar>
+    </div>
+    <div class="center" :class="{ 'show-sidebar': sidebarVisible }">
       <div class="navbar">
+        <div class="menu-button" @click="showSidebar">
+          <i class="fa-solid fa-bars"></i>
+        </div>
         <div class="title">
           <h2>{{ $route.meta.title }}</h2>
         </div>
         <div class="user">
-          <div class="username">
-            <h4>{{ displayName }}</h4>
-          </div>
+          <Transition name="slide-vertical" mode="out-in">
+            <div class="username" :key="displayName">
+              <h4>{{ displayName }}</h4>
+            </div>
+          </Transition>
           <div class="avatar-wrapper"><user-avatar></user-avatar></div>
         </div>
       </div>
@@ -58,7 +68,8 @@ export default {
   },
   data() {
     return {
-      welcomeScreen: false,
+      sidebarVisible: false,
+      welcomeScreen: true,
     };
   },
   computed: {
@@ -96,6 +107,12 @@ export default {
         });
       }
     },
+    showSidebar() {
+      this.sidebarVisible = true;
+    },
+    hideSidebar() {
+      this.sidebarVisible = false;
+    },
   },
   mounted() {
     this.$store
@@ -122,13 +139,23 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .sidebar-outer {
   width: 14rem;
-  height: 100%;
+  height: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  transition: all 0.6s ease;
 }
 .center {
+  position: absolute;
+  top: 0;
+  left: 14rem;
   height: 100%;
   width: calc(100% - 14rem);
   .navbar {
@@ -140,11 +167,22 @@ export default {
     justify-content: space-between;
     padding: 0 2rem;
     box-sizing: border-box;
+    z-index: 9;
+    overflow: hidden;
+    border-bottom: 2px solid #eeeeee;
+    .menu-button {
+      display: none;
+      cursor: pointer;
+      i {
+        font-size: 2rem;
+      }
+    }
     .title {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      user-select: none;
       h1 {
         font-weight: 700;
       }
@@ -179,12 +217,37 @@ export default {
   }
 }
 
-.content {
-  .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
+@media (max-width: 600px) {
+  .sidebar-outer {
+    left: -30rem;
+    &.show-sidebar {
+      left: 0;
+    }
+  }
+  .center {
+    left: 0;
+    width: 100%;
+
+    .navbar {
+      padding: 0 2rem 0 0;
+      .menu-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 6rem;
+      }
+      .title {
+        &.show-sidebar {
+          display: none;
+        }
+      }
+      .user {
+        .username {
+          display: none;
+        }
+      }
+    }
   }
 }
 </style>
