@@ -172,7 +172,7 @@ export default {
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    height: calc(100% - 5.6rem);
+    min-height: calc(100% - 5.6rem);
     width: 100%;
     padding: 2rem;
     box-sizing: border-box;
