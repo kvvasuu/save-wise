@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       sidebarVisible: false,
-      welcomeScreen: true,
+      welcomeScreen: false,
     };
   },
   computed: {
