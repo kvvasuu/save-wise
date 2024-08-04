@@ -75,7 +75,7 @@ main {
       &::before {
         content: "";
         position: absolute;
-        bottom: 0;
+        bottom: -0.18rem;
         left: 50%;
         background-color: #6485ff;
         height: 0.2rem;
@@ -92,12 +92,12 @@ main {
   0% {
     width: 0%;
     left: 50%;
-    bottom: -2px;
+    bottom: -0.18rem;
   }
   100% {
     left: 0;
     width: 100%;
-    bottom: -2px;
+    bottom: -0.18rem;
   }
 }
 </style>
