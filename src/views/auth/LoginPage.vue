@@ -41,7 +41,23 @@
           >
         </div>
       </div>
-      <div class="caption">
+      <div
+        class="caption"
+        :class="{
+          move: error,
+        }"
+      >
+        <div class="checkbox">
+          <input
+            type="checkbox"
+            id="rememberMe"
+            name="rememberMe"
+            value="rememberMe"
+            v-model="rememberMe"
+          />
+          <label for="rememberMe">Remember me</label>
+        </div>
+
         <router-link to="passwordReset">Forgot password?</router-link>
       </div>
 
@@ -74,6 +90,7 @@ export default {
       error: false,
       emailNotVerified: false,
       isLoading: false,
+      rememberMe: false,
     };
   },
   methods: {
@@ -85,6 +102,7 @@ export default {
         .dispatch("login", {
           email: this.email,
           password: this.password,
+          rememberMe: this.rememberMe,
         })
         .catch((error) => {
           if (error === "notverified") {
@@ -193,15 +211,19 @@ export default {
   a {
     font-weight: 800;
     margin: 0;
+    width: auto;
   }
 }
 
 .caption {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   text-align: right;
+  &.move {
+    margin-top: 0.6rem;
+  }
 }
 
 .input-error {

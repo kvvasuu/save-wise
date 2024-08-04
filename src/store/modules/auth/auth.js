@@ -7,6 +7,7 @@ const auth = {
       user: null,
       token: null,
       loading: true,
+      rememberMe: true,
     };
   },
   getters: {
@@ -22,6 +23,9 @@ const auth = {
     getUser(state) {
       return state.user;
     },
+    getRememberMe(state) {
+      return state.rememberMe;
+    },
   },
   mutations: {
     setUser(state, payload) {
@@ -31,6 +35,9 @@ const auth = {
     },
     setLoading(state, value) {
       state.loading = value;
+    },
+    setRememberMe(state, value) {
+      state.rememberMe = value;
     },
   },
   actions: actions,

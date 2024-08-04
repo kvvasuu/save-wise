@@ -69,6 +69,7 @@ export default {
     createInitialDatabaseRecord(data) {
       const userId = this.$store.getters.getUserId;
       const email = this.$store.getters.getUser.email;
+
       if (data === null) {
         this.$store
           .dispatch("setUserData", {
@@ -86,6 +87,14 @@ export default {
         this.$router.push("app/settings");
       }
     },
+    handleBeforeUnload(event) {
+      if (!this.$store.getters.getRememberMe) {
+        event.preventDefault();
+        this.$store.dispatch("logout").then(() => {
+          return "";
+        });
+      }
+    },
   },
   mounted() {
     this.$store
@@ -93,6 +102,14 @@ export default {
         userId: this.$store.getters.getUserId,
       })
       .then((data) => this.createInitialDatabaseRecord(data));
+  },
+  created() {
+    if (!this.$store.getters.getRememberMe) {
+      window.addEventListener("beforeunload", this.handleBeforeUnload);
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener("beforeunload", this.handleBeforeUnload);
   },
 };
 </script>

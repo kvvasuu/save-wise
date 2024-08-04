@@ -35,6 +35,7 @@ export default {
       signInWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
         .then((userCredential) => {
           if (userCredential.user.emailVerified) {
+            context.commit("setRememberMe", payload.rememberMe);
             resolve();
           } else {
             context.dispatch("logout");
@@ -76,7 +77,7 @@ export default {
           token: user.accessToken,
           userId: user.uid,
         });
-        router.push("/app");
+        router.replace("/app");
         context.commit("setLoading", false);
       } else {
         context.commit("setUser", {
@@ -84,7 +85,8 @@ export default {
           token: null,
           userId: null,
         });
-        router.push("/");
+        router.replace("/");
+        context.commit("setRememberMe", false);
         context.commit("setLoading", false);
       }
     });

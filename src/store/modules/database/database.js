@@ -8,6 +8,11 @@ const database = {
       loading: true,
     };
   },
+  getters: {
+    getUserDisplayName(state) {
+      console.log(state.user);
+    },
+  },
   mutations: {
     setUser(state, payload) {
       state.user = payload.user;
