@@ -15,9 +15,7 @@
           <img :src="passPhotoUrl" alt="" draggable="false" />
         </div>
       </div>
-      <span class="input-error" v-if="showImageError"
-        >Something went wrong. Try again.</span
-      >
+      <span class="input-error" v-if="showImageError">{{ imageError }}</span>
       <input
         type="file"
         id="profilePicInput"
@@ -26,7 +24,10 @@
       />
 
       <div class="button">
-        <basic-button @click="setProfileImage">Save</basic-button>
+        <basic-button v-if="!loading" @click="setProfileImage"
+          >Save</basic-button
+        >
+        <basic-spinner v-else></basic-spinner>
       </div>
     </modal-container>
     <div class="picture">
@@ -101,7 +102,9 @@ export default {
       imageModal: false,
       imageFile: null,
       imageFileUrl: null,
+      imageError: "",
       showImageError: false,
+      loading: false,
     };
   },
   methods: {
@@ -116,17 +119,27 @@ export default {
         .then(() => this.$refs.notification.show());
     },
     setProfileImage() {
-      this.$store
-        .dispatch("setPhotoURL", { file: this.imageFile })
-        .then(() => {
-          this.$refs.notification.show();
-          this.imageModal = false;
-          this.imageFile = null;
-          this.imageFileUrl = null;
-        })
-        .catch(() => {
-          this.showImageError = true;
-        });
+      if (!!this.imageFile) {
+        this.loading = true;
+        this.$store
+          .dispatch("setPhotoURL", { file: this.imageFile })
+          .then(() => {
+            this.$refs.notification.show();
+            this.imageModal = false;
+            this.imageFile = null;
+            this.imageFileUrl = null;
+          })
+          .catch(() => {
+            this.imageError = "Something went wrong. Try again.";
+            this.showImageError = true;
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      } else {
+        this.imageError = "Select image";
+        this.showImageError = true;
+      }
     },
     toggleImageModal() {
       this.imageModal = !this.imageModal;
@@ -137,7 +150,6 @@ export default {
     previewImage(event) {
       this.imageFile = event.target.files[0];
       this.imageFileUrl = URL.createObjectURL(this.imageFile);
-      console.log(this.imageFile);
       this.showImageError = false;
     },
   },

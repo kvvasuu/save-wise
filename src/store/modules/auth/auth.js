@@ -5,6 +5,7 @@ const auth = {
     return {
       userId: null,
       user: null,
+      photoURL: null,
       token: null,
       rememberMe: true,
     };
@@ -24,7 +25,7 @@ const auth = {
     },
     getPhotoUrl(state) {
       if (!!state.user) {
-        return state.user.photoUrl;
+        return state.photoURL;
       }
     },
   },
@@ -37,6 +38,9 @@ const auth = {
 
     setRememberMe(state, value) {
       state.rememberMe = value;
+    },
+    setPhotoUrl(state, payload) {
+      state.photoURL = payload.photoURL;
     },
   },
   actions: actions,

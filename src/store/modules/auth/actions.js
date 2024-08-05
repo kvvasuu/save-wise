@@ -1,4 +1,4 @@
-import { firebaseAuth } from "../../firebase";
+import { firebaseAuth, storage } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,8 +6,9 @@ import {
   signOut,
   sendPasswordResetEmail,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import router from "../../../router";
 
 export default {
@@ -96,13 +97,29 @@ export default {
     });
   },
   setPhotoURL(context, payload) {
-    const storage = getStorage();
     const storageRef = ref(storage, `images/${context.getters.getUserId}`);
     return new Promise((resolve, reject) => {
       uploadBytes(storageRef, payload.file)
         .then((snapshot) => {
           console.log("Uploaded a blob or file!");
-          resolve();
+          getDownloadURL(storageRef)
+            .then((url) => {
+              updateProfile(firebaseAuth.currentUser, {
+                photoURL: url,
+              })
+                .then(() => {
+                  context.commit("setPhotoUrl", { photoURL: url });
+                  resolve();
+                })
+                .catch((error) => {
+                  console.log(error);
+                  reject();
+                });
+            })
+            .catch((error) => {
+              console.log(error);
+              reject();
+            });
         })
         .catch((error) => {
           console.log(error);

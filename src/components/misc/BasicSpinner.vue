@@ -7,6 +7,7 @@
   width: 3rem;
   height: 3rem;
   border: 0.4rem solid #d8def0;
+  margin: 1rem;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
