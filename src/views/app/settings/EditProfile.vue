@@ -15,7 +15,9 @@
           <img :src="passPhotoUrl" alt="" draggable="false" />
         </div>
       </div>
-
+      <span class="input-error" v-if="showImageError"
+        >Something went wrong. Try again.</span
+      >
       <input
         type="file"
         id="profilePicInput"
@@ -23,7 +25,9 @@
         @change="previewImage"
       />
 
-      <div class="button"><basic-button>Save</basic-button></div>
+      <div class="button">
+        <basic-button @click="setProfileImage">Save</basic-button>
+      </div>
     </modal-container>
     <div class="picture">
       <div class="avatar-wrapper">
@@ -97,6 +101,7 @@ export default {
       imageModal: false,
       imageFile: null,
       imageFileUrl: null,
+      showImageError: false,
     };
   },
   methods: {
@@ -111,16 +116,29 @@ export default {
         .then(() => this.$refs.notification.show());
     },
     setProfileImage() {
-      this.$store.dispatch("setPhotoURL");
+      this.$store
+        .dispatch("setPhotoURL", { file: this.imageFile })
+        .then(() => {
+          this.$refs.notification.show();
+          this.imageModal = false;
+          this.imageFile = null;
+          this.imageFileUrl = null;
+        })
+        .catch(() => {
+          this.showImageError = true;
+        });
     },
     toggleImageModal() {
       this.imageModal = !this.imageModal;
       this.imageFile = null;
       this.imageFileUrl = null;
+      this.showImageError = false;
     },
     previewImage(event) {
       this.imageFile = event.target.files[0];
       this.imageFileUrl = URL.createObjectURL(this.imageFile);
+      console.log(this.imageFile);
+      this.showImageError = false;
     },
   },
   computed: {
@@ -243,7 +261,6 @@ export default {
       height: 16rem;
       margin: 1rem 0 4rem 0;
       .avatar {
-        background-color: #9aa0b1;
         border-radius: 10rem;
         width: 100%;
         height: 100%;
@@ -258,6 +275,14 @@ export default {
         }
       }
     }
+  }
+  .input-error {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgb(255, 41, 41);
+    font-family: "Montserrat";
+    display: inline-block;
+    margin: 1rem 0;
   }
 }
 

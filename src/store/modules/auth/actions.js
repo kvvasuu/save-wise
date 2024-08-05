@@ -97,10 +97,17 @@ export default {
   },
   setPhotoURL(context, payload) {
     const storage = getStorage();
-    const userImage = ref(storage, `images/${context.getters.getUserId}`);
-
-    uploadBytes(storage, payload.file).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
+    const storageRef = ref(storage, `images/${context.getters.getUserId}`);
+    return new Promise((resolve, reject) => {
+      uploadBytes(storageRef, payload.file)
+        .then((snapshot) => {
+          console.log("Uploaded a blob or file!");
+          resolve();
+        })
+        .catch((error) => {
+          console.log(error);
+          reject();
+        });
     });
   },
 };
