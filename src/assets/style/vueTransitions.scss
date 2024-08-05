@@ -20,3 +20,16 @@
 .slide-vertical-leave-to {
   transform: translateY(-10rem);
 }
+
+.notification-enter-active,
+.notification-leave-active {
+  transition: all 0.5s ease;
+}
+
+.notification-enter-from {
+  transform: translateY(-10rem);
+}
+
+.notification-leave-to {
+  transform: translateY(-10rem);
+}

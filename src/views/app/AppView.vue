@@ -6,7 +6,7 @@
         :sidebarVisible="sidebarVisible"
       ></Sidebar>
     </div>
-    <div class="center" :class="{ 'show-sidebar': sidebarVisible }">
+    <div class="center" id="center" :class="{ 'show-sidebar': sidebarVisible }">
       <div class="navbar">
         <div class="menu-button" @click="showSidebar">
           <i class="fa-solid fa-bars"></i>

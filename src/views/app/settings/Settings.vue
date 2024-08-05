@@ -23,7 +23,9 @@ import { RouterLink, RouterView } from "vue-router";
 <style lang="scss" scoped>
 main {
   height: 100%;
-  max-width: 80rem;
+  width: 80rem;
+  max-width: 100%;
+  min-width: 20rem;
   background-color: #fff;
   border: none;
   border-radius: 2rem;

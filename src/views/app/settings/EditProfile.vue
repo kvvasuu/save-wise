@@ -1,9 +1,16 @@
 <template>
   <div class="content">
+    <notification-container ref="notification">
+      <span>Saved</span>
+      <i class="fa-solid fa-check"></i>
+    </notification-container>
     <div class="picture">
       <div class="avatar-wrapper">
-        <user-avatar></user-avatar
-        ><button><i class="fa-solid fa-pencil"></i></button>
+        <user-avatar></user-avatar>
+        <label for="profilePicInput"
+          ><i class="fa-solid fa-pencil"></i>
+          <input type="file" id="profilePicInput" accept="image/*" />
+        </label>
       </div>
     </div>
     <div class="form">
@@ -22,7 +29,7 @@
             type="email"
             class="input"
             id="email"
-            value="test111@test.com"
+            value=""
             disabled
             v-model="email"
           />
@@ -70,12 +77,14 @@ export default {
   },
   methods: {
     saveUserInformation() {
-      this.$store.dispatch("setProfileInformation", {
-        firstname: this.firstName,
-        lastname: this.lastName,
-        city: this.city,
-        country: this.country,
-      });
+      this.$store
+        .dispatch("setProfileInformation", {
+          firstname: this.firstName,
+          lastname: this.lastName,
+          city: this.city,
+          country: this.country,
+        })
+        .then(() => this.$refs.notification.show());
     },
   },
   created() {
@@ -112,18 +121,28 @@ export default {
       justify-content: center;
       border-radius: 10rem;
       box-shadow: 0.3rem 0.4rem 0.6rem rgba(128, 128, 128, 0.2);
-      button {
+      label {
         position: absolute;
         bottom: 0.5rem;
         right: 0.5rem;
+        height: 2.4rem;
+        width: 2.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background-color: #6485ff;
         border-radius: 2rem;
         border: none;
         cursor: pointer;
         padding: 0.6rem;
+        box-sizing: border-box;
         i {
           font-size: 1rem;
           color: #ffffff;
+        }
+
+        input[type="file"] {
+          display: none;
         }
       }
     }
