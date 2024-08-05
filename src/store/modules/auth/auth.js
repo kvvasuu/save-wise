@@ -22,6 +22,11 @@ const auth = {
     getRememberMe(state) {
       return state.rememberMe;
     },
+    getPhotoUrl(state) {
+      if (!!state.user) {
+        return state.user.photoUrl;
+      }
+    },
   },
   mutations: {
     setUser(state, payload) {

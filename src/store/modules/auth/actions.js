@@ -7,6 +7,7 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
 } from "firebase/auth";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 import router from "../../../router";
 
 export default {
@@ -68,7 +69,7 @@ export default {
         });
     });
   },
-  async autoLogin(context) {
+  autoLogin(context) {
     context.commit("setLoading", true);
 
     onAuthStateChanged(firebaseAuth, (user) => {
@@ -92,6 +93,14 @@ export default {
         router.replace("/");
         context.commit("setLoading", false);
       }
+    });
+  },
+  setPhotoURL(context, payload) {
+    const storage = getStorage();
+    const userImage = ref(storage, `images/${context.getters.getUserId}`);
+
+    uploadBytes(storage, payload.file).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
     });
   },
 };

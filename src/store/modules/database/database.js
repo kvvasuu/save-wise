@@ -14,11 +14,6 @@ const database = {
         } else return state.user.email;
       }
     },
-    getPhotoUrl(state) {
-      if (!!state.user) {
-        return state.user.photoUrl;
-      }
-    },
     getUserDatabase(state) {
       if (!!state.user) {
         return state.user;

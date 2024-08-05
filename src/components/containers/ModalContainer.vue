@@ -1,6 +1,6 @@
 <template>
-  <div class="outer-modal">
-    <div class="inner-modal">
+  <div class="outer-modal" @click="closeModal">
+    <div class="inner-modal" @click.stop="">
       <div class="title" v-if="$slots.title">
         <h1><slot name="title"></slot></h1>
       </div>
@@ -9,7 +9,17 @@
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  props: ["preventClose"],
+  emits: ["close"],
+  methods: {
+    closeModal() {
+      return this.preventClose ? "" : this.$emit("close");
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .outer-modal {
@@ -26,9 +36,12 @@
   .inner-modal {
     height: 40rem;
     width: 60rem;
+    max-width: 100%;
+    min-width: 20rem;
     background-color: #fff;
     border: none;
     border-radius: 2rem;
+    margin: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,7 +60,8 @@
       }
     }
     .content {
-      height: 80%;
+      height: 100%;
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;

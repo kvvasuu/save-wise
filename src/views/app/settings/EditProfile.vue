@@ -4,13 +4,33 @@
       <span>Saved</span>
       <i class="fa-solid fa-check"></i>
     </notification-container>
+    <modal-container
+      v-if="imageModal"
+      class="modal-container"
+      @close="toggleImageModal"
+    >
+      <template #title>Change profile image</template>
+      <div class="avatar-wrapper">
+        <div class="avatar">
+          <img :src="passPhotoUrl" alt="" draggable="false" />
+        </div>
+      </div>
+
+      <input
+        type="file"
+        id="profilePicInput"
+        accept="image/*"
+        @change="previewImage"
+      />
+
+      <div class="button"><basic-button>Save</basic-button></div>
+    </modal-container>
     <div class="picture">
       <div class="avatar-wrapper">
         <user-avatar></user-avatar>
-        <label for="profilePicInput"
-          ><i class="fa-solid fa-pencil"></i>
-          <input type="file" id="profilePicInput" accept="image/*" />
-        </label>
+        <button @click="toggleImageModal">
+          <i class="fa-solid fa-pencil"></i>
+        </button>
       </div>
     </div>
     <div class="form">
@@ -62,6 +82,7 @@
 
 <script>
 import UserAvatar from "@/components/misc/UserAvatar.vue";
+import avatar from "../../../assets/images/avatar-placeholder.png";
 export default {
   components: {
     UserAvatar,
@@ -73,6 +94,9 @@ export default {
       email: "",
       city: "",
       country: "",
+      imageModal: false,
+      imageFile: null,
+      imageFileUrl: null,
     };
   },
   methods: {
@@ -85,6 +109,25 @@ export default {
           country: this.country,
         })
         .then(() => this.$refs.notification.show());
+    },
+    setProfileImage() {
+      this.$store.dispatch("setPhotoURL");
+    },
+    toggleImageModal() {
+      this.imageModal = !this.imageModal;
+      this.imageFile = null;
+      this.imageFileUrl = null;
+    },
+    previewImage(event) {
+      this.imageFile = event.target.files[0];
+      this.imageFileUrl = URL.createObjectURL(this.imageFile);
+    },
+  },
+  computed: {
+    passPhotoUrl() {
+      return !!this.imageFileUrl
+        ? this.imageFileUrl
+        : this.$store.getters.getPhotoUrl ?? avatar;
     },
   },
   created() {
@@ -121,7 +164,7 @@ export default {
       justify-content: center;
       border-radius: 10rem;
       box-shadow: 0.3rem 0.4rem 0.6rem rgba(128, 128, 128, 0.2);
-      label {
+      button {
         position: absolute;
         bottom: 0.5rem;
         right: 0.5rem;
@@ -140,10 +183,6 @@ export default {
           font-size: 1rem;
           color: #ffffff;
         }
-
-        input[type="file"] {
-          display: none;
-        }
       }
     }
   }
@@ -161,11 +200,6 @@ export default {
       flex-direction: row;
       flex-wrap: wrap;
       max-width: 50rem;
-    }
-    .button {
-      width: 12rem;
-      display: flex;
-      justify-content: center;
     }
     .group {
       display: flex;
@@ -193,6 +227,34 @@ export default {
         box-sizing: border-box;
         &:focus {
           outline: 2px solid #6485ff;
+        }
+      }
+    }
+  }
+
+  .button {
+    width: 12rem;
+    display: flex;
+    justify-content: center;
+  }
+  .modal-container {
+    .avatar-wrapper {
+      width: 16rem;
+      height: 16rem;
+      margin: 1rem 0 4rem 0;
+      .avatar {
+        background-color: #9aa0b1;
+        border-radius: 10rem;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        user-select: none;
+        img {
+          height: 100%;
+          aspect-ratio: auto;
         }
       }
     }
