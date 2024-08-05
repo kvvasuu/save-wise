@@ -35,7 +35,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  box-shadow: 0.3rem 0.3rem 1rem #1e24384f;
+  box-shadow: 0.3rem 0.3rem 1rem rgba(128, 128, 128, 0.2);
   overflow: hidden;
   .column {
     width: 50%;
@@ -44,12 +44,12 @@ export default {
     align-items: center;
     justify-content: center;
     &.left {
-      background-color: #ffffff;
+      background-color: $background-color;
     }
     &.right {
-      background: rgb(100, 133, 255);
+      background: $primary-color;
       background: url("../../assets/mask.png"),
-        linear-gradient(210deg, rgb(190, 172, 255) 0%, rgb(54, 57, 223) 100%);
+        linear-gradient(210deg, $primary-color 0%, $primary-color-dark 100%);
       background-blend-mode: soft-light;
       background-repeat: no-repeat;
       background-size: cover;
@@ -91,16 +91,16 @@ export default {
       height: 50%;
       justify-content: center;
       &.left {
-        background-color: #ffffff;
+        background-color: $background-color;
         height: 70%;
         display: flex;
         align-items: start;
         justify-content: center;
       }
       &.right {
-        background: rgb(100, 133, 255);
+        background: $primary-color;
         background: url("../../assets/mask.png"),
-          linear-gradient(210deg, rgb(190, 172, 255) 0%, rgb(54, 57, 223) 100%);
+          linear-gradient(210deg, $primary-color 0%, $primary-color-dark 100%);
         background-blend-mode: soft-light;
         background-repeat: no-repeat;
         background-size: cover;

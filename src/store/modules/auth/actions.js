@@ -80,6 +80,7 @@ export default {
           token: user.accessToken,
           userId: user.uid,
         });
+        context.commit("setPhotoUrl", { photoURL: user.photoURL });
         if (user.emailVerified) {
           router.replace("/app");
         }
@@ -90,6 +91,7 @@ export default {
           token: null,
           userId: null,
         });
+        context.commit("setPhotoUrl", { photoURL: "" });
         context.commit("setRememberMe", false);
         router.replace("/");
         context.commit("setLoading", false);

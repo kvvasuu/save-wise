@@ -154,9 +154,9 @@ export default {
     margin: 2rem 0;
     transition: all 0.2s ease;
     text-decoration: none;
-    color: #6485ff;
+    color: $primary-color;
     &:hover {
-      color: #604eff;
+      color: $primary-color-dark;
     }
   }
 }
@@ -180,24 +180,24 @@ export default {
       border: none;
       border-radius: 0.8rem;
       outline: none;
-      background-color: #f2eeff;
-      color: #1e2438;
+      background-color: $background-color-blue;
+      color: $font-color-dark;
       margin: 0.4rem 0;
       &::placeholder {
-        color: #6f7ca1;
+        color: $font-color-light;
       }
       &:focus {
-        outline: 2px solid rgba(96, 78, 255, 0.5);
+        outline: 2px solid $primary-color;
       }
       &.input-auth-error {
-        outline: 2px solid rgb(255, 41, 41) !important;
+        outline: 2px solid $error-color !important;
         margin-bottom: 0.6rem;
       }
     }
     i {
       position: absolute;
       left: 1rem;
-      color: #1e2438;
+      color: $font-color-dark;
       width: 1rem;
       height: 1rem;
     }
@@ -229,7 +229,7 @@ export default {
   position: absolute;
   font-size: 0.7rem;
   font-weight: 700;
-  color: rgb(255, 41, 41);
+  color: $error-color;
   bottom: -0.5rem;
   left: 1rem;
   pointer-events: none;

@@ -21,10 +21,14 @@
         id="profilePicInput"
         accept="image/*"
         @change="previewImage"
+        ref="fileInput"
       />
 
       <div class="button">
-        <basic-button v-if="!loading" @click="setProfileImage"
+        <basic-button
+          v-if="!loading"
+          @click="setProfileImage"
+          :disabled="checkFileInput"
           >Save</basic-button
         >
         <basic-spinner v-else></basic-spinner>
@@ -159,6 +163,11 @@ export default {
         ? this.imageFileUrl
         : this.$store.getters.getPhotoUrl ?? avatar;
     },
+    checkFileInput() {
+      console.log(this.$refs.fileInput);
+      /* return this.$refs.fileInput; */
+      return true;
+    },
   },
   created() {
     const user = this.$store.getters.getUserDatabase;
@@ -198,20 +207,32 @@ export default {
         position: absolute;
         bottom: 0.5rem;
         right: 0.5rem;
-        height: 2.4rem;
-        width: 2.4rem;
+        height: 2.6rem;
+        width: 2.6rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #6485ff;
+        background-color: $primary-color;
         border-radius: 2rem;
         border: none;
         cursor: pointer;
         padding: 0.6rem;
         box-sizing: border-box;
+        background: linear-gradient(
+          130deg,
+          $primary-color 0%,
+          $primary-color-dark 70%
+        );
+        background-position: 0 0;
+        background-size: 30rem 3rem;
+        transition: all 0.3s ease-out;
         i {
           font-size: 1rem;
-          color: #ffffff;
+          color: $background-color;
+        }
+        &:hover {
+          background-position: 50% 50%;
+          transform: scale(1.04);
         }
       }
     }
@@ -241,7 +262,7 @@ export default {
       font-family: Montserrat;
       font-weight: 600;
       font-size: 0.9rem;
-      color: #1e2438;
+      color: $font-color-dark;
       margin: 0 1rem 0.6rem 1rem;
       width: 20rem;
       .input {
@@ -251,12 +272,12 @@ export default {
         border: 1px solid #eeeeee;
         border-radius: 0.8rem;
         outline: none;
-        background-color: #fdfdff;
-        color: #828a9e;
+        background-color: $background-color-blue;
+        color: $font-color-light;
         margin: 0.4rem 0;
         box-sizing: border-box;
         &:focus {
-          outline: 2px solid #6485ff;
+          outline: 2px solid $primary-color;
         }
       }
     }
@@ -291,7 +312,7 @@ export default {
   .input-error {
     font-size: 0.8rem;
     font-weight: 700;
-    color: rgb(255, 41, 41);
+    color: $error-color;
     font-family: "Montserrat";
     display: inline-block;
     margin: 1rem 0;

@@ -38,7 +38,7 @@ export default {
     width: 60rem;
     max-width: 100%;
     min-width: 20rem;
-    background-color: #fff;
+    background-color: $background-color;
     border: none;
     border-radius: 2rem;
     margin: 2rem;

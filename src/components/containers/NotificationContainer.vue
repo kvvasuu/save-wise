@@ -35,8 +35,8 @@ export default {
   width: 12rem;
   max-width: 100%;
   min-width: 10rem;
-  background-color: #fff;
-  border: 2px solid #eeeeee;
+  background-color: $background-color;
+  border: 2px solid $details-color;
   border-radius: 2rem;
   display: flex;
   flex-direction: column;
@@ -44,9 +44,9 @@ export default {
   justify-content: center;
   padding: 1rem 2rem;
   box-sizing: border-box;
-  box-shadow: 0.1rem 0.2rem 0.6rem rgba(128, 128, 128, 0.1);
+  box-shadow: 0.1rem 0.2rem 0.6rem rgba(128, 128, 128, 0.2);
   font-family: Montserrat;
   font-weight: 600;
-  color: #6485ff;
+  color: $primary-color;
 }
 </style>

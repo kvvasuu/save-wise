@@ -169,7 +169,7 @@ export default {
     box-sizing: border-box;
     z-index: 9;
     overflow: hidden;
-    border-bottom: 2px solid #eeeeee;
+    border-bottom: 2px solid $details-color;
     .menu-button {
       display: none;
       cursor: pointer;
@@ -205,7 +205,7 @@ export default {
     }
   }
   .app-container {
-    background-color: #f5f6fa;
+    background-color: $background-color-dark;
     display: flex;
     align-items: center;
     justify-content: flex-start;

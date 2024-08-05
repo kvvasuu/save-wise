@@ -86,7 +86,7 @@ export default {
 .sidebar-background {
   height: 100%;
   width: 100%;
-  background-color: #1e2438;
+  background-color: $background-color-darker;
   position: relative;
   .sidebar-modal {
     position: absolute;
@@ -103,7 +103,6 @@ export default {
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
-    backdrop-filter: blur(1px);
   }
 }
 .top-section {
@@ -140,7 +139,7 @@ ul {
 
 .router-active {
   .list-item-inner {
-    color: #6485ff !important;
+    color: $primary-color !important;
   }
   &:hover {
     background-color: transparent !important;
@@ -151,7 +150,7 @@ ul {
     position: absolute;
     left: 0;
     top: 6%;
-    background-color: #6485ff;
+    background-color: $primary-color;
     width: 0.3rem;
     height: 88%;
     border-top-right-radius: 1rem;
@@ -170,7 +169,7 @@ a {
   .list-item-inner {
     margin: 0 0 0 1rem;
     padding: 1rem;
-    color: #fafafa;
+    color: $background-color-dark;
     display: flex;
     align-items: center;
     transition: 0.4s ease;
@@ -192,24 +191,6 @@ a {
   align-items: center;
   justify-content: center;
   width: 8rem;
-  button {
-    background: linear-gradient(
-      130deg,
-      rgb(119, 94, 209) 0%,
-      rgb(54, 57, 223) 70%
-    );
-    background-position: 0 0;
-    background-size: 30rem 3rem;
-    box-shadow: 0.1rem 0.2rem 0.5rem rgba(30, 36, 56, 0.2);
-    &:hover {
-      transform: translateY(-3px);
-      background-position: 50% 50%;
-    }
-  }
-  i {
-    transform: rotate(180deg);
-    margin: 0 0.3rem;
-  }
 }
 
 @keyframes linkAppear {

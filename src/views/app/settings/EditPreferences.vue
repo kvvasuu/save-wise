@@ -76,7 +76,7 @@ export default {
     font-family: Montserrat;
     font-weight: 600;
     font-size: 0.9rem;
-    color: #1e2438;
+    color: $font-color-dark;
     margin: 0 1rem 0.6rem 1rem;
     width: 20rem;
     select {
@@ -90,8 +90,8 @@ export default {
       padding: 1rem 4rem 1rem 1rem;
       background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
           no-repeat right 0.8em center / 1.4em,
-        linear-gradient(to left, #6485ff 3em, #fdfdff 3em);
-      border: 1px solid #eee;
+        linear-gradient(to left, $primary-color 3em, $background-color-blue 3em);
+      border: 1px solid $details-color;
       border-radius: 0.8rem;
       margin: 0.4rem 0;
       cursor: pointer;
@@ -99,7 +99,7 @@ export default {
         display: none;
       }
       &:focus {
-        border: 1px solid #6485ff;
+        border: 1px solid $primary-color;
       }
       option {
         color: inherit;
@@ -116,23 +116,23 @@ export default {
   display: inline-block;
   width: 3.5rem;
   height: 2rem;
-  background-color: #cccccc;
+  background-color: $background-color-dark;
   border-radius: 1rem;
   position: relative;
   transition: 0.3s all ease-in-out;
-  box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 0 0.2rem rgba(128, 128, 128, 0.2) inset;
   cursor: pointer;
   &::after {
     content: "";
     display: inline-block;
     width: 1.5rem;
     height: 1.5rem;
-    background-color: #fff;
+    background-color: $background-color;
     border-radius: calc(1.5rem / 2);
     position: absolute;
     top: 0.25rem;
     transform: translateX(0.25rem);
-    box-shadow: 0.2rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0.2rem 0.1rem 0.2rem rgba(128, 128, 128, 0.2);
     transition: 0.3s all ease-in-out;
   }
 }
@@ -141,10 +141,10 @@ export default {
     display: none;
     &:checked {
       + .slider {
-        background-color: #6485ff;
+        background-color: $primary-color;
         &::after {
           transform: translateX(1.75rem);
-          box-shadow: -0.2rem -0.1rem 0.2rem rgba(0, 0, 0, 0.1);
+          box-shadow: -0.2rem -0.1rem 0.2rem rgba(128, 128, 128, 0.2);
         }
       }
     }

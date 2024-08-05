@@ -26,7 +26,7 @@ main {
   width: 80rem;
   max-width: 100%;
   min-width: 20rem;
-  background-color: #fff;
+  background-color: $background-color;
   border: none;
   border-radius: 2rem;
   display: flex;
@@ -41,7 +41,7 @@ main {
 .navbar {
   height: 3rem;
   width: 100%;
-  border-bottom: 2px solid #eeeeee;
+  border-bottom: 2px solid $details-color;
   box-sizing: border-box;
   ul {
     display: flex;
@@ -56,7 +56,7 @@ main {
       cursor: pointer;
       position: relative;
       .list-item-inner {
-        color: #828a9e;
+        color: $font-color-light;
         padding: 0.8rem 1.6rem;
         display: flex;
         align-items: center;
@@ -69,7 +69,7 @@ main {
     }
     .router-active {
       .list-item-inner {
-        color: #6485ff;
+        color: $primary-color;
       }
       &:hover {
         background-color: transparent !important;
@@ -79,7 +79,7 @@ main {
         position: absolute;
         bottom: -0.18rem;
         left: 50%;
-        background-color: #6485ff;
+        background-color: $primary-color;
         height: 0.2rem;
         width: 0%;
         border-top-right-radius: 1rem;

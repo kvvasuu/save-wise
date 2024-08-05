@@ -161,8 +161,8 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  box-shadow: 0.3rem 0.3rem 1rem #1e24384f;
-  color: #1e2438;
+  box-shadow: 0.3rem 0.3rem 1rem rgba(128, 128, 128, 0.2);
+  color: $font-color-dark;
   .inner {
     overflow: auto;
     aspect-ratio: 6 / 4;
@@ -179,7 +179,7 @@
       width: 100%;
       h1 {
         font-weight: 900;
-        color: #6485ff;
+        color: $font-color-dark;
       }
       .intro {
         margin: 0 2rem;
@@ -208,7 +208,7 @@
       width: 90%;
       h3 {
         margin: 0;
-        color: #1e2438;
+        color: $font-color-dark;
       }
       ul {
         list-style-type: circle;
@@ -219,25 +219,21 @@
       margin: 2rem 0;
       transition: all 0.2s ease;
       text-decoration: none;
-      color: #6485ff;
+      color: $primary-color;
       &:hover {
-        color: #604eff;
+        color: $primary-color-dark;
       }
     }
     &::-webkit-scrollbar {
       width: 0.6rem;
     }
     &::-webkit-scrollbar-track {
-      background: #f5f6fa00;
+      background: $font-color-dark;
       border-radius: 0.3rem;
     }
     &::-webkit-scrollbar-thumb {
-      background: rgb(100, 133, 255);
-      background: linear-gradient(
-        210deg,
-        rgb(102, 129, 230) 0%,
-        rgb(84, 86, 223) 100%
-      );
+      background: $primary-color-dark;
+      background: linear-gradient(210deg, $primary-color $font-color-dark);
 
       border-radius: 0.3rem;
     }

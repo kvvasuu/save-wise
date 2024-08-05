@@ -1,8 +1,14 @@
 <template>
-  <button>
+  <button :disabled="disabled" :class="{ disabled: disabled }">
     <slot></slot>
   </button>
 </template>
+
+<script>
+export default {
+  props: ["disabled"],
+};
+</script>
 
 <style lang="scss" scoped>
 button {
@@ -13,21 +19,30 @@ button {
   outline: none;
   background: linear-gradient(
     130deg,
-    rgb(149, 121, 252) 0%,
-    rgb(54, 57, 223) 70%
+    $primary-color 0%,
+    $primary-color-dark 70%
   );
   background-position: 0 0;
   background-size: 30rem 3rem;
-  color: #eee;
+  color: $details-color;
   border-radius: 0.8rem;
   font-family: Montserrat;
   font-weight: 600;
-  box-shadow: 0.1rem 0.2rem 0.5rem rgba(30, 36, 56, 0.2);
+  box-shadow: 0.1rem 0.2rem 0.5rem rgba(0, 0, 0, 0.253);
   cursor: pointer;
   transition: all 0.3s ease-out;
   &:hover {
     transform: translateY(-3px);
     background-position: 50% 50%;
+  }
+  &.disabled {
+    opacity: 0.7;
+    cursor: default;
+    box-shadow: none;
+    &:hover {
+      transform: translateY(0);
+      background-position: 0 0;
+    }
   }
 }
 </style>
