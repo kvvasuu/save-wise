@@ -6,7 +6,7 @@
     </notification-container>
     <div class="group">
       <label for="defaultCurrency">Default currency</label>
-      <select v-model="currency" id="defaultCurrency">
+      <select v-model="currency" id="defaultCurrency" @change="validateForm">
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="PLN">PLN</option>
@@ -15,12 +15,19 @@
     <div class="group">
       <label for="notifications">Notifications</label>
       <label class="switch">
-        <input type="checkbox" id="notifications" v-model="notifications" />
+        <input
+          type="checkbox"
+          id="notifications"
+          v-model="notifications"
+          @change="validateForm"
+        />
         <span class="slider"></span>
       </label>
     </div>
     <div class="button">
-      <basic-button @click="saveUserPreferences">Save</basic-button>
+      <basic-button @click="saveUserPreferences" :disabled="!isFormValid"
+        >Save</basic-button
+      >
     </div>
   </div>
 </template>
@@ -31,6 +38,7 @@ export default {
     return {
       currency: "USD",
       notifications: true,
+      isFormValid: false,
     };
   },
   methods: {
@@ -41,6 +49,17 @@ export default {
           notifications: this.notifications,
         })
         .then(() => this.$refs.notification.show());
+    },
+    validateForm() {
+      const user = this.$store.getters.getUserDatabase;
+      if (
+        user.settings.defaultCurrency != this.currency ||
+        user.settings.notifications != this.notifications
+      ) {
+        this.isFormValid = true;
+      } else {
+        this.isFormValid = false;
+      }
     },
   },
   created() {

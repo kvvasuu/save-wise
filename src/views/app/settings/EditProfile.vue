@@ -15,7 +15,9 @@
           <img :src="passPhotoUrl" alt="" draggable="false" />
         </div>
       </div>
-      <span class="input-error" v-if="showImageError">{{ imageError }}</span>
+      <span class="input-error" v-if="showImageError"
+        >Something went wrong. Try again.</span
+      >
       <input
         type="file"
         id="profilePicInput"
@@ -28,7 +30,7 @@
         <basic-button
           v-if="!loading"
           @click="setProfileImage"
-          :disabled="checkFileInput"
+          :disabled="!isFileProvided"
           >Save</basic-button
         >
         <basic-spinner v-else></basic-spinner>
@@ -46,11 +48,23 @@
       <form>
         <div class="group">
           <label for="firstName">First Name</label>
-          <input type="text" class="input" id="firstName" v-model="firstName" />
+          <input
+            type="text"
+            class="input"
+            id="firstName"
+            v-model="firstName"
+            @change="validateUserInformation"
+          />
         </div>
         <div class="group">
           <label for="lastName">Last Name</label>
-          <input type="text" class="input" id="lastName" v-model="lastName" />
+          <input
+            type="text"
+            class="input"
+            id="lastName"
+            v-model="lastName"
+            @change="validateUserInformation"
+          />
         </div>
         <div class="group">
           <label for="email">Email</label>
@@ -75,15 +89,29 @@
         </div>
         <div class="group">
           <label for="city">City</label>
-          <input type="text" class="input" id="city" v-model="city" />
+          <input
+            type="text"
+            class="input"
+            id="city"
+            v-model="city"
+            @change="validateUserInformation"
+          />
         </div>
         <div class="group">
           <label for="country">Country</label>
-          <input type="text" class="input" id="country" v-model="country" />
+          <input
+            type="text"
+            class="input"
+            id="country"
+            v-model="country"
+            @change="validateUserInformation"
+          />
         </div>
       </form>
       <div class="button">
-        <basic-button @click="saveUserInformation">Save</basic-button>
+        <basic-button @click="saveUserInformation" :disabled="!isFormValid"
+          >Save</basic-button
+        >
       </div>
     </div>
   </div>
@@ -106,9 +134,10 @@ export default {
       imageModal: false,
       imageFile: null,
       imageFileUrl: null,
-      imageError: "",
       showImageError: false,
       loading: false,
+      isFileProvided: false,
+      isFormValid: false,
     };
   },
   methods: {
@@ -122,6 +151,17 @@ export default {
         })
         .then(() => this.$refs.notification.show());
     },
+    validateUserInformation() {
+      const user = this.$store.getters.getUserDatabase;
+      if (
+        user.firstname != this.firstName ||
+        user.lastname != this.lastName ||
+        user.city != this.city ||
+        user.country != this.country
+      ) {
+        this.isFormValid = true;
+      } else this.isFormValid = false;
+    },
     setProfileImage() {
       if (!!this.imageFile) {
         this.loading = true;
@@ -134,14 +174,12 @@ export default {
             this.imageFileUrl = null;
           })
           .catch(() => {
-            this.imageError = "Something went wrong. Try again.";
             this.showImageError = true;
           })
           .finally(() => {
             this.loading = false;
           });
       } else {
-        this.imageError = "Select image";
         this.showImageError = true;
       }
     },
@@ -153,8 +191,13 @@ export default {
     },
     previewImage(event) {
       this.imageFile = event.target.files[0];
-      this.imageFileUrl = URL.createObjectURL(this.imageFile);
-      this.showImageError = false;
+      if (this.imageFile) {
+        this.isFileProvided = true;
+        this.imageFileUrl = URL.createObjectURL(this.imageFile);
+        this.showImageError = false;
+      } else {
+        this.isFileProvided = false;
+      }
     },
   },
   computed: {
@@ -162,11 +205,6 @@ export default {
       return !!this.imageFileUrl
         ? this.imageFileUrl
         : this.$store.getters.getPhotoUrl ?? avatar;
-    },
-    checkFileInput() {
-      console.log(this.$refs.fileInput);
-      /* return this.$refs.fileInput; */
-      return true;
     },
   },
   created() {
