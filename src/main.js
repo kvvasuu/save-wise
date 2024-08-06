@@ -1,6 +1,7 @@
 import "./assets/style/main.scss";
 
 import { createApp } from "vue";
+import vueCountryRegionSelect from "vue3-country-region-select";
 
 import App from "./App.vue";
 import router from "./router";
@@ -15,6 +16,7 @@ const app = createApp(App);
 
 app.use(router);
 app.use(store);
+app.use(vueCountryRegionSelect);
 app
   .component("BasicSpinner", BasicSpinner)
   .component("BasicButton", BasicButton)

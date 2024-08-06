@@ -99,12 +99,15 @@
         </div>
         <div class="group">
           <label for="country">Country</label>
-          <input
-            type="text"
-            class="input"
-            id="country"
+          <country-select
             v-model="country"
-            @keyup="validateUserInformation"
+            :country="country"
+            :usei18n="false"
+            removePlaceholder
+            className="select"
+            @change="validateUserInformation"
+            id="country"
+            countryName
           />
         </div>
       </form>
@@ -207,7 +210,7 @@ export default {
         : this.$store.getters.getPhotoUrl ?? avatar;
     },
   },
-  created() {
+  mounted() {
     const user = this.$store.getters.getUserDatabase;
     this.firstName = user.firstname;
     this.lastName = user.lastname;
@@ -316,6 +319,36 @@ export default {
         box-sizing: border-box;
         &:focus {
           outline: 2px solid $primary-color;
+        }
+      }
+      .select {
+        appearance: none;
+        outline: 0;
+        font-size: 0.9rem;
+        color: #828a9e;
+        width: 100%;
+        height: 3rem;
+        padding: 0.5rem 4rem 0.5rem 1rem;
+        background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
+            no-repeat right 0.8em center / 1.4em,
+          linear-gradient(
+            to left,
+            $primary-color 3em,
+            $background-color-blue 3em
+          );
+        border: none;
+        border-right: 2px solid $primary-color;
+        border-radius: 0.8rem;
+        margin: 0.4rem 0;
+        cursor: pointer;
+        &::-ms-expand {
+          display: none;
+        }
+        &:focus {
+          border: 2px solid $primary-color;
+        }
+        option {
+          color: inherit;
         }
       }
     }
