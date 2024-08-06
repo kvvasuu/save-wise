@@ -101,16 +101,16 @@ export default {
     select {
       appearance: none;
       outline: 0;
-      font-family: Montserrat;
-      font-weight: 600;
       font-size: 0.9rem;
       color: #828a9e;
-      width: 20rem;
-      padding: 1rem 4rem 1rem 1rem;
+      width: 100%;
+      height: 3rem;
+      padding: 0.5rem 4rem 0.5rem 1rem;
       background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
           no-repeat right 0.8em center / 1.4em,
         linear-gradient(to left, $primary-color 3em, $background-color-blue 3em);
-      border: 1px solid $details-color;
+      border: none;
+      border-right: 2px solid $primary-color;
       border-radius: 0.8rem;
       margin: 0.4rem 0;
       cursor: pointer;
@@ -118,7 +118,7 @@ export default {
         display: none;
       }
       &:focus {
-        border: 1px solid $primary-color;
+        border: 2px solid $primary-color;
       }
       option {
         color: inherit;
