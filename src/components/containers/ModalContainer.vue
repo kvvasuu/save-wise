@@ -34,7 +34,7 @@ export default {
   justify-content: center;
   z-index: 11;
   .inner-modal {
-    height: 40rem;
+    min-height: 40rem;
     width: 60rem;
     max-width: 100%;
     min-width: 20rem;

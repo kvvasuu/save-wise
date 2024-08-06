@@ -18,23 +18,29 @@
       <span class="input-error" v-if="showImageError"
         >Something went wrong. Try again.</span
       >
-      <input
-        type="file"
-        id="profilePicInput"
-        accept="image/*"
-        @change="previewImage"
-        ref="fileInput"
-      />
+      <span id="filename">{{ fileName }}</span>
+      <div v-if="!loading">
+        <label for="profilePicInput" v-if="!isFileProvided">
+          Choose file<i class="fa-solid fa-file"></i>
+          <input
+            type="file"
+            id="profilePicInput"
+            accept="image/*"
+            @change="previewImage"
+            ref="fileInput"
+          />
+        </label>
+        <label v-else @click="discardImage" class="discard"
+          >Discard<i class="fa-regular fa-trash-can"></i
+        ></label>
 
-      <div class="button">
-        <basic-button
-          v-if="!loading"
-          @click="setProfileImage"
-          :disabled="!isFileProvided"
-          >Save</basic-button
-        >
-        <basic-spinner v-else></basic-spinner>
+        <div class="button">
+          <basic-button @click="setProfileImage" :disabled="!isFileProvided"
+            >Save</basic-button
+          >
+        </div>
       </div>
+      <basic-spinner v-else></basic-spinner>
     </modal-container>
     <div class="picture">
       <div class="avatar-wrapper">
@@ -140,6 +146,7 @@ export default {
       showImageError: false,
       loading: false,
       isFileProvided: false,
+      fileName: "",
       isFormValid: false,
     };
   },
@@ -191,6 +198,8 @@ export default {
       this.imageFile = null;
       this.imageFileUrl = null;
       this.showImageError = false;
+      this.isFileProvided = false;
+      this.fileName = "";
     },
     previewImage(event) {
       this.imageFile = event.target.files[0];
@@ -198,9 +207,18 @@ export default {
         this.isFileProvided = true;
         this.imageFileUrl = URL.createObjectURL(this.imageFile);
         this.showImageError = false;
+        this.fileName = this.imageFile.name;
       } else {
+        this.fileName = "";
+        this.imageFileUrl = this.$store.getters.getPhotoUrl;
         this.isFileProvided = false;
       }
+    },
+    discardImage() {
+      if (this.loading) return;
+      this.fileName = "";
+      this.imageFileUrl = this.$store.getters.getPhotoUrl;
+      this.isFileProvided = false;
     },
   },
   computed: {
@@ -360,10 +378,19 @@ export default {
     justify-content: center;
   }
   .modal-container {
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      #filename {
+        height: 1rem;
+      }
+    }
     .avatar-wrapper {
       width: 16rem;
       height: 16rem;
-      margin: 1rem 0 4rem 0;
+      margin: 1rem 0 2.4rem 0;
       .avatar {
         border-radius: 10rem;
         width: 100%;
@@ -378,6 +405,34 @@ export default {
           aspect-ratio: auto;
         }
       }
+    }
+    label {
+      padding: 0.8rem 1rem;
+      min-width: 6rem;
+      margin: 1rem 0 0 0;
+      border: none;
+      outline: none;
+      text-align: center;
+      background: linear-gradient(130deg, $color-green 0%, $color-green 70%);
+      background-position: 0 0;
+      background-size: 30rem 3rem;
+      color: $details-color;
+      border-radius: 0.8rem;
+      font-family: Montserrat;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: 0.07rem 0.15rem 0.3rem rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease-out;
+      &.discard {
+        background: $color-red;
+      }
+      i {
+        margin: 0 0 0 0.6rem;
+      }
+    }
+    input {
+      display: none;
     }
   }
   .input-error {
