@@ -4,7 +4,7 @@
       <div class="top-section">
         <div class="logo">
           <img
-            src="../../assets/logos/logo-horizontal.svg"
+            src="../../assets/logos/logo-horizontal.png"
             alt="SaveWise"
             draggable="false"
           />

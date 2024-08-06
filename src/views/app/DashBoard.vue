@@ -1,5 +1,5 @@
 <template>
-  <main>dsadasdsa</main>
+  <main>Dashboard</main>
 </template>
 
 <script></script>
@@ -10,15 +10,13 @@ main {
   width: 80rem;
   max-width: 100%;
   min-width: 20rem;
-  background-color: $background-color;
+  background-color: none;
   border: none;
-  border-radius: 2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 1rem 2rem;
-  box-sizing: border-box;
-  box-shadow: 0.3rem 0.4rem 0.6rem rgba(128, 128, 128, 0.2);
+  padding: 0;
+  margin: 0;
 }
 </style>

@@ -35,7 +35,7 @@ main {
   justify-content: center;
   padding: 1rem 2rem;
   box-sizing: border-box;
-  box-shadow: 0.3rem 0.4rem 0.6rem rgba(128, 128, 128, 0.2);
+  box-shadow: 0.2rem 0.3rem 0.6rem rgba(190, 190, 190, 0.2);
 }
 
 .navbar {
