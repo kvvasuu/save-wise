@@ -1,17 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
-import AppView from "../views/app/AppView.vue";
-import DashBoard from "../views/app/DashBoard.vue";
-import Settings from "../views/app/settings/Settings.vue";
-import RegisterPage from "../views/auth/RegisterPage.vue";
-import LoginPage from "../views/auth/LoginPage.vue";
+import { defineAsyncComponent } from "vue";
+import AppView from "@/views/app/AppView.vue";
+import RegisterPage from "@/views/auth/RegisterPage.vue";
+import LoginPage from "@/views/auth/LoginPage.vue";
 import PasswordReset from "@/views/auth/PasswordReset.vue";
-import WelcomeView from "../views/auth/WelcomeView.vue";
-import TermsAndConditions from "../views/auth/TermsAndConditions.vue";
-import Transactions from "../views/app/Transactions.vue";
-import Accounts from "../views/app/Accounts.vue";
-import EditPreferences from "../views/app/settings/EditPreferences.vue";
-import EditProfile from "../views/app/settings/EditProfile.vue";
-import store from "../store";
+import TermsAndConditions from "@/views/auth/TermsAndConditions.vue";
+import EditPreferences from "@/views/app/settings/EditPreferences.vue";
+import EditProfile from "@/views/app/settings/EditProfile.vue";
+import DashBoard from "@/views/app/DashBoard.vue";
+import store from "@/store";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,7 +17,7 @@ const router = createRouter({
     {
       path: "/",
       name: "Welcome",
-      component: WelcomeView,
+      component: () => import("@/views/auth/WelcomeView.vue"),
       meta: { requiresUnauth: true },
       beforeEnter: (to, from, next) => {
         if (to.meta.requiresUnauth && store.getters.isLoggedIn) {
@@ -50,7 +47,7 @@ const router = createRouter({
     {
       path: "/terms",
       name: "Terms",
-      component: TermsAndConditions,
+      component: () => import("@/views/auth/TermsAndConditions.vue"),
     },
     {
       path: "/app",
@@ -66,7 +63,7 @@ const router = createRouter({
       },
       children: [
         {
-          path: "app",
+          path: "",
           name: "Dashboard",
           component: DashBoard,
           meta: { title: "Dashboard" },
@@ -74,19 +71,19 @@ const router = createRouter({
         {
           path: "transactions",
           name: "Transactions",
-          component: Transactions,
+          component: () => import("@/views/app/Transactions.vue"),
           meta: { title: "Transactions" },
         },
         {
           path: "accounts",
           name: "Accounts",
-          component: Accounts,
+          component: () => import("@/views/app/Accounts.vue"),
           meta: { title: "Accounts" },
         },
         {
           path: "settings",
           name: "Settings",
-          component: Settings,
+          component: () => import("@/views/app/settings/Settings.vue"),
           meta: { title: "Settings" },
           children: [
             {

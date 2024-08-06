@@ -53,7 +53,7 @@
             class="input"
             id="firstName"
             v-model="firstName"
-            @change="validateUserInformation"
+            @keyup="validateUserInformation"
           />
         </div>
         <div class="group">
@@ -63,7 +63,7 @@
             class="input"
             id="lastName"
             v-model="lastName"
-            @change="validateUserInformation"
+            @keyup="validateUserInformation"
           />
         </div>
         <div class="group">
@@ -94,7 +94,7 @@
             class="input"
             id="city"
             v-model="city"
-            @change="validateUserInformation"
+            @keyup="validateUserInformation"
           />
         </div>
         <div class="group">
@@ -104,7 +104,7 @@
             class="input"
             id="country"
             v-model="country"
-            @change="validateUserInformation"
+            @keyup="validateUserInformation"
           />
         </div>
       </form>
