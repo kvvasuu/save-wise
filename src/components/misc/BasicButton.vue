@@ -13,7 +13,7 @@ export default {
 <style lang="scss" scoped>
 button {
   padding: 1rem;
-  width: 100%;
+  width: 10rem;
   margin: 2rem 0;
   border: none;
   outline: none;
@@ -25,7 +25,7 @@ button {
   background-position: 0 0;
   background-size: 30rem 3rem;
   color: $details-color;
-  border-radius: 0.8rem;
+  border-radius: 3rem;
   font-family: Montserrat;
   font-weight: 600;
   box-shadow: 0.07rem 0.15rem 0.3rem rgba(0, 0, 0, 0.2);

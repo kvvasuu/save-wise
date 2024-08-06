@@ -71,7 +71,7 @@
           @change="validateTerms"
         />
         <label for="terms">I agree to the </label>
-        <router-link id="terms-button" to="terms" target="_blank"
+        <router-link id="terms-button" to="terms"
           >terms and conditions</router-link
         >
         <span class="input-error" v-if="checkboxError"

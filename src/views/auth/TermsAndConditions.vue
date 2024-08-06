@@ -138,10 +138,19 @@
         </div>
       </div>
     </div>
+    <basic-button @click="goBack">Go back</basic-button>
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  methods: {
+    goBack() {
+      this.$router.push("/");
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .wrapper {
@@ -150,6 +159,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 .container {
   width: 60rem;

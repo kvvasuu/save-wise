@@ -158,6 +158,7 @@ export default {
   left: 14rem;
   height: 100%;
   width: calc(100% - 14rem);
+
   .navbar {
     height: 5.6rem;
     width: 100%;

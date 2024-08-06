@@ -4,7 +4,6 @@ import AppView from "@/views/app/AppView.vue";
 import RegisterPage from "@/views/auth/RegisterPage.vue";
 import LoginPage from "@/views/auth/LoginPage.vue";
 import PasswordReset from "@/views/auth/PasswordReset.vue";
-import TermsAndConditions from "@/views/auth/TermsAndConditions.vue";
 import EditPreferences from "@/views/app/settings/EditPreferences.vue";
 import EditProfile from "@/views/app/settings/EditProfile.vue";
 import DashBoard from "@/views/app/DashBoard.vue";
@@ -42,13 +41,14 @@ const router = createRouter({
           name: "PasswordReset",
           component: PasswordReset,
         },
+        {
+          path: "terms",
+          name: "Terms",
+          component: () => import("@/views/auth/TermsAndConditions.vue"),
+        },
       ],
     },
-    {
-      path: "/terms",
-      name: "Terms",
-      component: () => import("@/views/auth/TermsAndConditions.vue"),
-    },
+
     {
       path: "/app",
       name: "App",
