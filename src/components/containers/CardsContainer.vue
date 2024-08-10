@@ -1,6 +1,8 @@
 <template>
   <div class="cards-container">
-    <div class="no-cards" v-if="noAccounts"><h2>No accounts yet</h2></div>
+    <div class="no-cards" v-if="noAccounts && $props.small">
+      <h2>No accounts yet</h2>
+    </div>
     <card
       v-else
       v-for="(card, index) in passCards"
@@ -10,6 +12,18 @@
       ref="cards"
       @click="goToAccountInfo(index)"
     ></card>
+    <div
+      class="add-card"
+      :class="{ small: !$props.small }"
+      v-if="!$props.small"
+      @click="addAccount"
+      ref="addAccount"
+    >
+      <div class="button">
+        <i class="fa-solid fa-plus"></i>
+        <span>Add account</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,6 +53,9 @@ export default {
         });
       }
     },
+    addAccount() {
+      this.$refs.addAccount.scrollIntoView();
+    },
   },
   computed: {
     passCards() {
@@ -48,7 +65,7 @@ export default {
     },
   },
   created() {
-    this.accounts = this.$store.getters.getAccountInfo;
+    /*  this.accounts = this.$store.getters.getAccountInfo; */
     !this.accounts ? (this.noAccounts = true) : (this.noAccounts = false);
   },
 };
@@ -86,9 +103,46 @@ export default {
     background: $primary-color;
     background: linear-gradient(160deg, $primary-color, $primary-color-dark);
     border-radius: 0.3rem;
-    transition: all 0.3s ease;
     &:hover {
-      background: linear-gradient(-160deg, $primary-color, $primary-color-dark);
+      background: $primary-color;
+    }
+  }
+  .add-card {
+    cursor: pointer;
+    min-width: 12rem;
+    height: 14.61rem;
+    position: relative;
+    background: none;
+    padding: 1rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.small {
+      width: 100%;
+    }
+    &:hover .button {
+      transform: translateY(-2px);
+      color: $primary-color;
+    }
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      color: $font-color-light;
+      i {
+        color: inherit;
+        font-size: 3rem;
+      }
+      span {
+        color: inherit;
+        font-size: 1.2rem;
+        font-family: Montserrat;
+        font-weight: 700;
+      }
     }
   }
 }

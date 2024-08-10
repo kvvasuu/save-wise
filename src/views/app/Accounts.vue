@@ -7,11 +7,13 @@
       </div>
       <cards-container ref="cardsContainer"></cards-container>
     </div>
+    <div class="content"><router-view></router-view></div>
   </main>
 </template>
 
 <script>
 import CardsContainer from "@/components/containers/CardsContainer.vue";
+import { RouterView } from "vue-router";
 
 export default {
   components: {
