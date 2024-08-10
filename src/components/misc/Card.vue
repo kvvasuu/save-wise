@@ -5,7 +5,7 @@
     ref="card"
     :class="{ unselected: unselected }"
   >
-    <div class="inner" :style="{ filter: passColor }">
+    <div class="inner">
       <img
         src="../../assets/logos/logo-horizontal.png"
         alt=""
@@ -25,24 +25,13 @@
 </template>
 
 <script>
+import { gradientMap, currencyMap } from "@/assets/script";
 export default {
   props: ["accountNumber", "account"],
   data() {
     return {
-      currencyMap: {
-        USD: "$",
-        EUR: "€",
-        PLN: "zł",
-      },
-      gradientMap: {
-        black: `linear-gradient(120deg, rgba(0, 0, 0, 1) 0%, rgba(30, 30, 30, 1) 17%, rgba(20, 20, 20, 1) 51%, rgba(70, 70, 70, 1) 81%, rgba(20, 20, 20, 1) 100%)`,
-        gold: `linear-gradient(120deg, rgba(180,135,0,1) 0%, rgba(238,188,33,1) 6%, rgba(180,135,0,1) 57%, rgba(231,192,77,1) 81%, rgba(180,135,0,1) 100%)`,
-      },
-      colorMap: {
-        black:
-          "brightness(0) saturate(100%) invert(80%) sepia(77%) saturate(1095%) hue-rotate(336deg) brightness(102%) contrast(101%)",
-        gold: "brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(135%) hue-rotate(188deg) brightness(115%) contrast(88%)",
-      },
+      currencyMap: currencyMap,
+      gradientMap: gradientMap,
       unselected: false,
     };
   },
@@ -58,9 +47,6 @@ export default {
     },
     passGradient() {
       return this.gradientMap[this.account.color];
-    },
-    passColor() {
-      return this.colorMap[this.account.color];
     },
   },
   methods: {
@@ -84,6 +70,8 @@ export default {
   overflow: hidden;
   box-sizing: border-box;
   transition: all 0.3s ease;
+  scroll-snap-align: start;
+  user-select: none;
   &.unselected {
     opacity: 0.8;
     filter: grayscale(1);
@@ -96,6 +84,8 @@ export default {
     width: 100%;
     height: 100%;
     color: black;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(1839%)
+      hue-rotate(231deg) brightness(113%) contrast(90%);
     .logo {
       position: absolute;
       top: 1rem;
@@ -125,6 +115,7 @@ export default {
       position: absolute;
       bottom: 2rem;
       left: 2rem;
+      user-select: none;
     }
     .balance {
       font-family: Montserrat;
@@ -135,6 +126,7 @@ export default {
       position: absolute;
       bottom: calc(50% - 1.1rem);
       left: 6rem;
+      user-select: none;
       &::before {
         content: "Balance";
         position: absolute;

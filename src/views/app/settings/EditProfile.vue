@@ -4,44 +4,46 @@
       <span>Saved</span>
       <i class="fa-solid fa-check"></i>
     </notification-container>
-    <modal-container
-      v-if="imageModal"
-      class="modal-container"
-      @close="toggleImageModal"
-    >
-      <template #title>Change profile image</template>
-      <div class="avatar-wrapper">
-        <div class="avatar">
-          <img :src="passPhotoUrl" alt="" draggable="false" />
-        </div>
-      </div>
-      <span class="input-error" v-if="showImageError"
-        >Something went wrong. Try again.</span
+    <Transition name="fade">
+      <modal-container
+        v-if="imageModal"
+        class="modal-container"
+        @close="toggleImageModal"
       >
-      <span id="filename">{{ fileName }}</span>
-      <div v-if="!loading">
-        <label for="profilePicInput" v-if="!isFileProvided">
-          Choose file<i class="fa-solid fa-file"></i>
-          <input
-            type="file"
-            id="profilePicInput"
-            accept="image/*"
-            @change="previewImage"
-            ref="fileInput"
-          />
-        </label>
-        <label v-else @click="discardImage" class="discard"
-          >Discard<i class="fa-regular fa-trash-can"></i
-        ></label>
-
-        <div class="button">
-          <basic-button @click="setProfileImage" :disabled="!isFileProvided"
-            >Save</basic-button
-          >
+        <template #title>Change profile image</template>
+        <div class="avatar-wrapper">
+          <div class="avatar">
+            <img :src="passPhotoUrl" alt="" draggable="false" />
+          </div>
         </div>
-      </div>
-      <basic-spinner v-else></basic-spinner>
-    </modal-container>
+        <span class="input-error" v-if="showImageError"
+          >Something went wrong. Try again.</span
+        >
+        <span id="filename">{{ fileName }}</span>
+        <div v-if="!loading">
+          <label for="profilePicInput" v-if="!isFileProvided">
+            Choose file<i class="fa-solid fa-file"></i>
+            <input
+              type="file"
+              id="profilePicInput"
+              accept="image/*"
+              @change="previewImage"
+              ref="fileInput"
+            />
+          </label>
+          <label v-else @click="discardImage" class="discard"
+            >Discard<i class="fa-regular fa-trash-can"></i
+          ></label>
+
+          <div class="button">
+            <basic-button @click="setProfileImage" :disabled="!isFileProvided"
+              >Save</basic-button
+            >
+          </div>
+        </div>
+        <basic-spinner v-else></basic-spinner>
+      </modal-container>
+    </Transition>
     <div class="picture">
       <div class="avatar-wrapper">
         <user-avatar></user-avatar>

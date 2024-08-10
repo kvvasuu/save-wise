@@ -1,5 +1,16 @@
 <template>
   <div class="cards-container">
+    <Transition name="fade">
+      <modal-container
+        v-if="accountModal"
+        class="modal-container"
+        @close="toggleAccountModal"
+      >
+        <template #title>Add account</template>
+        <div>Dsadas</div>
+      </modal-container>
+    </Transition>
+
     <div class="no-cards" v-if="noAccounts && $props.small">
       <h2>No accounts yet</h2>
     </div>
@@ -15,7 +26,7 @@
     <div
       class="add-card"
       :class="{ small: !$props.small }"
-      v-if="!$props.small"
+      v-if="!$props.small && newAccountPossible"
       @click="addAccount"
       ref="addAccount"
     >
@@ -39,6 +50,7 @@ export default {
     return {
       accounts: null,
       noAccounts: false,
+      accountModal: false,
     };
   },
   methods: {
@@ -55,6 +67,10 @@ export default {
     },
     addAccount() {
       this.$refs.addAccount.scrollIntoView();
+      this.toggleAccountModal();
+    },
+    toggleAccountModal() {
+      this.accountModal = !this.accountModal;
     },
   },
   computed: {
@@ -63,9 +79,12 @@ export default {
         return this.$props.small ? this.accounts.slice(0, 2) : this.accounts;
       }
     },
+    newAccountPossible() {
+      return this.accounts.length <= 3;
+    },
   },
   created() {
-    /*  this.accounts = this.$store.getters.getAccountInfo; */
+    this.accounts = this.$store.getters.getAccountInfo;
     !this.accounts ? (this.noAccounts = true) : (this.noAccounts = false);
   },
 };
@@ -84,6 +103,7 @@ export default {
   padding: 0.5rem 0.5rem 1rem 0;
   overflow-x: scroll;
   scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
   .no-cards {
     opacity: 0.4;
     user-select: none;
@@ -119,6 +139,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    scroll-snap-align: start;
     &.small {
       width: 100%;
     }
@@ -144,6 +165,11 @@ export default {
         font-weight: 700;
       }
     }
+  }
+}
+.modal-container {
+  .inner-modal {
+    padding: 2rem 2rem;
   }
 }
 </style>

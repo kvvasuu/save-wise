@@ -54,6 +54,7 @@ main {
   flex-direction: column;
   align-items: flex-start;
   .title {
+    height: 4rem;
     width: 100%;
     display: flex;
     align-items: center;

@@ -20,7 +20,9 @@
               <h4>{{ displayName }}</h4>
             </div>
           </Transition>
-          <div class="avatar-wrapper"><user-avatar></user-avatar></div>
+          <div class="avatar-wrapper" @click="goToSettings">
+            <user-avatar></user-avatar>
+          </div>
         </div>
       </div>
       <div class="app-container">
@@ -30,7 +32,7 @@
       </div>
     </div>
     <Transition name="fade">
-      <modal-container v-if="welcomeScreen">
+      <modal-container v-if="welcomeScreen" :preventClose="true">
         <template #title>Welcome to SaveWise!</template>
         <p>
           We're excited to have you on board. To get the most out of SaveWise,
@@ -96,7 +98,7 @@ export default {
     toggleWelcomeScreen() {
       this.welcomeScreen = !this.welcomeScreen;
       if (!this.welcomeScreen) {
-        this.$router.push("app/settings");
+        this.goToSettings();
       }
     },
     handleBeforeUnload(event) {
@@ -112,6 +114,9 @@ export default {
     },
     hideSidebar() {
       this.sidebarVisible = false;
+    },
+    goToSettings() {
+      this.$router.replace("/app/settings");
     },
   },
   mounted() {
@@ -202,6 +207,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
       }
     }
   }
