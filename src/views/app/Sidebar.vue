@@ -34,9 +34,9 @@
             </RouterLink>
             <RouterLink
               to="/app/accounts"
-              active-class="router-active"
               @click="hideSidebar"
               draggable="false"
+              :class="{ 'router-active': isRouteActive }"
             >
               <div class="list-item-inner">
                 <i class="fa-solid fa-user"></i><span>Accounts</span>
@@ -77,6 +77,11 @@ export default {
     },
     hideSidebar() {
       this.$emit("hideSidebar");
+    },
+  },
+  computed: {
+    isRouteActive() {
+      return this.$route.path.startsWith("/app/accounts/");
     },
   },
 };

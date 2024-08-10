@@ -75,7 +75,7 @@ const router = createRouter({
           meta: { title: "Transactions" },
         },
         {
-          path: "accounts",
+          path: "accounts/:id?",
           name: "Accounts",
           component: () => import("@/views/app/Accounts.vue"),
           meta: { title: "Accounts" },

@@ -1,27 +1,19 @@
 <template>
-  <main>
-    <basic-spinner v-if="loading"></basic-spinner>
-    <div class="accounts">
-      <div class="title">
-        <h3>Accounts</h3>
-      </div>
-      <div class="no-cards" v-if="noAccounts"><h2>No accounts yet</h2></div>
-      <div class="cards-container" v-else>
-        <card
-          v-for="(card, index) in accounts"
-          :accountNumber="index"
-          :account="card"
-          :key="card"
-          ref="cards"
-          @click="goToAccountInfo(index)"
-        ></card>
-      </div>
-    </div>
-  </main>
+  <div class="cards-container">
+    <card
+      v-for="(card, index) in accounts"
+      :accountNumber="index"
+      :account="card"
+      :key="card"
+      ref="cards"
+      @click="goToAccountInfo(index)"
+    ></card>
+  </div>
 </template>
 
 <script>
 export default {
+  emits: ["cardClicked"],
   data() {
     return {
       accounts: null,
@@ -38,16 +30,13 @@ export default {
             ? card.setUnselected(false)
             : card.setUnselected(true);
         });
+        this.$emit("cardClicked", number);
       }
     },
   },
   created() {
     this.accounts = this.$store.getters.getAccountInfo;
     !this.accounts ? (this.noAccounts = true) : (this.noAccounts = false);
-  },
-  mounted() {
-    const card = this.$route.params.id || 0;
-    this.goToAccountInfo(card);
   },
 };
 </script>

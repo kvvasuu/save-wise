@@ -19,6 +19,13 @@ const database = {
         return state.user;
       }
     },
+    getAccountInfo(state) {
+      if (!!state.user) {
+        setTimeout(() => {
+          return state.user.accounts;
+        }, 3000);
+      }
+    },
   },
   mutations: {
     setUserDatabase(state, payload) {

@@ -4,20 +4,21 @@ import { ref, set, onValue, update } from "firebase/database";
 export default {
   async setInitialUserData(context, payload) {
     set(ref(firebaseDatabase, "users/" + payload.userId), {
-      firstname: payload.firstname ?? "",
-      lastname: payload.lastname ?? "",
+      firstname: "",
+      lastname: "",
       email: payload.email,
-      city: payload.city ?? "",
-      country: payload.country ?? "",
+      city: "",
+      country: "",
       settings: {
-        defaultCurrency: payload.defaultCurrency ?? "USD",
+        defaultCurrency: "USD",
         notifications: true,
       },
       accounts: [
         {
-          accountNumber: "",
-          accountName: payload.accountName ?? "Default account",
-          currency: payload.currency ?? "USD",
+          accountName: "Main account",
+          currency: "USD",
+          balance: 0,
+          color: "black",
         },
       ],
       transactionHistory: {},

@@ -402,7 +402,7 @@ export default {
         user-select: none;
         img {
           height: 100%;
-          aspect-ratio: auto;
+          object-fit: cover;
         }
       }
     }
