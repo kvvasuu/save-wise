@@ -21,9 +21,7 @@ const database = {
     },
     getAccountInfo(state) {
       if (!!state.user) {
-        setTimeout(() => {
-          return state.user.accounts;
-        }, 3000);
+        return state.user.accounts;
       }
     },
   },
