@@ -27,7 +27,9 @@
       </div>
       <div class="app-container">
         <router-view v-slot="{ Component }">
-          <component :is="Component" />
+          <Transition name="slide-appcontainer" mode="out-in">
+            <component :is="Component" />
+          </Transition>
         </router-view>
       </div>
     </div>
@@ -175,7 +177,7 @@ export default {
     box-sizing: border-box;
     z-index: 9;
     overflow: hidden;
-    border-bottom: 2px solid $details-color;
+    border-bottom: $border;
     .menu-button {
       display: none;
       cursor: pointer;

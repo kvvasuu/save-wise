@@ -41,7 +41,7 @@ main {
 .navbar {
   height: 3rem;
   width: 100%;
-  border-bottom: 2px solid $details-color;
+  border-bottom: $border;
   box-sizing: border-box;
   ul {
     display: flex;

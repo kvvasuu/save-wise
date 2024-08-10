@@ -33,3 +33,15 @@
 .notification-leave-to {
   transform: translateY(-10rem);
 }
+
+.slide-appcontainer-enter-active,
+.slide-appcontainer-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-appcontainer-enter-from {
+  transform: translateX(100rem);
+}
+.slide-appcontainer-leave-to {
+  transform: translateX(-100rem);
+}

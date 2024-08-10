@@ -7,7 +7,11 @@
       </div>
       <cards-container ref="cardsContainer"></cards-container>
     </div>
-    <div class="content"><router-view></router-view></div>
+    <div class="content" v-if="contentVisible">
+      <router-view v-slot="{ Component }">
+        <component :is="Component" :key="Component" />
+      </router-view>
+    </div>
   </main>
 </template>
 
@@ -24,9 +28,10 @@ export default {
       loading: false,
     };
   },
-  mounted() {
-    const card = this.$route.params.id || 0;
-    this.$refs.cardsContainer.goToAccountInfo(card);
+  computed: {
+    contentVisible() {
+      return this.$route.path !== "/app/accounts";
+    },
   },
 };
 </script>
@@ -40,7 +45,7 @@ main {
   background-color: none;
   border: none;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: 0;
@@ -59,5 +64,13 @@ main {
     flex-direction: row;
     justify-content: space-between;
   }
+}
+.content {
+  width: 100%;
+  min-height: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 1rem 0 0 0;
 }
 </style>

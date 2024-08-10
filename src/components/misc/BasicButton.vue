@@ -32,7 +32,7 @@ button {
   cursor: pointer;
   transition: all 0.3s ease-out;
   &:hover {
-    transform: translateY(-0.2rem);
+    transform: translateY(-0.13rem);
     background-position: 50% 50%;
   }
   &.disabled {

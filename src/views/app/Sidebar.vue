@@ -81,7 +81,7 @@ export default {
   },
   computed: {
     isRouteActive() {
-      return this.$route.path.startsWith("/app/accounts/");
+      return this.$route.path.startsWith("/app/accounts");
     },
   },
 };

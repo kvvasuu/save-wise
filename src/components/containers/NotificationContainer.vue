@@ -36,7 +36,7 @@ export default {
   max-width: 100%;
   min-width: 10rem;
   background-color: $background-color;
-  border: 2px solid $details-color;
+  border: $border;
   border-radius: 2rem;
   display: flex;
   flex-direction: column;

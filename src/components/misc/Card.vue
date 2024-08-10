@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="card"
-    :style="{ background: passGradient }"
-    ref="card"
-    :class="{ unselected: unselected }"
-  >
+  <div class="card" :style="{ background: passGradient }" ref="card">
     <div class="inner">
       <img
         src="../../assets/logos/logo-horizontal.png"
@@ -32,7 +27,6 @@ export default {
     return {
       currencyMap: currencyMap,
       gradientMap: gradientMap,
-      unselected: false,
     };
   },
   computed: {
@@ -47,11 +41,6 @@ export default {
     },
     passGradient() {
       return this.gradientMap[this.account.color];
-    },
-  },
-  methods: {
-    setUnselected(value) {
-      this.unselected = value;
     },
   },
 };
@@ -76,8 +65,13 @@ export default {
     opacity: 0.8;
     filter: grayscale(1);
   }
+  &.selected {
+    opacity: 1;
+    filter: grayscale(0);
+    transform: translateY(-0.13rem);
+  }
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-0.13rem);
   }
   .inner {
     position: relative;

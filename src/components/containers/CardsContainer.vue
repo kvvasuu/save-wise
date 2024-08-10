@@ -1,17 +1,6 @@
 <template>
   <div class="cards-container">
-    <Transition name="fade">
-      <modal-container
-        v-if="accountModal"
-        class="modal-container"
-        @close="toggleAccountModal"
-      >
-        <template #title>Add account</template>
-        <div>Dsadas</div>
-      </modal-container>
-    </Transition>
-
-    <div class="no-cards" v-if="noAccounts && $props.small">
+    <div class="no-cards" v-if="noAccountsCheck && $props.small">
       <h2>No accounts yet</h2>
     </div>
     <card
@@ -22,10 +11,11 @@
       :key="card"
       ref="cards"
       @click="goToAccountInfo(index)"
+      :class="{ selected: selectCard(index), unselected: !selectCard(index) }"
     ></card>
     <div
       class="add-card"
-      :class="{ small: !$props.small }"
+      :class="{ small: $props.small, active: newAccountActive }"
       v-if="!$props.small && newAccountPossible"
       @click="addAccount"
       ref="addAccount"
@@ -46,46 +36,48 @@ export default {
     Card,
   },
   props: ["small"],
-  data() {
-    return {
-      accounts: null,
-      noAccounts: false,
-      accountModal: false,
-    };
-  },
   methods: {
     goToAccountInfo(number) {
-      if (this.accounts) {
+      if (this.getAccountsInfo) {
+        if (!this.$props.small) {
+          this.$refs.cards[number].$refs.card.scrollIntoView();
+        }
         this.$router.replace(`/app/accounts/${number}`);
-        this.$refs.cards[number].$refs.card.scrollIntoView();
-        this.$refs.cards.forEach((card) => {
-          card.accountNumber == number
-            ? card.setUnselected(false)
-            : card.setUnselected(true);
-        });
       }
     },
     addAccount() {
       this.$refs.addAccount.scrollIntoView();
-      this.toggleAccountModal();
+      this.$router.replace(`/app/accounts/new_account`);
     },
-    toggleAccountModal() {
-      this.accountModal = !this.accountModal;
+    selectCard(index) {
+      if (this.$props.small) {
+        return true;
+      }
+      return this.$route.params.id
+        ? Number(this.$route.params.id) === index
+        : false;
     },
   },
   computed: {
     passCards() {
-      if (this.accounts) {
-        return this.$props.small ? this.accounts.slice(0, 2) : this.accounts;
+      if (this.getAccountsInfo) {
+        return this.$props.small
+          ? this.getAccountsInfo.slice(0, 2)
+          : this.getAccountsInfo;
       }
     },
     newAccountPossible() {
-      return this.accounts.length <= 3;
+      return this.getAccountsInfo.length <= 3;
     },
-  },
-  created() {
-    this.accounts = this.$store.getters.getAccountInfo;
-    !this.accounts ? (this.noAccounts = true) : (this.noAccounts = false);
+    newAccountActive() {
+      return this.$route.path === "/app/accounts/new_account";
+    },
+    getAccountsInfo() {
+      return this.$store.getters.getAccountsInfo;
+    },
+    noAccountsCheck() {
+      return !this.getAccountsInfo;
+    },
   },
 };
 </script>
@@ -129,13 +121,12 @@ export default {
   }
   .add-card {
     cursor: pointer;
-    min-width: 12rem;
     height: 14.61rem;
     position: relative;
     background: none;
     padding: 1rem;
     box-sizing: border-box;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -143,11 +134,13 @@ export default {
     &.small {
       width: 100%;
     }
-    &:hover .button {
-      transform: translateY(-2px);
+    &:hover .button,
+    &.active .button {
+      transform: translateY(-0.13rem);
       color: $primary-color;
     }
     .button {
+      width: 10rem;
       display: flex;
       align-items: center;
       justify-content: center;

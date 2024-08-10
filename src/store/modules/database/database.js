@@ -19,9 +19,19 @@ const database = {
         return state.user;
       }
     },
-    getAccountInfo(state) {
+    getAccountsInfo(state) {
       if (!!state.user) {
         return state.user.accounts;
+      }
+    },
+    getAccountsInfo(state) {
+      if (!!state.user) {
+        return state.user.accounts;
+      }
+    },
+    getSingleAccountInfo: (state) => (id) => {
+      if (!!state.user) {
+        return state.user.accounts[id];
       }
     },
   },

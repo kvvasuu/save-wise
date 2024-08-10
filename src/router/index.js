@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { defineAsyncComponent } from "vue";
 import AppView from "@/views/app/AppView.vue";
 import RegisterPage from "@/views/auth/RegisterPage.vue";
 import LoginPage from "@/views/auth/LoginPage.vue";
@@ -77,8 +76,20 @@ const router = createRouter({
         {
           path: "accounts/:id?",
           name: "Accounts",
-          component: () => import("@/views/app/Accounts.vue"),
+          component: () => import("@/views/app/Accounts/Accounts.vue"),
           meta: { title: "Accounts" },
+          children: [
+            {
+              path: "",
+              name: "Info",
+              component: () => import("@/views/app/Accounts/AccountInfo.vue"),
+            },
+            {
+              path: "new_account",
+              name: "NewAccount",
+              component: () => import("@/views/app/Accounts/NewAccount.vue"),
+            },
+          ],
         },
         {
           path: "settings",
