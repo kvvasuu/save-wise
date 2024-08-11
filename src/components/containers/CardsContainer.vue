@@ -160,9 +160,4 @@ export default {
     }
   }
 }
-.modal-container {
-  .inner-modal {
-    padding: 2rem 2rem;
-  }
-}
 </style>

@@ -55,6 +55,9 @@ main {
       list-style: none;
       cursor: pointer;
       position: relative;
+      &:hover .list-item-inner {
+        transform: translateY(-0.13rem);
+      }
       .list-item-inner {
         color: $font-color-light;
         padding: 0.8rem 1.6rem;
@@ -70,6 +73,7 @@ main {
     .router-active {
       .list-item-inner {
         color: $primary-color;
+        transform: translateY(-0.13rem);
       }
       &:hover {
         background-color: transparent !important;

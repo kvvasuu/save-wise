@@ -67,7 +67,7 @@ main {
 }
 .content {
   width: 100%;
-  min-height: 20rem;
+  min-height: 14rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

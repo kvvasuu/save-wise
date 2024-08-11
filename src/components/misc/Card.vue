@@ -69,6 +69,9 @@ export default {
     opacity: 1;
     filter: grayscale(0);
     transform: translateY(-0.13rem);
+    &:hover {
+      transform: translateY(-0.26rem);
+    }
   }
   &:hover {
     transform: translateY(-0.13rem);

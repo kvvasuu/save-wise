@@ -70,7 +70,7 @@ const router = createRouter({
         {
           path: "transactions",
           name: "Transactions",
-          component: () => import("@/views/app/Transactions.vue"),
+          component: () => import("@/views/app/Transactions/Transactions.vue"),
           meta: { title: "Transactions" },
         },
         {
