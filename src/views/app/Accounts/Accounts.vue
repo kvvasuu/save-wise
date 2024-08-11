@@ -9,7 +9,9 @@
     </div>
     <div class="content" v-if="contentVisible">
       <router-view v-slot="{ Component }">
-        <component :is="Component" :key="Component" />
+        <transition name="fade" mode="out-in">
+          <component :is="Component" :key="$route.params.id" />
+        </transition>
       </router-view>
     </div>
   </main>

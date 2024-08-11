@@ -295,14 +295,14 @@ main {
       justify-content: flex-start;
       flex-direction: row;
       .icon {
-        width: 2.4rem;
-        height: 2.4rem;
+        width: 2rem;
+        height: 2rem;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 1rem 0 0;
         i {
-          font-size: 2rem;
+          font-size: 1.6rem;
           color: $color-green;
           &.expense {
             color: $color-red;

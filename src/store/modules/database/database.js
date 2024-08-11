@@ -44,6 +44,11 @@ const database = {
     setUserDatabase(state, payload) {
       state.user = payload.user;
     },
+    setAccountInformation(state, payload) {
+      state.user.accounts[payload.id].accountName = payload.accountName;
+      state.user.accounts[payload.id].currency = payload.currency;
+      state.user.accounts[payload.id].color = payload.color;
+    },
   },
   actions: actions,
 };

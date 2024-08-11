@@ -2,7 +2,7 @@ import { firebaseDatabase } from "../../firebase";
 import { ref, set, onValue, update } from "firebase/database";
 
 export default {
-  async setInitialUserData(context, payload) {
+  setInitialUserData(context, payload) {
     set(ref(firebaseDatabase, "users/" + payload.userId), {
       firstname: "",
       lastname: "",
@@ -24,7 +24,7 @@ export default {
       transactionHistory: {},
     });
   },
-  async getUserData(context, payload) {
+  getUserData(context, payload) {
     context.commit("setLoading", true);
     return new Promise((resolve, reject) => {
       onValue(
@@ -64,6 +64,46 @@ export default {
     updates[`users/${userId}/settings/notifications`] = payload.notifications;
 
     update(ref(firebaseDatabase), updates)
+      .then(() => {
+        console.log("Values updated successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating values:", error);
+      });
+  },
+  setAccountInformation(context, payload) {
+    const updates = {};
+    const userId = context.getters.getUserId;
+
+    updates[`users/${userId}/accounts/${payload.id}/accountName`] =
+      context.state.user.accounts[payload.id].accountName;
+    updates[`users/${userId}/accounts/${payload.id}/color`] =
+      context.state.user.accounts[payload.id].color;
+    updates[`users/${userId}/accounts/${payload.id}/currency`] =
+      context.state.user.accounts[payload.id].currency;
+
+    update(ref(firebaseDatabase), updates)
+      .then(() => {
+        console.log("Values updated successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating values:", error);
+      });
+  },
+  addNewAccount(context, payload) {
+    const userId = context.getters.getUserId;
+    const accountID = context.state.user.accounts.length;
+
+    if (accountID >= 4) {
+      return;
+    }
+
+    set(ref(firebaseDatabase, `users/${userId}/accounts/${accountID}`), {
+      accountName: payload.accountName,
+      currency: payload.currency,
+      balance: 0,
+      color: payload.color,
+    })
       .then(() => {
         console.log("Values updated successfully");
       })

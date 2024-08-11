@@ -1,5 +1,9 @@
 <template>
   <div class="account-info">
+    <notification-container ref="notification">
+      <span>Saved</span>
+      <i class="fa-solid fa-check"></i>
+    </notification-container>
     <div class="title">
       <input
         type="text"
@@ -10,17 +14,8 @@
       />
     </div>
     <div class="form">
-      <form>
-        <div class="group">
-          <label for="balance">Balance</label>
-          <input
-            type="balance"
-            class="input"
-            id="balance"
-            :value="balance"
-            disabled
-          />
-        </div>
+      <basic-spinner v-if="loading"></basic-spinner>
+      <form v-else>
         <div class="group">
           <label for="color">Card color</label>
           <select
@@ -41,7 +36,7 @@
         <div class="group">
           <label for="currency">Currency</label>
           <select
-            v-model="currency"
+            v-model="account.currency"
             id="currency"
             :disabled="!isEditable"
             :class="{ 'is-editable': isEditable }"
@@ -53,13 +48,14 @@
           </select>
         </div>
       </form>
-      <div class="buttons">
-        <basic-button v-if="!isEditable" @click="editAccountInfo"
-          >Edit</basic-button
+      <div class="buttons" v-if="!isEditable">
+        <basic-button @click="editAccountInfo">Edit</basic-button>
+      </div>
+      <div class="buttons" v-else>
+        <basic-button @click="discardAccountInfo" class="red"
+          >Discard</basic-button
         >
-        <basic-button v-else @click="saveAccountInfo" class="green"
-          >Save</basic-button
-        >
+        <basic-button @click="saveAccountInfo" class="green">Save</basic-button>
       </div>
     </div>
     <div class="inner"></div>
@@ -70,8 +66,8 @@
 export default {
   data() {
     return {
+      loading: false,
       account: null,
-      balance: 0,
       currency: "",
       accountName: "",
       color: "",
@@ -83,9 +79,26 @@ export default {
       this.isEditable = true;
     },
     saveAccountInfo() {
-      this.isEditable = false;
+      this.loading = true;
+      this.$store
+        .dispatch("setAccountInformation", {
+          id: this.$route.params.id,
+        })
+        .then(() => {
+          this.$refs.notification.show();
+        })
+        .finally(() => {
+          this.isEditable = false;
+          this.loading = false;
+        });
     },
     discardAccountInfo() {
+      this.$store.commit("setAccountInformation", {
+        id: this.$route.params.id,
+        accountName: this.accountName,
+        color: this.color,
+        currency: this.currency,
+      });
       this.isEditable = false;
     },
   },
@@ -93,10 +106,25 @@ export default {
     this.account = this.$store.getters.getSingleAccountInfo(
       this.$route.params.id
     );
-    this.balance = this.account.balance;
     this.currency = this.account.currency;
     this.accountName = this.account.accountName;
     this.color = this.account.color;
+  },
+  beforeRouteUpdate(to, from) {
+    if (this.isEditable) {
+      const answer = window.confirm(
+        "Do you really want to leave? You have unsaved changes!"
+      );
+      return !answer ? false : this.discardAccountInfo();
+    }
+  },
+  beforeRouteLeave(to, from) {
+    if (this.isEditable) {
+      const answer = window.confirm(
+        "Do you really want to leave? You have unsaved changes!"
+      );
+      return !answer ? false : this.discardAccountInfo();
+    }
   },
 };
 </script>
@@ -187,6 +215,10 @@ export default {
         &:focus {
           outline: 2px solid $primary-color;
         }
+        &:disabled {
+          cursor: default;
+          filter: grayscale(1);
+        }
       }
       .select {
         appearance: none;
@@ -208,6 +240,10 @@ export default {
         border-radius: 0.8rem;
         margin: 0.4rem 0;
         cursor: pointer;
+        &:disabled {
+          cursor: default;
+          filter: grayscale(1);
+        }
         &::-ms-expand {
           display: none;
         }
@@ -220,12 +256,17 @@ export default {
       }
     }
   }
-  button {
-    margin: 0;
-    padding: 0.7rem;
-    height: 2.5rem;
-    &.green {
-      background: linear-gradient(130deg, $color-green 0%, $color-green 70%);
+  .buttons {
+    button {
+      margin: 0.4rem 0 0 1rem;
+      padding: 0.7rem;
+      width: 8rem;
+      &.green {
+        background: $color-green;
+      }
+      &.red {
+        background: $color-red;
+      }
     }
   }
 }

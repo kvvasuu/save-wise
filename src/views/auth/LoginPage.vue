@@ -21,6 +21,7 @@
             :class="{
               'input-auth-error': error,
             }"
+            autocomplete="email"
           />
         </div>
         <div class="group" id="password">
