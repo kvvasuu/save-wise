@@ -22,6 +22,16 @@
               </div>
             </RouterLink>
             <RouterLink
+              to="/app/accounts"
+              @click="hideSidebar"
+              draggable="false"
+              :class="{ 'router-active': isRouteActive }"
+            >
+              <div class="list-item-inner">
+                <i class="fa-solid fa-user"></i><span>Accounts</span>
+              </div>
+            </RouterLink>
+            <RouterLink
               to="/app/transactions"
               active-class="router-active"
               @click="hideSidebar"
@@ -30,16 +40,6 @@
               <div class="list-item-inner">
                 <i class="fa-solid fa-file-invoice"></i
                 ><span>Transactions</span>
-              </div>
-            </RouterLink>
-            <RouterLink
-              to="/app/accounts"
-              @click="hideSidebar"
-              draggable="false"
-              :class="{ 'router-active': isRouteActive }"
-            >
-              <div class="list-item-inner">
-                <i class="fa-solid fa-user"></i><span>Accounts</span>
               </div>
             </RouterLink>
             <RouterLink

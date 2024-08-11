@@ -40,13 +40,15 @@ export default {
     goToAccountInfo(number) {
       if (this.getAccountsInfo) {
         if (!this.$props.small) {
-          this.$refs.cards[number].$refs.card.scrollIntoView();
+          this.$refs.cards[number].$refs.card.scrollIntoView({
+            behavior: "smooth",
+          });
         }
         this.$router.replace(`/app/accounts/${number}`);
       }
     },
     addAccount() {
-      this.$refs.addAccount.scrollIntoView();
+      this.$refs.addAccount.scrollIntoView({ behavior: "smooth" });
       this.$router.replace(`/app/accounts/new_account`);
     },
     selectCard(index) {

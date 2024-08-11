@@ -34,6 +34,11 @@ const database = {
         return state.user.accounts[id];
       }
     },
+    getTransactions(state) {
+      if (!!state.user) {
+        return state.user.transactions;
+      }
+    },
   },
   mutations: {
     setUserDatabase(state, payload) {
