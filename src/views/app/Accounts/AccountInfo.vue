@@ -164,7 +164,6 @@ export default {
     padding: 0 0 0.6rem 0;
     margin: 0 0 1rem 0;
     input {
-      width: 20rem;
       background-color: transparent;
       border: 0;
       display: block;
@@ -176,6 +175,9 @@ export default {
       font-weight: 700;
       height: 2.5rem;
       margin: 0 1rem 0 0;
+      max-width: 20rem;
+      width: 100%;
+      box-sizing: border-box;
       &.is-editable {
         color: $font-color-light;
         border-radius: 0.8rem;
@@ -196,6 +198,7 @@ export default {
       justify-content: flex-start;
       flex-direction: row;
       flex-wrap: wrap;
+      width: 100%;
     }
     .group {
       display: flex;
@@ -209,7 +212,8 @@ export default {
       font-size: 0.9rem;
       color: $font-color-dark;
       margin: 0 1rem 0.6rem 1rem;
-      width: 20rem;
+      max-width: 20rem;
+      width: 100%;
       .input {
         width: 100%;
         height: 3rem;
