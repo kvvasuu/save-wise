@@ -86,6 +86,12 @@ export default {
         })
         .then(() => {
           this.$refs.notification.show();
+          this.accountName = this.account.accountName;
+          this.currency = this.account.currency;
+          this.color = this.account.color;
+          this.account = this.$store.getters.getSingleAccountInfo(
+            this.$route.params.id
+          );
         })
         .finally(() => {
           this.isEditable = false;
@@ -99,6 +105,9 @@ export default {
         color: this.color,
         currency: this.currency,
       });
+      this.account = this.$store.getters.getSingleAccountInfo(
+        this.$route.params.id
+      );
       this.isEditable = false;
     },
   },

@@ -11,6 +11,10 @@
   src: url("../../../fonts/Esteban.ttf");
 }
 
+* {
+  scroll-behavior: smooth;
+}
+
 :root {
   font-size: 16px;
   font-family: Helvetica, Arial, sans-serif;

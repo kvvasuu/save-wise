@@ -53,7 +53,14 @@ export default {
   min-width: 22rem;
   height: 14.61rem;
   position: relative;
-  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    120deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(30, 30, 30, 1) 17%,
+    rgba(20, 20, 20, 1) 51%,
+    rgba(70, 70, 70, 1) 81%,
+    rgba(20, 20, 20, 1) 100%
+  );
   box-shadow: 0.2rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
   padding: 1rem;
   overflow: hidden;

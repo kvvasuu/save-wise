@@ -7,13 +7,13 @@
       </div>
       <cards-container ref="cardsContainer"></cards-container>
     </div>
-    <div class="content" v-if="contentVisible">
+    <!-- <div class="content" v-if="contentVisible">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
           <component :is="Component" :key="$route.params.id" />
         </transition>
       </router-view>
-    </div>
+    </div> -->
   </main>
 </template>
 
