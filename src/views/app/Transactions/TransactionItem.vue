@@ -144,7 +144,7 @@ export default {
   }
 }
 .type {
-  width: 10%;
+  width: 15%;
   font-weight: 500;
 }
 .account {
@@ -159,18 +159,12 @@ export default {
 @media (max-width: 1000px) {
   .transaction {
     font-size: 0.8rem;
-    .text:not(.amount) {
-      margin: 0 0.8rem 0 0;
-    }
   }
   .type {
     display: none;
-    &.text {
-      display: none;
-    }
   }
   .amount {
-    width: 15%;
+    width: 20%;
   }
   .description {
     width: 45%;
@@ -179,16 +173,13 @@ export default {
 
 @media (max-width: 600px) {
   .amount {
-    width: 20%;
+    width: 30%;
   }
   .description {
-    width: 55%;
+    width: 70%;
   }
   .account {
     display: none;
-    &.text {
-      display: none;
-    }
   }
 }
 </style>

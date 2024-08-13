@@ -231,21 +231,16 @@ main {
       margin: 0 1rem 0 0;
     }
     .type {
-      width: 10%;
+      width: 15%;
       margin: 0 1rem 0 0;
     }
     .account {
       width: 25%;
       margin: 0 1rem 0 0;
     }
-    .date {
-      width: 15%;
-      margin: 0 1rem 0 0;
-    }
     .amount {
-      width: 10%;
+      width: 15%;
       text-align: right;
-      margin: 0 1rem 0 0;
     }
   }
 }
@@ -277,20 +272,12 @@ main {
   }
   .transaction-list {
     ul {
-      li {
-        font-size: 0.8rem;
-        .text:not(.amount) {
-          margin: 0 0.8rem 0 0;
-        }
-      }
       .type {
         display: none;
-        &.text {
-          display: none;
-        }
       }
       .amount {
-        width: 15%;
+        width: 20%;
+        margin: 0;
       }
       .description {
         width: 45%;
@@ -302,44 +289,20 @@ main {
 @media (max-width: 600px) {
   main {
     padding: 1rem 1rem;
-    .navbar {
-      ul {
-        a {
-          .list-item-inner {
-            padding: 0.8rem 0.7rem;
-          }
-        }
-      }
-    }
   }
 
   .transaction-list {
     ul {
-      .amount {
-        width: 20%;
-      }
-      .description {
-        width: 55%;
-      }
       .account {
         display: none;
-        &.text {
-          display: none;
-        }
       }
-      .date {
-        width: 25%;
+      .amount {
+        width: 30%;
+      }
+      .description {
+        width: 70%;
       }
     }
-  }
-}
-
-@keyframes transaction-slide {
-  0% {
-    height: 0;
-  }
-  100% {
-    height: 10rem;
   }
 }
 </style>
