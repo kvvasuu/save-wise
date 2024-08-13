@@ -58,7 +58,6 @@
         <basic-button @click="saveAccountInfo" class="green">Save</basic-button>
       </div>
     </div>
-    <div class="inner"></div>
   </div>
 </template>
 

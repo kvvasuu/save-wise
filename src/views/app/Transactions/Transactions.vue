@@ -40,16 +40,20 @@
         <div class="pagination">
           <button
             class="pagination-button left"
-            @click="previousePage"
+            @click="goPreviousPage"
             :disabled="currentPage <= 1"
             :class="{ disabled: currentPage <= 1 }"
           >
             <i class="fa-solid fa-chevron-left"></i>
           </button>
-          <div class="page-number">{{ currentPage }}</div>
+          <div class="page-number small">{{ previousPage }}</div>
+          <div class="page-number">
+            <b>{{ currentPage }}</b>
+          </div>
+          <div class="page-number small">{{ nextPage }}</div>
           <button
             class="pagination-button right"
-            @click="nextPage"
+            @click="goNextPage"
             :disabled="currentPage >= totalPages"
             :class="{ disabled: currentPage >= totalPages }"
           >
@@ -119,12 +123,12 @@ export default {
         );
       }
     },
-    previousePage() {
+    goPreviousPage() {
       if (this.currentPage > 1) {
         this.currentPage--;
       }
     },
-    nextPage() {
+    goNextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
       }
@@ -135,6 +139,12 @@ export default {
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
       return this.transactionList.slice(start, end);
+    },
+    previousPage() {
+      return this.currentPage - 1 === 0 ? "" : this.currentPage - 1;
+    },
+    nextPage() {
+      return this.currentPage + 1 > this.totalPages ? "" : this.currentPage + 1;
     },
     totalPages() {
       return Math.ceil(this.transactionList.length / this.itemsPerPage);
@@ -287,7 +297,7 @@ main {
   padding: 0 0.6rem;
   box-sizing: border-box;
   .pagination-button {
-    padding: 0.7rem 1rem;
+    padding: 0.8rem 1rem;
     margin: 0;
     border: none;
     outline: none;
@@ -314,20 +324,24 @@ main {
       border-top-right-radius: 0.4rem;
       border-bottom-right-radius: 0.4rem;
     }
-    i {
-      height: 1rem;
-      text-align: center;
-    }
   }
   .page-number {
-    padding: 0.7rem 1rem;
+    width: 1rem;
+    padding: 0.7rem 0;
+    text-align: center;
+    box-sizing: border-box;
     margin: 0;
     border: none;
     outline: none;
     border-radius: 0;
     font-family: Montserrat;
-    font-weight: 500;
+    font-weight: 400;
     color: rgb(126, 126, 126);
+    &.small {
+      font-size: 0.7rem;
+      padding: 0.8rem 0 0.6rem 0;
+      color: rgb(199, 199, 199);
+    }
   }
 }
 
