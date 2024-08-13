@@ -1,6 +1,10 @@
 <template>
   <div class="transaction">
-    <div class="transaction-info">
+    <div
+      class="transaction-info"
+      @click="expandListItem"
+      :class="{ expanded: isExpanded }"
+    >
       <div class="description text">
         <div class="icon">
           <i
@@ -30,7 +34,9 @@
         }}
       </div>
     </div>
-    <div class="transaction-expanded" v-if="isExpanded">dadsdsa</div>
+    <Transition name="transaction-slide">
+      <div class="transaction-expanded" v-if="isExpanded"></div>
+    </Transition>
   </div>
 </template>
 
@@ -68,7 +74,7 @@ export default {
         : `${amount.toFixed(2)} ${currency}`;
     },
     expandListItem() {
-      this.isExpanded = !this.isisExpanded;
+      this.isExpanded = !this.isExpanded;
     },
   },
 };
@@ -81,11 +87,9 @@ export default {
   align-items: center;
   justify-content: flex-start;
   border-bottom: 1px solid $details-color;
-  &:hover {
-    background-color: $background-color-dark;
-  }
   &:last-of-type {
     border-bottom: none;
+    border-radius: 1rem;
   }
   .transaction-info {
     display: flex;
@@ -99,12 +103,34 @@ export default {
     color: $font-color-dark;
     padding: 0 0.6rem;
     box-sizing: border-box;
+    cursor: pointer;
+    &:hover {
+      background-color: $background-color-dark;
+      + .transaction-expanded::after {
+        background-color: $background-color-dark;
+      }
+    }
   }
   .transaction-expanded {
+    box-shadow: inset 0 1rem 1rem -1rem rgba(111, 124, 161, 0.2);
     display: flex;
     height: 10rem;
     width: 100%;
-    overflow-y: hidden;
+    background-color: $background-color-dark;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      background-color: $background-color;
+      transform: rotate(-45deg);
+      width: 16px;
+      height: 16px;
+      top: -10px;
+      left: 6rem;
+      box-shadow: -0.1rem 0.1rem 0.9rem rgba(111, 124, 161, 0.2);
+    }
   }
 
   .text {
@@ -180,6 +206,23 @@ export default {
   }
   .account {
     display: none;
+  }
+}
+
+.transaction-slide-enter-active {
+  animation: slide 0.6s ease;
+}
+
+.transaction-slide-leave-active {
+  animation: slide 0.6s ease reverse;
+}
+
+@keyframes slide {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 10rem;
   }
 }
 </style>

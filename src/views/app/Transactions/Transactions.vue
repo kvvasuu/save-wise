@@ -44,7 +44,6 @@
 
 <script>
 import TransactionItem from "./TransactionItem.vue";
-import { currencyMap } from "@/assets/script";
 
 export default {
   components: {
@@ -126,7 +125,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 1.6rem 2rem;
   box-sizing: border-box;
   box-shadow: 0.2rem 0.3rem 0.6rem rgba(190, 190, 190, 0.2);
 }
@@ -288,7 +287,7 @@ main {
 
 @media (max-width: 600px) {
   main {
-    padding: 1rem 1rem;
+    padding: 1rem 1rem 1.2rem 1rem;
   }
 
   .transaction-list {
