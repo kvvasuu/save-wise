@@ -37,6 +37,25 @@
           :key="transaction"
           :transaction="transaction"
         ></transaction-item>
+        <div class="pagination">
+          <button
+            class="pagination-button left"
+            @click="previousePage"
+            :disabled="currentPage <= 1"
+            :class="{ disabled: currentPage <= 1 }"
+          >
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="page-number">{{ currentPage }}</div>
+          <button
+            class="pagination-button right"
+            @click="nextPage"
+            :disabled="currentPage >= totalPages"
+            :class="{ disabled: currentPage >= totalPages }"
+          >
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
       </ul>
     </div>
   </main>
@@ -62,20 +81,25 @@ export default {
   },
   methods: {
     changePage(pageName) {
+      this.currentPage = 1;
+
       switch (pageName) {
         case "all":
           this.incomeOnly = false;
           this.expenseOnly = false;
+
           this.getTransactions();
           break;
         case "income":
           this.incomeOnly = true;
           this.expenseOnly = false;
+
           this.getTransactions();
           break;
         case "expense":
           this.incomeOnly = false;
           this.expenseOnly = true;
+
           this.getTransactions();
           break;
       }
@@ -93,6 +117,16 @@ export default {
         this.transactionList = array.filter(
           (el) => el.transactionType === "expense"
         );
+      }
+    },
+    previousePage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
       }
     },
   },
@@ -241,6 +275,59 @@ main {
       width: 15%;
       text-align: right;
     }
+  }
+}
+
+.pagination {
+  width: 100%;
+  margin: 1.4rem 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0.6rem;
+  box-sizing: border-box;
+  .pagination-button {
+    padding: 0.7rem 1rem;
+    margin: 0;
+    border: none;
+    outline: none;
+    background-color: $primary-color;
+    color: $details-color;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+      background-color: $primary-color-dark;
+    }
+    &.disabled {
+      opacity: 0.9;
+      cursor: default;
+      background: rgb(230, 230, 230);
+      color: rgb(126, 126, 126);
+    }
+    &.left {
+      border-top-left-radius: 0.4rem;
+      border-bottom-left-radius: 0.4rem;
+    }
+    &.right {
+      border-top-right-radius: 0.4rem;
+      border-bottom-right-radius: 0.4rem;
+    }
+    i {
+      height: 1rem;
+      text-align: center;
+    }
+  }
+  .page-number {
+    padding: 0.7rem 1rem;
+    margin: 0;
+    border: none;
+    outline: none;
+    border-radius: 0;
+    font-family: Montserrat;
+    font-weight: 500;
+    color: rgb(126, 126, 126);
   }
 }
 
