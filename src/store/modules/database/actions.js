@@ -19,6 +19,7 @@ export default {
           currency: "USD",
           balance: 0,
           color: "black",
+          favorite: true,
         },
       ],
       transactionHistory: {},
@@ -93,16 +94,19 @@ export default {
   addNewAccount(context, payload) {
     const userId = context.getters.getUserId;
     const accountID = context.state.user.accounts.length;
-
+    const isFavorite = false;
     if (accountID >= 4) {
       return;
     }
+
+    accountID >= 2 ? (isFavorite = false) : (isFavorite = true);
 
     set(ref(firebaseDatabase, `users/${userId}/accounts/${accountID}`), {
       accountName: payload.accountName,
       currency: payload.currency,
       balance: 0,
       color: payload.color,
+      favorite: isFavorite,
     })
       .then(() => {
         console.log("Values updated successfully");

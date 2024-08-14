@@ -15,6 +15,7 @@
       />
       <div class="name">{{ accountName }}</div>
       <div class="balance">{{ accountBalance }} {{ accountCurrency }}</div>
+      <i class="fa-solid fa-heart favorite" v-if="account.favorite"></i>
     </div>
   </div>
 </template>
@@ -82,6 +83,9 @@ export default {
   }
   &:hover {
     transform: translateY(-0.13rem);
+    > .inner .favorite {
+      transform: rotate(10deg);
+    }
   }
   .inner {
     position: relative;
@@ -137,6 +141,15 @@ export default {
         font-size: 0.6rem;
         top: -0.7rem;
       }
+    }
+    .favorite {
+      position: absolute;
+      font-size: 2rem;
+      right: 0.4rem;
+      bottom: 0.4rem;
+      opacity: 0.8;
+      user-select: none;
+      transition: all 0.3s ease;
     }
   }
 }

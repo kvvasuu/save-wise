@@ -67,9 +67,19 @@ export default {
   computed: {
     passCards() {
       if (this.getAccountsInfo) {
-        return this.$props.small
-          ? this.getAccountsInfo.slice(0, 2)
-          : this.getAccountsInfo;
+        if (this.$props.small) {
+          const accounts = [];
+          const rest = [];
+          this.getAccountsInfo.forEach((el) => {
+            el.favorite === true ? accounts.push(el) : rest.push(el);
+          });
+
+          return accounts.length < 2
+            ? accounts.concat(rest.slice(0, accounts.length))
+            : accounts;
+        } else {
+          return this.getAccountsInfo;
+        }
       }
     },
     newAccountPossible() {
