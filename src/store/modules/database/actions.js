@@ -59,6 +59,10 @@ export default {
       })
       .catch((error) => {
         console.error("Error updating values:", error);
+        context.dispatch("showNotification", {
+          message: "Something went wrong",
+          type: false,
+        });
       });
   },
   setProfilePreferences(context, payload) {
@@ -78,6 +82,10 @@ export default {
       })
       .catch((error) => {
         console.error("Error updating values:", error);
+        context.dispatch("showNotification", {
+          message: "Something went wrong",
+          type: false,
+        });
       });
   },
   setAccountInformation(context, payload) {
@@ -100,6 +108,10 @@ export default {
       })
       .catch((error) => {
         console.error("Error updating values:", error);
+        context.dispatch("showNotification", {
+          message: "Something went wrong",
+          type: false,
+        });
       });
   },
   addNewAccount(context, payload) {
@@ -127,6 +139,10 @@ export default {
       })
       .catch((error) => {
         console.error("Error updating values:", error);
+        context.dispatch("showNotification", {
+          message: "Something went wrong",
+          type: false,
+        });
       });
   },
   deleteAccount(context, payload) {
@@ -141,11 +157,20 @@ export default {
       })
       .catch((error) => {
         console.error("Error deleting account:", error);
+        context.dispatch("showNotification", {
+          message: "Something went wrong",
+          type: false,
+        });
       });
   },
   setFavorite(context, payload) {
     const updates = {};
     const userId = context.getters.getUserId;
+
+    const accountName = context.getters.getSingleAccountInfo(payload.id);
+    let message = `${accountName.accountName} set as favorite`;
+    if (!payload.favorite)
+      message = `${accountName.accountName} is removed from favorites`;
 
     updates[`users/${userId}/accounts/${payload.id}/favorite`] =
       payload.favorite;
@@ -156,13 +181,17 @@ export default {
           id: payload.id,
           favorite: payload.favorite,
         });
-        console.log(`Account ${payload.id} set as favorite`);
+        console.log(message);
         context.dispatch("showNotification", {
-          message: `Account ${payload.id} set as favorite`,
+          message: message,
         });
       })
       .catch((error) => {
         console.error("Error setting account favorite:", error);
+        context.dispatch("showNotification", {
+          message: "Something went wrong",
+          type: false,
+        });
       });
   },
 };

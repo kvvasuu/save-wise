@@ -1,7 +1,7 @@
 <template>
   <Transition name="notification">
     <div class="outer" v-if="visible">
-      <div class="notification">
+      <div class="notification" :class="{ red: !type }">
         <span>{{ message }}</span>
         <i class="fa-solid fa-check" v-if="type"></i>
         <i class="fa-solid fa-xmark" v-else></i>
@@ -53,6 +53,9 @@ export default {
     i {
       margin: 0.6rem 0 0 0;
       font-size: 1.2rem;
+    }
+    &.red {
+      color: $color-red;
     }
   }
 }
