@@ -84,7 +84,7 @@ export default {
   &:hover {
     transform: translateY(-0.13rem);
     > .inner .favorite {
-      transform: rotate(10deg);
+      transform: rotate(7deg);
     }
   }
   .inner {

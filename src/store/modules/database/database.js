@@ -1,44 +1,11 @@
 import actions from "./actions";
+import getters from "./getters";
 
 const database = {
   state() {
     return {
       user: null,
     };
-  },
-  getters: {
-    getUserDisplayName(state) {
-      if (!!state.user) {
-        if (state.user.firstname && state.user.lastname) {
-          return `${state.user.firstname} ${state.user.lastname}`;
-        } else return state.user.email;
-      }
-    },
-    getUserDatabase(state) {
-      if (!!state.user) {
-        return state.user;
-      }
-    },
-    getAccountsInfo(state) {
-      if (!!state.user) {
-        return state.user.accounts;
-      }
-    },
-    getAccountsInfo(state) {
-      if (!!state.user) {
-        return state.user.accounts;
-      }
-    },
-    getSingleAccountInfo: (state) => (id) => {
-      if (!!state.user) {
-        return state.user.accounts[id];
-      }
-    },
-    getTransactions(state) {
-      if (!!state.user) {
-        return state.user.transactions;
-      }
-    },
   },
   mutations: {
     setUserDatabase(state, payload) {
@@ -49,7 +16,11 @@ const database = {
       state.user.accounts[payload.id].currency = payload.currency;
       state.user.accounts[payload.id].color = payload.color;
     },
+    setFavorite(state, payload) {
+      state.user.accounts[payload.id].favorite = payload.favorite;
+    },
   },
+  getters: getters,
   actions: actions,
 };
 

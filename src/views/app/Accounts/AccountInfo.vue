@@ -12,6 +12,12 @@
         :class="{ 'is-editable': isEditable }"
         maxlength="30"
       />
+      <i
+        class="fa-solid fa-heart favorite"
+        :class="{ selected: account.favorite }"
+        v-if="account.favorite || setFavoritePossible"
+        @click="setFavorite"
+      ></i>
     </div>
     <div class="form">
       <basic-spinner v-if="loading"></basic-spinner>
@@ -73,6 +79,11 @@ export default {
       isEditable: false,
     };
   },
+  computed: {
+    setFavoritePossible() {
+      return this.$store.getters.getFavoriteAccountsQuantity < 2;
+    },
+  },
   methods: {
     editAccountInfo() {
       this.isEditable = true;
@@ -109,11 +120,24 @@ export default {
       );
       this.isEditable = false;
     },
+    setFavorite() {
+      this.$store
+        .dispatch("setFavorite", {
+          id: this.$route.params.id,
+          favorite: !this.account.favorite,
+        })
+        .then(() => {
+          this.account = this.$store.getters.getSingleAccountInfo(
+            this.$route.params.id
+          );
+        });
+    },
   },
   created() {
     this.account = this.$store.getters.getSingleAccountInfo(
       this.$route.params.id
     );
+
     this.currency = this.account.currency;
     this.accountName = this.account.accountName;
     this.color = this.account.color;
@@ -158,7 +182,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: left;
+    justify-content: space-between;
     border-bottom: $border;
     padding: 0 0 0.6rem 0;
     margin: 0 0 1rem 0;
@@ -181,6 +205,25 @@ export default {
         color: $font-color-light;
         border-radius: 0.8rem;
         background-color: $background-color-blue;
+      }
+    }
+    .favorite {
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: $font-color-light;
+      opacity: 0.4;
+      &:hover {
+        font-size: 2.1rem;
+        filter: drop-shadow(0 0 0.12rem $font-color-light);
+      }
+      &.selected {
+        color: $color-red;
+        opacity: 1;
+        &:hover {
+          font-size: 2.1rem;
+          filter: drop-shadow(0 0 0.12rem $color-red);
+        }
       }
     }
   }

@@ -10,7 +10,11 @@
     <div class="content" v-if="contentVisible">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
-          <component :is="Component" :key="$route.params.id" />
+          <component
+            :is="Component"
+            :key="$route.params.id"
+            @goToAccountInfo="goToAccountInfo"
+          />
         </transition>
       </router-view>
     </div>
@@ -29,6 +33,11 @@ export default {
     return {
       loading: false,
     };
+  },
+  methods: {
+    goToAccountInfo(number) {
+      this.$refs.cardsContainer.goToAccountInfo(number);
+    },
   },
   computed: {
     contentVisible() {

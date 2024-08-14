@@ -1,5 +1,5 @@
 <template>
-  <div class="cards-container">
+  <div class="cards-container" :key="passCards">
     <div class="no-cards" v-if="noAccountsCheck && $props.small">
       <h2>No accounts yet</h2>
     </div>
@@ -75,7 +75,7 @@ export default {
           });
 
           return accounts.length < 2
-            ? accounts.concat(rest.slice(0, accounts.length))
+            ? accounts.concat(rest.slice(0, 2 - accounts.length))
             : accounts;
         } else {
           return this.getAccountsInfo;
@@ -112,6 +112,7 @@ export default {
   overflow-x: scroll;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
+  scroll-snap-align: start;
   .no-cards {
     opacity: 0.4;
     user-select: none;

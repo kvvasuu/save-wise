@@ -46,6 +46,7 @@
 
 <script>
 export default {
+  emits: ["goToAccountInfo"],
   data() {
     return {
       loading: false,
@@ -57,14 +58,21 @@ export default {
   methods: {
     addNewAccount() {
       this.loading = true;
+      let accountName = this.accountName.trim();
+      const accountsQuantity = this.$store.getters.getAccountsQuantity;
+      if (accountName === "") {
+        accountName = `Account ${accountsQuantity + 1}`;
+      }
       this.$store
         .dispatch("addNewAccount", {
-          accountName: this.accountName,
+          accountName: accountName,
           color: this.color,
           currency: this.currency,
         })
         .then(() => {
           this.$refs.notification.show();
+          this.$router.replace(`/app/accounts/${accountsQuantity}`);
+          this.$emit("goToAccountInfo", accountsQuantity);
         })
         .finally(() => {
           this.loading = false;

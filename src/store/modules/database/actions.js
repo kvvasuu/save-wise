@@ -94,7 +94,7 @@ export default {
   addNewAccount(context, payload) {
     const userId = context.getters.getUserId;
     const accountID = context.state.user.accounts.length;
-    const isFavorite = false;
+    let isFavorite = false;
     if (accountID >= 4) {
       return;
     }
@@ -109,6 +109,25 @@ export default {
       favorite: isFavorite,
     })
       .then(() => {
+        console.log("Values updated successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating values:", error);
+      });
+  },
+  setFavorite(context, payload) {
+    const updates = {};
+    const userId = context.getters.getUserId;
+
+    updates[`users/${userId}/accounts/${payload.id}/favorite`] =
+      payload.favorite;
+
+    update(ref(firebaseDatabase), updates)
+      .then(() => {
+        context.commit("setFavorite", {
+          id: payload.id,
+          favorite: payload.favorite,
+        });
         console.log("Values updated successfully");
       })
       .catch((error) => {
