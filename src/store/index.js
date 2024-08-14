@@ -1,11 +1,13 @@
 import { createStore } from "vuex";
 import { auth } from "./modules/auth/auth";
 import { database } from "./modules/database/database";
+import { notifications } from "./modules/notifications/notifications";
 
 const store = createStore({
   modules: {
     auth: auth,
     database: database,
+    notifications: notifications,
   },
   state() {
     return {
@@ -18,8 +20,8 @@ const store = createStore({
     },
   },
   mutations: {
-    setLoading(state, value) {
-      state.loading = value;
+    setLoading(state, payload) {
+      state.loading = payload;
     },
   },
 });

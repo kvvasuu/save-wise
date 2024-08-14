@@ -1,9 +1,5 @@
 <template>
   <div class="content">
-    <notification-container ref="notification">
-      <span>Saved</span>
-      <i class="fa-solid fa-check"></i>
-    </notification-container>
     <Transition name="fade">
       <modal-container
         v-if="imageModal"
@@ -31,7 +27,7 @@
               ref="fileInput"
             />
           </label>
-          <label v-else @click="discardImage" class="discard"
+          <label v-else @click="discardImage" class="red"
             >Discard<i class="fa-regular fa-trash-can"></i
           ></label>
 
@@ -154,14 +150,13 @@ export default {
   },
   methods: {
     saveUserInformation() {
-      this.$store
-        .dispatch("setProfileInformation", {
-          firstname: this.firstName,
-          lastname: this.lastName,
-          city: this.city,
-          country: this.country,
-        })
-        .then(() => this.$refs.notification.show());
+      this.$store.dispatch("setProfileInformation", {
+        firstname: this.firstName,
+        lastname: this.lastName,
+        city: this.city,
+        country: this.country,
+      });
+      this.isFormValid = false;
     },
     validateUserInformation() {
       const user = this.$store.getters.getUserDatabase;
@@ -180,7 +175,6 @@ export default {
         this.$store
           .dispatch("setPhotoURL", { file: this.imageFile })
           .then(() => {
-            this.$refs.notification.show();
             this.imageModal = false;
             this.imageFile = null;
             this.imageFileUrl = null;
@@ -340,6 +334,10 @@ export default {
         &:focus {
           outline: 2px solid $primary-color;
         }
+        &:disabled {
+          cursor: default;
+          filter: grayscale(1);
+        }
       }
       .select {
         appearance: none;
@@ -415,9 +413,7 @@ export default {
       border: none;
       outline: none;
       text-align: center;
-      background: linear-gradient(130deg, $color-green 0%, $color-green 70%);
-      background-position: 0 0;
-      background-size: 30rem 3rem;
+      background-color: $color-green;
       color: $details-color;
       border-radius: 0.8rem;
       font-family: Montserrat;
@@ -426,9 +422,6 @@ export default {
       box-shadow: 0.07rem 0.15rem 0.3rem rgba(0, 0, 0, 0.2);
       cursor: pointer;
       transition: all 0.3s ease-out;
-      &.discard {
-        background: $color-red;
-      }
       i {
         margin: 0 0 0 0.6rem;
       }

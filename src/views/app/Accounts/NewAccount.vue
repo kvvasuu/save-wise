@@ -203,12 +203,6 @@ export default {
       margin: 0.4rem 0 0 1rem;
       padding: 0.7rem;
       width: 8rem;
-      &.green {
-        background: $color-green;
-      }
-      &.red {
-        background: $color-red;
-      }
     }
   }
 }

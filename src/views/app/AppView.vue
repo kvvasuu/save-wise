@@ -7,6 +7,9 @@
       ></Sidebar>
     </div>
     <div class="center" id="center" :class="{ 'show-sidebar': sidebarVisible }">
+      <notification-container>
+        <span>{{ notificationMessage }}</span>
+      </notification-container>
       <div class="navbar">
         <div class="menu-button" @click="showSidebar">
           <i class="fa-solid fa-bars"></i>

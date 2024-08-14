@@ -1,9 +1,20 @@
 <template>
   <div class="account-info">
-    <notification-container ref="notification">
-      <span>Saved</span>
-      <i class="fa-solid fa-check"></i>
-    </notification-container>
+    <Teleport to="#center">
+      <Transition name="fade">
+        <confirm-container
+          v-if="confirmContainer"
+          @confirm="deleteAccount"
+          @cancel="confirmContainer = false"
+        >
+          <template #title> Are you sure? </template>
+          <h4>
+            All account data will be deleted.<br />
+            This cannot be undone.
+          </h4>
+        </confirm-container>
+      </Transition>
+    </Teleport>
     <div class="title">
       <input
         type="text"
@@ -17,6 +28,7 @@
         :class="{ selected: account.favorite }"
         v-if="account.favorite || setFavoritePossible"
         @click="setFavorite"
+        title="Favorite"
       ></i>
     </div>
     <div class="form">
@@ -58,10 +70,18 @@
         <basic-button @click="editAccountInfo">Edit</basic-button>
       </div>
       <div class="buttons" v-else>
-        <basic-button @click="discardAccountInfo" class="red"
-          >Discard</basic-button
-        >
-        <basic-button @click="saveAccountInfo" class="green">Save</basic-button>
+        <div class="edit-buttons">
+          <basic-button @click="discardAccountInfo">Discard</basic-button>
+          <basic-button @click="saveAccountInfo" class="green"
+            >Save</basic-button
+          >
+        </div>
+
+        <div class="delete-button">
+          <basic-button @click="showConfirmModal" class="red"
+            >Delete account</basic-button
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -77,6 +97,7 @@ export default {
       accountName: "",
       color: "",
       isEditable: false,
+      confirmContainer: false,
     };
   },
   computed: {
@@ -131,6 +152,14 @@ export default {
             this.$route.params.id
           );
         });
+    },
+    showConfirmModal() {
+      this.confirmContainer = true;
+    },
+    deleteAccount() {
+      this.confirmContainer = false;
+      this.isEditable = false;
+      this.$router.replace(`/app/accounts`);
     },
   },
   created() {
@@ -312,16 +341,14 @@ export default {
     }
   }
   .buttons {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    width: 100%;
     button {
       margin: 0.4rem 0 0 1rem;
       padding: 0.7rem;
       width: 8rem;
-      &.green {
-        background: $color-green;
-      }
-      &.red {
-        background: $color-red;
-      }
     }
   }
 }

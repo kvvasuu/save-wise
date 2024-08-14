@@ -23,6 +23,8 @@ export default {
         },
       ],
       transactionHistory: {},
+    }).then(() => {
+      console.log("User created");
     });
   },
   getUserData(context, payload) {
@@ -50,7 +52,10 @@ export default {
 
     update(ref(firebaseDatabase), updates)
       .then(() => {
-        console.log("Values updated successfully");
+        console.log("Profile information updated");
+        context.dispatch("showNotification", {
+          message: "Profile information updated",
+        });
       })
       .catch((error) => {
         console.error("Error updating values:", error);
@@ -66,7 +71,10 @@ export default {
 
     update(ref(firebaseDatabase), updates)
       .then(() => {
-        console.log("Values updated successfully");
+        console.log("Profile preferences updated");
+        context.dispatch("showNotification", {
+          message: "Profile preferences updated",
+        });
       })
       .catch((error) => {
         console.error("Error updating values:", error);
@@ -85,7 +93,10 @@ export default {
 
     update(ref(firebaseDatabase), updates)
       .then(() => {
-        console.log("Values updated successfully");
+        console.log("Account information updated");
+        context.dispatch("showNotification", {
+          message: "Account information updated",
+        });
       })
       .catch((error) => {
         console.error("Error updating values:", error);
@@ -109,10 +120,27 @@ export default {
       favorite: isFavorite,
     })
       .then(() => {
-        console.log("Values updated successfully");
+        console.log("Added new account");
+        context.dispatch("showNotification", {
+          message: "Added new account",
+        });
       })
       .catch((error) => {
         console.error("Error updating values:", error);
+      });
+  },
+  deleteAccount(context, payload) {
+    const userId = context.getters.getUserId;
+
+    remove(ref(firebaseDatabase, `users/${userId}/accounts/${payload.id}`))
+      .then(() => {
+        console.log(`Account deleted successfully`);
+        context.dispatch("showNotification", {
+          message: "Account deleted successfully",
+        });
+      })
+      .catch((error) => {
+        console.error("Error deleting account:", error);
       });
   },
   setFavorite(context, payload) {
@@ -128,10 +156,13 @@ export default {
           id: payload.id,
           favorite: payload.favorite,
         });
-        console.log("Values updated successfully");
+        console.log(`Account ${payload.id} set as favorite`);
+        context.dispatch("showNotification", {
+          message: `Account ${payload.id} set as favorite`,
+        });
       })
       .catch((error) => {
-        console.error("Error updating values:", error);
+        console.error("Error setting account favorite:", error);
       });
   },
 };
