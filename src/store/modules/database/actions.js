@@ -1,5 +1,5 @@
 import { firebaseDatabase } from "../../firebase";
-import { ref, set, onValue, update } from "firebase/database";
+import { ref, set, onValue, update, remove } from "firebase/database";
 
 export default {
   setInitialUserData(context, payload) {

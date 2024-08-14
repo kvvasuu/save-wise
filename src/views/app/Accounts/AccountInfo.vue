@@ -159,6 +159,9 @@ export default {
     deleteAccount() {
       this.confirmContainer = false;
       this.isEditable = false;
+      this.$store.dispatch("deleteAccount", {
+        id: this.$route.params.id,
+      });
       this.$router.replace(`/app/accounts`);
     },
   },
