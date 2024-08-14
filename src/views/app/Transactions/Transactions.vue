@@ -109,7 +109,7 @@ export default {
       }
     },
     getTransactions() {
-      const array = this.$store.getters.getTransactions;
+      const array = Object.values(this.$store.getters.getTransactions);
 
       if (!this.incomeOnly && !this.expenseOnly) {
         this.transactionList = array;

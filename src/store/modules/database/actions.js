@@ -132,14 +132,14 @@ export default {
       return;
     }
 
-    accountID >= 2 ? (isFavorite = false) : (isFavorite = true);
+    /* accountID >= 2 ? (isFavorite = false) : (isFavorite = true); */
 
     set(ref(firebaseDatabase, `users/${userId}/accounts/${accountID}`), {
       accountName: payload.accountName,
       currency: payload.currency,
       balance: 0,
       color: payload.color,
-      favorite: isFavorite,
+      favorite: false,
     })
       .then(() => {
         console.log("Added new account");
