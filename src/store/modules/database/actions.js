@@ -1,5 +1,15 @@
 import { firebaseDatabase } from "../../firebase";
-import { ref, set, onValue, update, remove } from "firebase/database";
+import {
+  ref,
+  set,
+  get,
+  onValue,
+  update,
+  remove,
+  query,
+  orderByChild,
+  equalTo,
+} from "firebase/database";
 
 export default {
   setInitialUserData(context, payload) {
@@ -147,8 +157,35 @@ export default {
   },
   deleteAccount(context, payload) {
     const userId = context.getters.getUserId;
+    const accountId = Number(payload.id);
+    const transactionsQuery = query(
+      ref(firebaseDatabase, `users/${userId}/transactions`),
+      orderByChild("accountId"),
+      equalTo(accountId)
+    );
 
-    remove(ref(firebaseDatabase, `users/${userId}/accounts/${payload.id}`))
+    get(transactionsQuery)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const numberOfTransactions = Object.keys(snapshot.val()).length;
+          snapshot.forEach((childSnapshot) => {
+            remove(
+              ref(
+                firebaseDatabase,
+                `users/${userId}/transactions/${childSnapshot.key}`
+              )
+            );
+          });
+          console.log(`${numberOfTransactions} transactions deleted`);
+        } else {
+          console.log("No transactions to delete");
+        }
+      })
+      .catch((error) => {
+        console.error("Error while deleting transactions:", error);
+      });
+
+    remove(ref(firebaseDatabase, `users/${userId}/accounts/${accountId}`))
       .then(() => {
         console.log(`Account deleted successfully`);
         context.dispatch("showNotification", {

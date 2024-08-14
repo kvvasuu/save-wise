@@ -1,9 +1,5 @@
 <template>
   <div class="account-info">
-    <notification-container ref="notification">
-      <span>Saved</span>
-      <i class="fa-solid fa-check"></i>
-    </notification-container>
     <div class="title">
       <input
         type="text"
@@ -70,7 +66,6 @@ export default {
           currency: this.currency,
         })
         .then(() => {
-          this.$refs.notification.show();
           this.$router.replace(`/app/accounts/${accountsQuantity}`);
           this.$emit("goToAccountInfo", accountsQuantity);
         })

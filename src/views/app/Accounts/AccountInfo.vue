@@ -116,7 +116,6 @@ export default {
           id: this.$route.params.id,
         })
         .then(() => {
-          this.$refs.notification.show();
           this.accountName = this.account.accountName;
           this.currency = this.account.currency;
           this.color = this.account.color;
