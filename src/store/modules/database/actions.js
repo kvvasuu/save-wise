@@ -127,12 +127,9 @@ export default {
   addNewAccount(context, payload) {
     const userId = context.getters.getUserId;
     const accountID = context.state.user.accounts.length;
-    let isFavorite = false;
     if (accountID >= 4) {
       return;
     }
-
-    /* accountID >= 2 ? (isFavorite = false) : (isFavorite = true); */
 
     set(ref(firebaseDatabase, `users/${userId}/accounts/${accountID}`), {
       accountName: payload.accountName,
