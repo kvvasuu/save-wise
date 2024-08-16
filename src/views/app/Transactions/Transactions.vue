@@ -118,7 +118,7 @@ export default {
     getTransactions() {
       const array = Object.values(this.$store.getters.getTransactions).sort(
         (a, b) => {
-          return new Date(b.date) - new Date(a.date);
+          return new Date(b.transactionDate) - new Date(a.transactionDate);
         }
       );
 
