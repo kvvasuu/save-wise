@@ -18,6 +18,12 @@
           ><div class="list-item-inner">Expense</div></a
         >
       </ul>
+      <div class="group">
+        <select v-model="sort" class="select" @change="getTransactions">
+          <option value="recent">Recent</option>
+          <option value="latest">Latest</option>
+        </select>
+      </div>
     </div>
 
     <div class="transaction-list">
@@ -81,6 +87,7 @@ export default {
       transactionList: [],
       currentPage: 1,
       itemsPerPage: 10,
+      sort: "recent",
     };
   },
   methods: {
@@ -109,7 +116,15 @@ export default {
       }
     },
     getTransactions() {
-      const array = Object.values(this.$store.getters.getTransactions);
+      const array = Object.values(this.$store.getters.getTransactions).sort(
+        (a, b) => {
+          return new Date(b.date) - new Date(a.date);
+        }
+      );
+
+      if (this.sort === "latest") {
+        array.reverse();
+      }
 
       if (!this.incomeOnly && !this.expenseOnly) {
         this.transactionList = array;
@@ -175,6 +190,9 @@ main {
 }
 
 .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 3rem;
   width: 100%;
   border-bottom: $border;
@@ -341,6 +359,44 @@ main {
       font-size: 0.7rem;
       padding: 0.8rem 0 0.6rem 0;
       color: rgb(199, 199, 199);
+    }
+  }
+}
+
+.group {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: $font-color-dark;
+  margin: 0 0 0.2rem 0;
+  .select {
+    appearance: none;
+    outline: 0;
+    color: #828a9e;
+    width: 7rem;
+    height: 1.8rem;
+    padding-left: 1rem;
+    background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
+        no-repeat right 0.5rem center / 1rem,
+      linear-gradient(to left, $primary-color 2rem, $background-color-blue 2rem);
+    border: none;
+    border-right: 1px solid $primary-color;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    &::-ms-expand {
+      display: none;
+    }
+    &:focus {
+      border: 1px solid $primary-color;
+    }
+    option {
+      color: inherit;
     }
   }
 }
