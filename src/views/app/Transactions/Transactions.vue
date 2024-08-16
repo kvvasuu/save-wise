@@ -19,7 +19,7 @@
         >
       </ul>
       <div class="group">
-        <select v-model="sort" class="select" @change="getTransactions">
+        <select v-model="sort" class="select">
           <option value="recent">Recent</option>
           <option value="latest">Latest</option>
         </select>
@@ -45,25 +45,29 @@
         ></transaction-item>
         <div class="pagination">
           <button
-            class="pagination-button left"
+            class="pagination-button"
             @click="goPreviousPage"
             :disabled="currentPage <= 1"
             :class="{ disabled: currentPage <= 1 }"
           >
             <i class="fa-solid fa-chevron-left"></i>
+            <span>Previous</span>
           </button>
-          <div class="page-number small">{{ previousPage }}</div>
-          <div class="page-number">
-            <b>{{ currentPage }}</b>
-          </div>
-          <div class="page-number small">{{ nextPage }}</div>
           <button
-            class="pagination-button right"
+            v-for="page in displayedPages"
+            class="pagination-button"
+            @click="currentPage = page"
+            :class="{ active: page === currentPage }"
+          >
+            {{ page }}
+          </button>
+          <button
+            class="pagination-button"
             @click="goNextPage"
             :disabled="currentPage >= totalPages"
             :class="{ disabled: currentPage >= totalPages }"
           >
-            <i class="fa-solid fa-chevron-right"></i>
+            <span>Next</span><i class="fa-solid fa-chevron-right"></i>
           </button>
         </div>
       </ul>
@@ -86,7 +90,7 @@ export default {
       expenseOnly: false,
       transactionList: [],
       currentPage: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 8,
       sort: "recent",
     };
   },
@@ -122,10 +126,6 @@ export default {
         }
       );
 
-      if (this.sort === "latest") {
-        array.reverse();
-      }
-
       if (!this.incomeOnly && !this.expenseOnly) {
         this.transactionList = array;
       } else if (this.incomeOnly && !this.expenseOnly) {
@@ -153,7 +153,9 @@ export default {
     paginatedTransactions() {
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      return this.transactionList.slice(start, end);
+      return this.sort === "latest"
+        ? [...this.transactionList].reverse().slice(start, end)
+        : this.transactionList.slice(start, end);
     },
     previousPage() {
       return this.currentPage - 1 === 0 ? "" : this.currentPage - 1;
@@ -163,6 +165,24 @@ export default {
     },
     totalPages() {
       return Math.ceil(this.transactionList.length / this.itemsPerPage);
+    },
+    displayedPages() {
+      const totalDisplayed = 5;
+      let startPage = Math.max(this.currentPage - 2, 1);
+      let endPage = Math.min(this.currentPage + 2, this.totalPages);
+
+      if (this.currentPage <= 3) {
+        endPage = Math.min(startPage + totalDisplayed - 1, this.totalPages);
+      }
+
+      if (this.currentPage >= this.totalPages - 2) {
+        startPage = Math.max(endPage - totalDisplayed + 1, 1);
+      }
+
+      return Array.from(
+        { length: endPage - startPage + 1 },
+        (x, i) => startPage + i
+      );
     },
   },
   created() {
@@ -315,50 +335,32 @@ main {
   padding: 0 0.6rem;
   box-sizing: border-box;
   .pagination-button {
-    padding: 0.8rem 1rem;
+    padding: 0.76rem 1rem;
     margin: 0;
     border: none;
     outline: none;
-    background-color: $primary-color;
-    color: $details-color;
-    border-radius: 0;
+    background-color: transparent;
+    color: $primary-color;
+    border-radius: 0.8rem;
     cursor: pointer;
-    transition: all 0.3s ease-out;
-
-    &:hover {
-      background-color: $primary-color-dark;
+    font-family: Montserrat;
+    font-weight: 600;
+    &.active {
+      background-color: $primary-color;
+      color: $details-color;
+      cursor: default;
+    }
+    &:hover:not(.disabled) {
+      background-color: $primary-color;
+      color: $details-color;
     }
     &.disabled {
       opacity: 0.9;
       cursor: default;
-      background: rgb(230, 230, 230);
       color: rgb(126, 126, 126);
     }
-    &.left {
-      border-top-left-radius: 0.4rem;
-      border-bottom-left-radius: 0.4rem;
-    }
-    &.right {
-      border-top-right-radius: 0.4rem;
-      border-bottom-right-radius: 0.4rem;
-    }
-  }
-  .page-number {
-    width: 1rem;
-    padding: 0.7rem 0;
-    text-align: center;
-    box-sizing: border-box;
-    margin: 0;
-    border: none;
-    outline: none;
-    border-radius: 0;
-    font-family: Montserrat;
-    font-weight: 400;
-    color: rgb(126, 126, 126);
-    &.small {
-      font-size: 0.7rem;
-      padding: 0.8rem 0 0.6rem 0;
-      color: rgb(199, 199, 199);
+    i {
+      margin: 0 0.3rem;
     }
   }
 }
@@ -384,7 +386,7 @@ main {
     padding-left: 1rem;
     background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
         no-repeat right 0.5rem center / 1rem,
-      linear-gradient(to left, $primary-color 2rem, $background-color-blue 2rem);
+      linear-gradient(to left, $primary-color 2rem, $background-color-dark 2rem);
     border: none;
     border-right: 1px solid $primary-color;
     border-radius: 0.6rem;
