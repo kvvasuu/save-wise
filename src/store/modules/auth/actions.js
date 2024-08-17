@@ -58,8 +58,14 @@ export default {
     });
   },
   async logout(context, payload) {
-    signOut(firebaseAuth).catch((error) => {
-      console.log(error);
+    return new Promise((resolve) => {
+      signOut(firebaseAuth)
+        .then(() => {
+          resolve();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
   },
   async passwordReset(context, payload) {
@@ -98,7 +104,6 @@ export default {
         });
         context.commit("setPhotoUrl", { photoURL: "" });
         context.commit("setRememberMe", false);
-        router.replace("/");
         context.commit("setLoading", false);
       }
     });

@@ -353,7 +353,8 @@ export default {
           filter: grayscale(1);
         }
       }
-      .select {
+      .select,
+      .select:is(:-webkit-autofill, :autofill) {
         appearance: none;
         outline: 0;
         font-size: 0.9rem;

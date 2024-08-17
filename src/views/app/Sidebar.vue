@@ -73,7 +73,9 @@ export default {
   props: ["sidebarVisible"],
   methods: {
     logout() {
-      this.$store.dispatch("logout");
+      this.$store.dispatch("logout").finally(() => {
+        this.$router.replace("/");
+      });
     },
     hideSidebar() {
       this.$emit("hideSidebar");
