@@ -9,7 +9,7 @@ import avatar from "../../assets/images/avatar-placeholder.png";
 export default {
   computed: {
     passPhotoUrl() {
-      return this.$store.getters.getPhotoUrl ?? avatar;
+      return this.$store.getters.getPhotoUrl || avatar;
     },
   },
 };

@@ -8,7 +8,12 @@ import {
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import router from "../../../router";
 
 export default {
@@ -125,6 +130,41 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          reject();
+        });
+    });
+  },
+  deleteProfileImage(context, payload) {
+    const storageRef = ref(storage, `images/${context.getters.getUserId}`);
+
+    return new Promise((resolve, reject) => {
+      deleteObject(storageRef)
+        .then(() => {
+          updateProfile(firebaseAuth.currentUser, {
+            photoURL: "",
+          })
+            .then(() => {
+              context.commit("setPhotoUrl", { photoURL: "" });
+              context.dispatch("showNotification", {
+                message: "Image set to default",
+              });
+              resolve();
+            })
+            .catch((error) => {
+              console.log(error);
+              context.dispatch("showNotification", {
+                message: "Error",
+                type: false,
+              });
+              reject();
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          context.dispatch("showNotification", {
+            message: "Error",
+            type: false,
+          });
           reject();
         });
     });

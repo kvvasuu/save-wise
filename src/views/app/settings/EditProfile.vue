@@ -11,6 +11,12 @@
           <div class="avatar">
             <img :src="passPhotoUrl" alt="" draggable="false" />
           </div>
+          <button
+            @click="setProfileImageToDefault"
+            v-if="!isFileProvided && checkIfImageIsDefault"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
         <span class="input-error" v-if="showImageError"
           >Something went wrong. Try again.</span
@@ -189,6 +195,18 @@ export default {
         this.showImageError = true;
       }
     },
+    setProfileImageToDefault() {
+      this.loading = false;
+      this.$store
+        .dispatch("deleteProfileImage")
+        .then(() => {
+          this.imageFile = null;
+          this.imageFileUrl = null;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     toggleImageModal() {
       this.imageModal = !this.imageModal;
       this.imageFile = null;
@@ -221,7 +239,10 @@ export default {
     passPhotoUrl() {
       return !!this.imageFileUrl
         ? this.imageFileUrl
-        : this.$store.getters.getPhotoUrl ?? avatar;
+        : this.$store.getters.getPhotoUrl || avatar;
+    },
+    checkIfImageIsDefault() {
+      return !!this.$store.getters.getPhotoUrl;
     },
   },
   mounted() {
@@ -262,8 +283,8 @@ export default {
         position: absolute;
         bottom: 0.5rem;
         right: 0.5rem;
-        height: 2.6rem;
-        width: 2.6rem;
+        height: 2.8rem;
+        width: 2.8rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -273,20 +294,13 @@ export default {
         cursor: pointer;
         padding: 0.6rem;
         box-sizing: border-box;
-        background: linear-gradient(
-          130deg,
-          $primary-color 0%,
-          $primary-color-dark 70%
-        );
-        background-position: 0 0;
-        background-size: 30rem 3rem;
         transition: all 0.3s ease-out;
         i {
           font-size: 1rem;
           color: $background-color;
         }
         &:hover {
-          background-position: 50% 50%;
+          background-color: $primary-color-dark;
           transform: scale(1.04);
         }
       }
@@ -391,6 +405,7 @@ export default {
       width: 16rem;
       height: 16rem;
       margin: 1rem 0 2.4rem 0;
+      position: relative;
       .avatar {
         border-radius: 10rem;
         width: 100%;
@@ -403,6 +418,32 @@ export default {
         img {
           height: 100%;
           object-fit: cover;
+        }
+      }
+      button {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        height: 2.6rem;
+        width: 2.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary-color;
+        border-radius: 2rem;
+        border: none;
+        cursor: pointer;
+        padding: 0.6rem;
+        box-sizing: border-box;
+        background-color: $color-red;
+        transition: all 0.3s ease-out;
+        i {
+          font-size: 1rem;
+          color: $background-color;
+        }
+        &:hover {
+          background-color: $color-red-dark;
+          transform: scale(1.04);
         }
       }
     }
@@ -422,8 +463,17 @@ export default {
       box-shadow: 0.07rem 0.15rem 0.3rem rgba(0, 0, 0, 0.2);
       cursor: pointer;
       transition: all 0.3s ease-out;
+      &:hover {
+        background-color: $color-green-dark;
+      }
       i {
         margin: 0 0 0 0.6rem;
+      }
+      &.red {
+        background-color: $color-red;
+        &:hover {
+          background-color: $color-red-dark;
+        }
       }
     }
     input {

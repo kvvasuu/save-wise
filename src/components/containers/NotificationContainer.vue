@@ -50,6 +50,7 @@ export default {
     font-family: Montserrat;
     font-weight: 600;
     color: $primary-color;
+    z-index: 99;
     i {
       margin: 0.6rem 0 0 0;
       font-size: 1.2rem;
