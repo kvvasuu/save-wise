@@ -20,6 +20,7 @@ export default {
       return this.$store.getters.getNotificationState.message;
     },
     type() {
+      console.log(this.$store.getters.getNotificationState.type);
       return this.$store.getters.getNotificationState.type;
     },
   },
@@ -39,7 +40,7 @@ export default {
     width: fit-content;
     background-color: $background-color;
     border: $border;
-    border-radius: 10rem;
+    border-radius: 1.6rem;
     display: flex;
     flex-direction: column;
     align-items: center;

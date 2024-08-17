@@ -107,34 +107,32 @@ export default {
     const storageRef = ref(storage, `images/${context.getters.getUserId}`);
     return new Promise((resolve, reject) => {
       uploadBytes(storageRef, payload.file)
-        .then((snapshot) => {
-          console.log("Uploaded a blob or file!");
-          getDownloadURL(storageRef)
-            .then((url) => {
-              updateProfile(firebaseAuth.currentUser, {
-                photoURL: url,
-              })
-                .then(() => {
-                  context.commit("setPhotoUrl", { photoURL: url });
-                  resolve();
-                })
-                .catch((error) => {
-                  console.log(error);
-                  reject();
-                });
-            })
-            .catch((error) => {
-              console.log(error);
-              reject();
+        .then(() => {
+          getDownloadURL(storageRef).then((url) => {
+            updateProfile(firebaseAuth.currentUser, {
+              photoURL: url,
+            }).then(() => {
+              console.log("Uploaded image!");
+              context.commit("setPhotoUrl", { photoURL: url });
+              context.dispatch("showNotification", {
+                message: "Image updated!",
+                type: false,
+              });
+              resolve();
             });
+          });
         })
         .catch((error) => {
           console.log(error);
+          context.dispatch("showNotification", {
+            message: "Something went wrong",
+            type: false,
+          });
           reject();
         });
     });
   },
-  deleteProfileImage(context, payload) {
+  deleteProfileImage(context) {
     const storageRef = ref(storage, `images/${context.getters.getUserId}`);
 
     return new Promise((resolve, reject) => {
@@ -142,27 +140,18 @@ export default {
         .then(() => {
           updateProfile(firebaseAuth.currentUser, {
             photoURL: "",
-          })
-            .then(() => {
-              context.commit("setPhotoUrl", { photoURL: "" });
-              context.dispatch("showNotification", {
-                message: "Image set to default",
-              });
-              resolve();
-            })
-            .catch((error) => {
-              console.log(error);
-              context.dispatch("showNotification", {
-                message: "Error",
-                type: false,
-              });
-              reject();
+          }).then(() => {
+            context.commit("setPhotoUrl", { photoURL: "" });
+            context.dispatch("showNotification", {
+              message: "Image set to default",
             });
+            resolve();
+          });
         })
         .catch((error) => {
           console.log(error);
           context.dispatch("showNotification", {
-            message: "Error",
+            message: "Something went wrong",
             type: false,
           });
           reject();
