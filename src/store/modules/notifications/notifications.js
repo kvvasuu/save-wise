@@ -19,7 +19,7 @@ const notifications = {
     showNotification(state, payload) {
       state.visible = true;
       state.notificationMessage = payload.message;
-      state.notificationType = payload.type ?? true;
+      state.notificationType = payload.type || true;
     },
     hideNotification(state) {
       state.visible = false;

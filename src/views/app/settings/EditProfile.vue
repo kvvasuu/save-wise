@@ -13,7 +13,7 @@
           </div>
           <button
             @click="setProfileImageToDefault"
-            v-if="!isFileProvided && checkIfImageIsDefault"
+            v-if="!isFileProvided && checkIfImageIsDefault && !loading"
           >
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -22,7 +22,7 @@
           >Something went wrong. Try again.</span
         >
         <span id="filename">{{ fileName }}</span>
-        <div v-if="!loading">
+        <div class="other" v-if="!loading">
           <label for="profilePicInput" v-if="!isFileProvided">
             Choose file<i class="fa-solid fa-file"></i>
             <input
@@ -43,7 +43,7 @@
             >
           </div>
         </div>
-        <basic-spinner v-else></basic-spinner>
+        <div class="other" v-else><basic-spinner></basic-spinner></div>
       </modal-container>
     </Transition>
     <div class="picture">
@@ -196,7 +196,7 @@ export default {
       }
     },
     setProfileImageToDefault() {
-      this.loading = false;
+      this.loading = true;
       this.$store
         .dispatch("deleteProfileImage")
         .then(() => {
@@ -393,11 +393,12 @@ export default {
     justify-content: center;
   }
   .modal-container {
-    div {
+    .other {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      min-height: 11rem;
       #filename {
         height: 1rem;
       }

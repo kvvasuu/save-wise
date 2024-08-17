@@ -15,7 +15,7 @@
         <a
           :class="{ active: !incomeOnly && expenseOnly }"
           @click="changePage('expense')"
-          ><div class="list-item-inner">Expense</div></a
+          ><div class="list-item-inner">Expenses</div></a
         >
       </ul>
       <div class="group">
@@ -120,13 +120,12 @@ export default {
       }
     },
     getTransactions() {
-      const array = Object.values(this.$store.getters.getTransactions).sort(
-        (a, b) => {
-          return new Date(b.transactionDate) - new Date(a.transactionDate);
-        }
-      );
-
-      if (!this.incomeOnly && !this.expenseOnly) {
+      this.transactionList = Object.values(
+        this.$store.getters.getTransactions
+      ).sort((a, b) => {
+        return new Date(b.transactionDate) - new Date(a.transactionDate);
+      });
+      /* if (!this.incomeOnly && !this.expenseOnly) {
         this.transactionList = array;
       } else if (this.incomeOnly && !this.expenseOnly) {
         this.transactionList = array.filter(
@@ -136,7 +135,7 @@ export default {
         this.transactionList = array.filter(
           (el) => el.transactionType === "expense"
         );
-      }
+      } */
     },
     goPreviousPage() {
       if (this.currentPage > 1) {
@@ -150,12 +149,25 @@ export default {
     },
   },
   computed: {
+    displayTransactions() {
+      if (!this.incomeOnly && !this.expenseOnly) {
+        return this.transactionList;
+      } else if (this.incomeOnly && !this.expenseOnly) {
+        return this.transactionList.filter(
+          (el) => el.transactionType === "income"
+        );
+      } else if (!this.incomeOnly && this.expenseOnly) {
+        return this.transactionList.filter(
+          (el) => el.transactionType === "expense"
+        );
+      }
+    },
     paginatedTransactions() {
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
       return this.sort === "latest"
-        ? [...this.transactionList].reverse().slice(start, end)
-        : this.transactionList.slice(start, end);
+        ? [...this.displayTransactions].reverse().slice(start, end)
+        : this.displayTransactions.slice(start, end);
     },
     previousPage() {
       return this.currentPage - 1 === 0 ? "" : this.currentPage - 1;
@@ -164,7 +176,7 @@ export default {
       return this.currentPage + 1 > this.totalPages ? "" : this.currentPage + 1;
     },
     totalPages() {
-      return Math.ceil(this.transactionList.length / this.itemsPerPage);
+      return Math.ceil(this.displayTransactions.length / this.itemsPerPage);
     },
     displayedPages() {
       const totalDisplayed = 5;
