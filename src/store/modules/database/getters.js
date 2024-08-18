@@ -19,15 +19,32 @@ export default {
   getAccountsQuantity(state, getters) {
     return getters.getAccountsInfo.length;
   },
-  getSingleAccountInfo: (state) => (id) => {
+  getSingleAccountInfo: (state) => (index) => {
     if (!!state.user && "accounts" in state.user) {
-      return state.user.accounts[id];
+      return state.user.accounts[index];
+    }
+  },
+  getAccountIndex: (state) => (id) => {
+    if (!!state.user && "accounts" in state.user) {
+      return state.user.accounts.findIndex((el) => {
+        return el.accountId === id;
+      });
     }
   },
   getTransactions(state) {
     if (!!state.user && "transactions" in state.user) {
       return state.user.transactions;
     } else return {};
+  },
+  getRecentTransactions(state, getters) {
+    if (!!state.user && "transactions" in state.user) {
+      const transactionList = Object.values(getters.getTransactions).sort(
+        (a, b) => {
+          return new Date(b.transactionDate) - new Date(a.transactionDate);
+        }
+      );
+      return transactionList.slice(0, 3);
+    } else return [];
   },
   getFavoriteAccountsQuantity(state) {
     if (!!state.user && "accounts" in state.user) {

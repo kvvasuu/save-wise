@@ -9,15 +9,23 @@
 
       <cards-container :small="true"></cards-container>
     </div>
+    <div class="recent-transactions">
+      <div class="title">
+        <h3>Recent transactions</h3>
+      </div>
+      <recent-transactions></recent-transactions>
+    </div>
   </main>
 </template>
 
 <script>
 import CardsContainer from "@/components/containers/CardsContainer.vue";
+import RecentTransactions from "@/components/containers/RecentTransactions.vue";
 
 export default {
   components: {
     CardsContainer,
+    RecentTransactions,
   },
   data() {
     return {
@@ -45,25 +53,36 @@ main {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0 2rem;
   padding: 0;
   margin: 0;
 }
+
+.title {
+  height: 3rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  h4 {
+    cursor: pointer;
+  }
+}
 .accounts {
   width: 45rem;
+  height: 21rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  .title {
-    height: 4rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-    h4 {
-      cursor: pointer;
-    }
-  }
+}
+
+.recent-transactions {
+  height: 21rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 @media (max-width: 1000px) {
   .accounts {

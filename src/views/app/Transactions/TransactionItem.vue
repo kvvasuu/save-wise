@@ -16,26 +16,56 @@
         {{ transaction.name }}
       </div>
       <div class="type text">
-        {{ displayTransactionType(transaction.transactionType) }}
+        {{ displayTransactionType }}
       </div>
       <div class="account text">
-        {{ displayAccountName(transaction.accountId) }}
+        {{ displayAccountName }}
       </div>
       <div
         class="amount text"
         :class="{ expense: transaction.transactionType === 'expense' }"
       >
-        {{
-          displayAmount(
-            transaction.amount,
-            transaction.transactionType,
-            transaction.accountId
-          )
-        }}
+        {{ displayAmount }}
       </div>
     </div>
     <Transition name="transaction-slide">
-      <div class="transaction-expanded" v-if="isExpanded"></div>
+      <div class="transaction-expanded" v-if="isExpanded">
+        <div class="column left">
+          <div class="group">
+            <div class="label">Title</div>
+            <div class="content">{{ transaction.name }}</div>
+          </div>
+          <div class="group">
+            <div class="label">Amount</div>
+            <div
+              class="content amount-expanded"
+              :class="{ expense: transaction.transactionType === 'expense' }"
+            >
+              {{ displayAmount }}
+            </div>
+          </div>
+          <div class="group">
+            <div class="label">Balance after operation</div>
+            <div class="content">{{ displayBalance }}</div>
+          </div>
+        </div>
+        <div class="column right">
+          <div class="group">
+            <div class="label">Account</div>
+            <div class="content">{{ displayAccountName }}</div>
+          </div>
+          <div class="group">
+            <div class="label">Type</div>
+            <div class="content">
+              {{ displayTransactionType }}
+            </div>
+          </div>
+          <div class="group">
+            <div class="label">Date</div>
+            <div class="content">{{ displayDate }}</div>
+          </div>
+        </div>
+      </div>
     </Transition>
   </div>
 </template>
@@ -51,30 +81,49 @@ export default {
     };
   },
   methods: {
-    displayTransactionType(type) {
-      return type === "income" ? "Income" : "Expense";
-    },
-    displayAccountName(id) {
-      return this.$store.getters.getSingleAccountInfo(id).accountName;
-    },
-    displayDate(date) {
-      return new Date(date).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: false,
-      });
-    },
-    displayAmount(amount, type, id) {
-      const currency =
-        currencyMap[this.$store.getters.getSingleAccountInfo(id).currency];
-      return type === "expense"
-        ? `-${amount.toFixed(2)} ${currency}`
-        : `${amount.toFixed(2)} ${currency}`;
-    },
     expandListItem() {
       this.isExpanded = !this.isExpanded;
+    },
+  },
+  computed: {
+    displayAccountName() {
+      return this.$store.getters.getSingleAccountInfo(this.accountIndex)
+        .accountName;
+    },
+    accountIndex() {
+      return this.$store.getters.getAccountIndex(this.transaction.accountId);
+    },
+    displayTransactionType() {
+      return this.transaction.transactionType === "income"
+        ? "Income"
+        : "Expense";
+    },
+    displayDate() {
+      return new Date(this.transaction.transactionDate).toLocaleDateString(
+        "en-US",
+        {
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: false,
+        }
+      );
+    },
+    currency() {
+      return currencyMap[
+        this.$store.getters.getSingleAccountInfo(this.accountIndex).currency
+      ];
+    },
+    displayAmount() {
+      return this.transaction.transactionType === "expense"
+        ? `-${this.transaction.amount.toFixed(2)} ${this.currency}`
+        : `+${this.transaction.amount.toFixed(2)} ${this.currency}`;
+    },
+    displayBalance() {
+      return "balance" in this.transaction
+        ? `${this.transaction.balance.toFixed(2)} ${this.currency}`
+        : "-";
     },
   },
 };
@@ -114,7 +163,8 @@ export default {
   .transaction-expanded {
     box-shadow: inset 0 1rem 1rem -1rem rgba(111, 124, 161, 0.2);
     display: flex;
-    height: 10rem;
+    align-items: flex-start;
+    height: 14rem;
     width: 100%;
     background-color: $background-color-dark;
     box-sizing: border-box;
@@ -130,6 +180,51 @@ export default {
       top: -10px;
       left: 6rem;
       box-shadow: -0.1rem 0.1rem 0.9rem rgba(111, 124, 161, 0.2);
+    }
+    .column {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      top: 0;
+      width: 50%;
+      height: 14rem;
+      padding: 1rem 1.6rem;
+      box-sizing: border-box;
+      &.left {
+        left: 0;
+      }
+      &.right {
+        right: 0;
+      }
+      .group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        height: 30%;
+        width: 100%;
+        font-family: Montserrat;
+        text-align: left;
+        .label {
+          font-size: 0.8rem;
+          font-weight: 500;
+          color: $font-color-light;
+          margin: 0 0 0.4rem 0;
+        }
+        .content {
+          font-size: 1rem;
+          font-weight: 600;
+          color: $font-color-dark;
+          &.amount-expanded {
+            color: $color-green;
+            &.expense {
+              color: $color-red;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -154,14 +249,14 @@ export default {
   justify-content: flex-start;
   flex-direction: row;
   .icon {
-    width: 2rem;
-    height: 2rem;
+    width: 2.2rem;
+    height: 2.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 1rem 0 0;
     i {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       color: $color-green;
       &.expense {
         color: $color-red;
@@ -222,7 +317,7 @@ export default {
     height: 0;
   }
   100% {
-    height: 10rem;
+    height: 14rem;
   }
 }
 </style>

@@ -62,7 +62,7 @@ export default {
     rgba(70, 70, 70, 1) 81%,
     rgba(20, 20, 20, 1) 100%
   );
-  box-shadow: 0.2rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0.1rem 0.2rem 0.5rem rgba(54, 54, 54, 0.2);
   padding: 1rem;
   overflow: hidden;
   box-sizing: border-box;

@@ -56,7 +56,6 @@ export default {
       this.loading = true;
       let accountName = this.accountName.trim();
       const accountsQuantity = this.$store.getters.getAccountsQuantity;
-      console.log(accountsQuantity);
       if (accountName === "") {
         accountName = `Account ${accountsQuantity + 1}`;
       }

@@ -125,17 +125,6 @@ export default {
       ).sort((a, b) => {
         return new Date(b.transactionDate) - new Date(a.transactionDate);
       });
-      /* if (!this.incomeOnly && !this.expenseOnly) {
-        this.transactionList = array;
-      } else if (this.incomeOnly && !this.expenseOnly) {
-        this.transactionList = array.filter(
-          (el) => el.transactionType === "income"
-        );
-      } else if (!this.incomeOnly && this.expenseOnly) {
-        this.transactionList = array.filter(
-          (el) => el.transactionType === "expense"
-        );
-      } */
     },
     goPreviousPage() {
       if (this.currentPage > 1) {

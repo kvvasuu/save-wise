@@ -221,10 +221,10 @@ export default {
     const updates = {};
     const userId = context.getters.getUserId;
 
-    const accountName = context.getters.getSingleAccountInfo(payload.id);
-    let message = `${accountName.accountName} set as favorite`;
+    const account = context.getters.getSingleAccountInfo(payload.id);
+    let message = `${account.accountName} set as favorite`;
     if (!payload.favorite)
-      message = `${accountName.accountName} is removed from favorites`;
+      message = `${account.accountName} is removed from favorites`;
 
     updates[`users/${userId}/accounts/${payload.id}/favorite`] =
       payload.favorite;
