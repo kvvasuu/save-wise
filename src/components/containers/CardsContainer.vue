@@ -83,7 +83,7 @@ export default {
       }
     },
     newAccountPossible() {
-      return this.getAccountsInfo.length <= 3;
+      return this.$store.getters.getAccountsQuantity <= 3;
     },
     newAccountActive() {
       return this.$route.path === "/app/accounts/new_account";

@@ -10,9 +10,11 @@ import {
   orderByChild,
   equalTo,
 } from "firebase/database";
+import { generateTimestampID } from "@/assets/script";
 
 export default {
   setInitialUserData(context, payload) {
+    const accountId = generateTimestampID();
     set(ref(firebaseDatabase, "users/" + payload.userId), {
       firstname: "",
       lastname: "",
@@ -25,6 +27,7 @@ export default {
       },
       accounts: [
         {
+          accountId: accountId,
           accountName: "Main account",
           currency: "USD",
           balance: 0,
@@ -126,12 +129,14 @@ export default {
   },
   addNewAccount(context, payload) {
     const userId = context.getters.getUserId;
-    const accountID = context.state.user.accounts.length;
-    if (accountID >= 4) {
+    const accountIndex = (context.state.user.accounts || []).length;
+    const accountId = generateTimestampID();
+    if (accountIndex >= 4) {
       return;
     }
 
-    set(ref(firebaseDatabase, `users/${userId}/accounts/${accountID}`), {
+    set(ref(firebaseDatabase, `users/${userId}/accounts/${accountIndex}`), {
+      accountId: accountId,
       accountName: payload.accountName,
       currency: payload.currency,
       balance: 0,
@@ -182,15 +187,30 @@ export default {
         console.error("Error while deleting transactions:", error);
       });
 
-    remove(ref(firebaseDatabase, `users/${userId}/accounts/${accountId}`))
-      .then(() => {
-        console.log(`Account deleted successfully`);
-        context.dispatch("showNotification", {
-          message: "Account deleted successfully",
-        });
+    get(ref(firebaseDatabase, `users/${userId}/accounts`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const accounts = snapshot.val();
+
+          accounts.splice(accountId, 1);
+
+          let newArray = {};
+          accounts.forEach((item, index) => {
+            newArray[index] = item;
+          });
+
+          set(ref(firebaseDatabase, `users/${userId}/accounts`), newArray).then(
+            () => {
+              console.log(`Account deleted successfully`);
+              context.dispatch("showNotification", {
+                message: "Account deleted successfully",
+              });
+            }
+          );
+        }
       })
       .catch((error) => {
-        console.error("Error deleting account:", error);
+        console.error("Error while deleting account:", error);
         context.dispatch("showNotification", {
           message: "Something went wrong",
           type: false,

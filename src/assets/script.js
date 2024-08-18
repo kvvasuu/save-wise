@@ -13,4 +13,8 @@ const gradientMap = {
   blue: `linear-gradient(120deg, rgba(49,80,156,1) 0%, rgba(113,139,203,1) 10%, rgba(49,80,156,1) 57%, rgba(113,139,203,1) 81%, rgba(49,80,156,1) 100%)`,
 };
 
-export { currencyMap, gradientMap };
+const generateTimestampID = () => {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2, 5);
+};
+
+export { currencyMap, gradientMap, generateTimestampID };

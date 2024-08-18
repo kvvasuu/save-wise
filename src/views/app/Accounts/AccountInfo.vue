@@ -156,12 +156,17 @@ export default {
       this.confirmContainer = true;
     },
     deleteAccount() {
+      this.loading = true;
       this.confirmContainer = false;
       this.isEditable = false;
-      this.$store.dispatch("deleteAccount", {
-        id: this.$route.params.id,
-      });
-      this.$router.replace(`/app/accounts`);
+      this.$store
+        .dispatch("deleteAccount", {
+          id: this.$route.params.id,
+        })
+        .finally(() => {
+          this.loading = false;
+          this.$router.replace(`/app/accounts`);
+        });
     },
   },
   created() {

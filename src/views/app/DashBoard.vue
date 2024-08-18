@@ -4,7 +4,7 @@
     <div class="accounts" v-else>
       <div class="title">
         <h3>Accounts</h3>
-        <h4 @click="goToAccountInfo(0)">See all</h4>
+        <h4 @click="goToAccountInfo()">See all</h4>
       </div>
 
       <cards-container :small="true"></cards-container>
@@ -26,8 +26,8 @@ export default {
     };
   },
   methods: {
-    goToAccountInfo(number) {
-      this.$router.push("/app/accounts/" + number);
+    goToAccountInfo() {
+      this.$router.push("/app/accounts");
     },
   },
 };
