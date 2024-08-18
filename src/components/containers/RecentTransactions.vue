@@ -5,17 +5,32 @@
     </div>
     <ul v-else>
       <li v-for="transaction in transactions">
-        <div class="description">
-          <div class="icon">
+        <div class="icon">
+          <div
+            class="inner"
+            :class="{ expense: transaction.transactionType === 'expense' }"
+          >
             <i
               class="fa-solid fa-piggy-bank"
               v-if="transaction.transactionType === 'income'"
             ></i>
             <i class="fa-solid fa-money-check-dollar expense" v-else></i>
           </div>
-          {{ transaction.name }}
         </div>
-        <div class="amount"></div>
+        <div class="description">
+          <div class="info">
+            <div class="name">{{ transaction.name }}</div>
+            <div class="date">
+              {{ displayDate(transaction) }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="amount"
+          :class="{ expense: transaction.transactionType === 'expense' }"
+        >
+          {{ displayAmount(transaction) }}
+        </div>
       </li>
     </ul>
   </div>
@@ -25,68 +40,46 @@
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import { currencyMap } from "@/assets/script";
 
 const store = useStore();
 const router = useRouter();
-
-const goToTransactions = () => {
-  router.push("/app/transactions");
-};
 
 const transactions = computed(() => {
   return store.getters.getRecentTransactions;
 });
 
-console.log(transactions.value);
+const goToTransactions = () => {
+  router.push("/app/transactions");
+};
 
-/* export default {
-  methods: {
-    displayAccountName() {
-      return this.$store.getters.getSingleAccountInfo(this.accountIndex)
-        .accountName;
-    },
-    accountIndex() {
-      return this.$store.getters.getAccountIndex(this.transaction.accountId);
-    },
-    displayTransactionType() {
-      return this.transaction.transactionType === "income"
-        ? "Income"
-        : "Expense";
-    },
-    displayDate() {
-      return new Date(this.transaction.transactionDate).toLocaleDateString(
-        "en-US",
-        {
-          month: "short",
-          day: "numeric",
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: false,
-        }
-      );
-    },
-    currency() {
-      return currencyMap[
-        this.$store.getters.getSingleAccountInfo(this.accountIndex).currency
-      ];
-    },
-    displayAmount() {
-      return this.transaction.transactionType === "expense"
-        ? `-${this.transaction.amount.toFixed(2)} ${this.currency}`
-        : `+${this.transaction.amount.toFixed(2)} ${this.currency}`;
-    },
-    displayBalance() {
-      return "balance" in this.transaction
-        ? `${this.transaction.balance.toFixed(2)} ${this.currency}`
-        : "-";
-    },
-  },
-}; */
+const displayDate = (transaction) => {
+  return new Date(transaction.transactionDate).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: false,
+  });
+};
+
+const currency = (accountId) => {
+  return currencyMap[
+    store.getters.getSingleAccountInfo(store.getters.getAccountIndex(accountId))
+      .currency
+  ];
+};
+
+const displayAmount = (transaction) => {
+  return transaction.transactionType === "expense"
+    ? `-${transaction.amount.toFixed(2)} ${currency(transaction.accountId)}`
+    : `+${transaction.amount.toFixed(2)} ${currency(transaction.accountId)}`;
+};
 </script>
 
 <style lang="scss" scoped>
 .widget-container {
-  min-width: 22rem;
+  width: 22rem;
   height: 14.61rem;
   background-color: $background-color;
   cursor: pointer;
@@ -120,36 +113,70 @@ console.log(transactions.value);
     li {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
       flex-direction: row;
       height: 4rem;
       width: 100%;
-      border-bottom: 1px solid $details-color;
-      &:last-of-type {
-        border-bottom: none;
+      .icon {
+        width: 15%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0.8rem 0 0;
+        .inner {
+          width: 2.6rem;
+          height: 2.6rem;
+          background-color: $color-green-light;
+          border-radius: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          &.expense {
+            background-color: $color-red-light;
+          }
+        }
+
+        i {
+          font-size: 1.2rem;
+          color: $color-green;
+          &.expense {
+            color: $color-red;
+            background-color: none;
+          }
+        }
       }
       .description {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         height: 100%;
-      }
-      .icon {
-        width: 3rem;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 0.6rem 0 0;
-        i {
+        width: 55%;
+        .info {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
-          font-size: 1.5rem;
-          color: $color-green;
-          &.expense {
-            color: $color-red;
+          flex-direction: column;
+          .name {
+            text-overflow: ellipsis;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
           }
+          .date {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: $font-color-light;
+            text-align: left;
+          }
+        }
+      }
+      .amount {
+        width: 30%;
+        color: $color-green;
+        text-align: right;
+        margin: 0;
+        &.expense {
+          color: $color-red;
         }
       }
     }

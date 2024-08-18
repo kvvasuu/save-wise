@@ -6,7 +6,10 @@
       :class="{ expanded: isExpanded }"
     >
       <div class="description text">
-        <div class="icon">
+        <div
+          class="icon"
+          :class="{ expense: transaction.transactionType === 'expense' }"
+        >
           <i
             class="fa-solid fa-piggy-bank"
             v-if="transaction.transactionType === 'income'"
@@ -249,17 +252,23 @@ export default {
   justify-content: flex-start;
   flex-direction: row;
   .icon {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 2.6rem;
+    height: 2.6rem;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 1rem 0 0;
+    background-color: $color-green-light;
+    border-radius: 2rem;
+    &.expense {
+      background-color: $color-red-light;
+    }
     i {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       color: $color-green;
       &.expense {
         color: $color-red;
+        background-color: none;
       }
     }
   }
