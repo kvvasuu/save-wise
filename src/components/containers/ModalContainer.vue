@@ -9,15 +9,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ["preventClose"],
-  emits: ["close"],
-  methods: {
-    closeModal() {
-      return this.preventClose ? "" : this.$emit("close");
-    },
-  },
+<script setup>
+const props = defineProps(["preventClose"]);
+const emit = defineEmits(["close"]);
+
+const closeModal = () => {
+  return props.preventClose ? "" : emit("close");
 };
 </script>
 

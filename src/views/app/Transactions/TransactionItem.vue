@@ -73,63 +73,63 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { currencyMap } from "@/assets/script";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
 
-export default {
-  props: ["transaction"],
-  data() {
-    return {
-      isExpanded: false,
-    };
-  },
-  methods: {
-    expandListItem() {
-      this.isExpanded = !this.isExpanded;
-    },
-  },
-  computed: {
-    displayAccountName() {
-      return this.$store.getters.getSingleAccountInfo(this.accountIndex)
-        .accountName;
-    },
-    accountIndex() {
-      return this.$store.getters.getAccountIndex(this.transaction.accountId);
-    },
-    displayTransactionType() {
-      return this.transaction.transactionType === "income"
-        ? "Income"
-        : "Expense";
-    },
-    displayDate() {
-      return new Date(this.transaction.transactionDate).toLocaleDateString(
-        "en-US",
-        {
-          month: "short",
-          day: "numeric",
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: false,
-        }
-      );
-    },
-    currency() {
-      return currencyMap[
-        this.$store.getters.getSingleAccountInfo(this.accountIndex).currency
-      ];
-    },
-    displayAmount() {
-      return this.transaction.transactionType === "expense"
-        ? `-${this.transaction.amount.toFixed(2)} ${this.currency}`
-        : `+${this.transaction.amount.toFixed(2)} ${this.currency}`;
-    },
-    displayBalance() {
-      return "balance" in this.transaction
-        ? `${this.transaction.balance.toFixed(2)} ${this.currency}`
-        : "-";
-    },
-  },
+const store = useStore();
+
+const props = defineProps(["transaction"]);
+
+const isExpanded = ref(false);
+
+const expandListItem = () => {
+  isExpanded.value = !isExpanded.value;
 };
+
+const displayAccountName = computed(() => {
+  return store.getters.getSingleAccountInfo(accountIndex.value).accountName;
+});
+
+const accountIndex = computed(() => {
+  return store.getters.getAccountIndex(props.transaction.accountId);
+});
+
+const displayTransactionType = computed(() => {
+  return props.transaction.transactionType === "income" ? "Income" : "Expense";
+});
+
+const displayDate = computed(() => {
+  return new Date(props.transaction.transactionDate).toLocaleDateString(
+    "en-US",
+    {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: false,
+    }
+  );
+});
+
+const currency = computed(() => {
+  return currencyMap[
+    store.getters.getSingleAccountInfo(accountIndex.value).currency
+  ];
+});
+
+const displayAmount = computed(() => {
+  return props.transaction.transactionType === "expense"
+    ? `-${props.transaction.amount.toFixed(2)} ${currency.value}`
+    : `+${props.transaction.amount.toFixed(2)} ${currency.value}`;
+});
+
+const displayBalance = computed(() => {
+  return "balance" in props.transaction
+    ? `${props.transaction.balance.toFixed(2)} ${currency.value}`
+    : "-";
+});
 </script>
 
 <style lang="scss" scoped>

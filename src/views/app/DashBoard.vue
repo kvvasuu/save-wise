@@ -1,43 +1,31 @@
 <template>
   <main>
-    <basic-spinner v-if="loading"></basic-spinner>
-    <div class="accounts" v-else>
+    <div class="accounts">
       <div class="title">
         <h3>Accounts</h3>
         <h4 @click="goToAccountInfo()">See all</h4>
       </div>
 
-      <cards-container :small="true"></cards-container>
+      <CardsContainer :small="true"></CardsContainer>
     </div>
     <div class="recent-transactions">
       <div class="title">
         <h3>Recent transactions</h3>
       </div>
-      <recent-transactions></recent-transactions>
+      <RecentTransactions></RecentTransactions>
     </div>
   </main>
 </template>
 
-<script>
+<script setup>
 import CardsContainer from "@/components/containers/CardsContainer.vue";
 import RecentTransactions from "@/components/containers/RecentTransactions.vue";
+import { useRouter } from "vue-router";
 
-export default {
-  components: {
-    CardsContainer,
-    RecentTransactions,
-  },
-  data() {
-    return {
-      loading: false,
-      accounts: null,
-    };
-  },
-  methods: {
-    goToAccountInfo() {
-      this.$router.push("/app/accounts");
-    },
-  },
+const router = useRouter();
+
+const goToAccountInfo = () => {
+  router.push("/app/accounts");
 };
 </script>
 
@@ -80,6 +68,9 @@ main {
 
 .recent-transactions {
   height: 21rem;
+  width: 100%;
+  max-width: 26rem;
+  min-width: 22rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

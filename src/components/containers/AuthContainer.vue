@@ -19,10 +19,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ["reverse"],
-};
+<script setup>
+const props = defineProps(["reverse"]);
 </script>
 
 <style lang="scss" scoped>

@@ -13,17 +13,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  emits: ["cancel", "confirm"],
-  methods: {
-    cancel() {
-      this.$emit("cancel");
-    },
-    confirm() {
-      this.$emit("confirm");
-    },
-  },
+<script setup>
+const emit = defineEmits(["cancel", "confirm"]);
+
+const confirm = () => {
+  emit("confirm");
+};
+
+const cancel = () => {
+  emit("cancel");
 };
 </script>
 

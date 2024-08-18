@@ -79,16 +79,16 @@ const displayAmount = (transaction) => {
 
 <style lang="scss" scoped>
 .widget-container {
-  width: 22rem;
   height: 14.61rem;
+  width: 100%;
   background-color: $background-color;
-  cursor: pointer;
   border-radius: 1rem;
   position: relative;
   box-shadow: 0.1rem 0.2rem 0.5rem rgba(54, 54, 54, 0.2);
-  padding: 1rem;
+  padding: 1rem 1rem;
   margin: 0.4rem 0;
   box-sizing: border-box;
+  cursor: pointer;
   .no-transactions {
     opacity: 0.4;
     user-select: none;
@@ -156,17 +156,19 @@ const displayAmount = (transaction) => {
           align-items: flex-start;
           justify-content: center;
           flex-direction: column;
-          .name {
+          width: 100%;
+          .name,
+          .date {
             text-overflow: ellipsis;
             width: 100%;
             overflow: hidden;
             white-space: nowrap;
+            text-align: left;
           }
           .date {
             font-size: 0.8rem;
             font-weight: 500;
             color: $font-color-light;
-            text-align: left;
           }
         }
       }

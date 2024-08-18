@@ -2,7 +2,7 @@
   <div class="sidebar-background">
     <div class="sidebar">
       <div class="top-section">
-        <div class="logo">
+        <div class="logo" @click="goToDashboard">
           <img
             src="../../assets/logos/logo-horizontal.png"
             alt="SaveWise"
@@ -66,27 +66,37 @@
   </div>
 </template>
 
-<script>
-import { RouterLink } from "vue-router";
-export default {
-  emits: ["hideSidebar"],
-  props: ["sidebarVisible"],
-  methods: {
-    logout() {
-      this.$store.dispatch("logout").finally(() => {
-        this.$router.replace("/");
-      });
-    },
-    hideSidebar() {
-      this.$emit("hideSidebar");
-    },
-  },
-  computed: {
-    isRouteActive() {
-      return this.$route.path.startsWith("/app/accounts");
-    },
-  },
+<script setup>
+import { RouterLink, useRouter, useRoute } from "vue-router";
+import { useStore } from "vuex";
+import {} from "vue-router";
+import { computed } from "vue";
+
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+
+const emits = defineEmits(["hideSidebar"]);
+const props = defineProps(["sidebarVisible"]);
+
+const logout = () => {
+  store.dispatch("logout").finally(() => {
+    router.replace("/");
+  });
 };
+
+const hideSidebar = () => {
+  emits("hideSidebar");
+};
+
+const goToDashboard = () => {
+  hideSidebar();
+  router.push("/app");
+};
+
+const isRouteActive = computed(() => {
+  return route.path.startsWith("/app/accounts");
+});
 </script>
 
 <style lang="scss" scoped>
@@ -139,6 +149,7 @@ ul {
   justify-content: center;
   padding: 0 1rem;
   height: 5.6rem;
+  cursor: pointer;
   img {
     width: 90%;
   }

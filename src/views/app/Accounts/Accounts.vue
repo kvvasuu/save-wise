@@ -1,7 +1,6 @@
 <template>
   <main>
-    <basic-spinner v-if="loading"></basic-spinner>
-    <div class="accounts" v-else>
+    <div class="accounts">
       <div class="title">
         <h3>Accounts</h3>
       </div>
@@ -21,30 +20,21 @@
   </main>
 </template>
 
-<script>
+<script setup>
 import CardsContainer from "@/components/containers/CardsContainer.vue";
-import { RouterView } from "vue-router";
+import { RouterView, useRoute } from "vue-router";
+import { computed, ref } from "vue";
 
-export default {
-  components: {
-    CardsContainer,
-  },
-  data() {
-    return {
-      loading: false,
-    };
-  },
-  methods: {
-    goToAccountInfo(number) {
-      this.$refs.cardsContainer.goToAccountInfo(number);
-    },
-  },
-  computed: {
-    contentVisible() {
-      return this.$route.path !== "/app/accounts";
-    },
-  },
+const route = useRoute();
+
+const cardsContainer = ref(null);
+const goToAccountInfo = (number) => {
+  cardsContainer.value.goToAccountInfo(number);
 };
+
+const contentVisible = computed(() => {
+  return route.path !== "/app/accounts";
+});
 </script>
 
 <style lang="scss" scoped>
