@@ -3,20 +3,12 @@
   <RouterView v-else></RouterView>
 </template>
 
-<script>
+<script setup>
 import { RouterView } from "vue-router";
-import LoginPage from "./views/auth/LoginPage.vue";
-import RegisterPage from "./views/auth/RegisterPage.vue";
+import { useStore } from "vuex";
 
-export default {
-  components: {
-    LoginPage,
-    RegisterPage,
-  },
-  created() {
-    this.$store.dispatch("autoLogin");
-  },
-};
+const store = useStore();
+store.dispatch("autoLogin");
 </script>
 
 <style lang="scss" scoped></style>

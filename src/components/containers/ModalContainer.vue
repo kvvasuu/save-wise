@@ -5,6 +5,9 @@
         <h1><slot name="title"></slot></h1>
       </div>
       <div class="content"><slot></slot></div>
+      <div class="close-button" @click="closeModal" v-if="!preventClose">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -45,15 +48,17 @@ const closeModal = () => {
     justify-content: center;
     padding: 2rem 6rem;
     box-sizing: border-box;
-    box-shadow: 0.3rem 0.4rem 0.6rem rgba(128, 128, 128, 0.2);
+    position: relative;
     .title {
       height: 20%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 0 1rem;
       h1 {
         font-weight: 800;
+        text-align: center;
       }
     }
     .content {
@@ -63,6 +68,28 @@ const closeModal = () => {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+    }
+    .close-button {
+      position: absolute;
+      height: 3.4rem;
+      width: 3.4rem;
+      right: 2rem;
+      top: 2rem;
+      background-color: none;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      &:hover {
+        background-color: $details-color;
+      }
+      i {
+        font-size: 3rem;
+        color: $font-color-dark;
+      }
     }
   }
 }
