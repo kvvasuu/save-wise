@@ -6,15 +6,8 @@
     <ul v-else>
       <li v-for="transaction in transactions">
         <div class="icon">
-          <div
-            class="inner"
-            :class="{ expense: transaction.transactionType === 'expense' }"
-          >
-            <i
-              class="fa-solid fa-piggy-bank"
-              v-if="transaction.transactionType === 'income'"
-            ></i>
-            <i class="fa-solid fa-money-check-dollar expense" v-else></i>
+          <div class="inner">
+            <i :class="displayIcon(transaction)"></i>
           </div>
         </div>
         <div class="description">
@@ -51,6 +44,15 @@ const transactions = computed(() => {
 
 const goToTransactions = () => {
   router.push("/app/transactions");
+};
+
+const displayIcon = (transaction) => {
+  switch (transaction.transactionType) {
+    case "income":
+      return `fa-solid fa-piggy-bank`;
+    case "expense":
+      return `fa-solid fa-money-check-dollar`;
+  }
 };
 
 const displayDate = (transaction) => {
@@ -126,22 +128,17 @@ const displayAmount = (transaction) => {
         .inner {
           width: 2.6rem;
           height: 2.6rem;
-          background-color: $color-green-light;
-          border-radius: 2rem;
           display: flex;
           align-items: center;
           justify-content: center;
-          &.expense {
-            background-color: $color-red-light;
-          }
-        }
-
-        i {
-          font-size: 1.2rem;
-          color: $color-green;
-          &.expense {
-            color: $color-red;
-            background-color: none;
+          i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2rem;
+            width: 100%;
+            height: 100%;
+            font-size: 1.2rem;
           }
         }
       }

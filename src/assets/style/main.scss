@@ -57,6 +57,29 @@ a {
   justify-content: center;
 }
 
+i {
+  &.fa-piggy-bank {
+    color: $color-green;
+    background-color: $color-green-light;
+  }
+  &.fa-money-check-dollar {
+    color: $color-red;
+    background-color: $color-red-light;
+  }
+  &.fa-hand-holding-dollar {
+    color: $color-green;
+    background-color: $color-green-light;
+  }
+  &.fa-music {
+    color: $color-blue;
+    background-color: $color-blue-light;
+  }
+  &.fa-money-bills {
+    color: $color-red;
+    background-color: $color-red-light;
+  }
+}
+
 @media (max-width: 800px), (max-height: 460px) {
   :root {
     font-size: 14px;

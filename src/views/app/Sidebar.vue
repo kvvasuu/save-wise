@@ -120,10 +120,12 @@ const isRouteActive = computed(() => {
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
+    overflow-y: auto;
   }
 }
 .top-section {
   width: 100%;
+  margin: 0 0 3rem 0;
 }
 .list {
   display: flex;

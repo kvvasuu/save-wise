@@ -8,18 +8,25 @@
 
       <CardsContainer :small="true"></CardsContainer>
     </div>
-    <div class="recent-transactions">
+    <div class="small-container">
       <div class="title">
         <h3>Recent transactions</h3>
       </div>
       <RecentTransactions></RecentTransactions>
+    </div>
+    <div class="small-container high">
+      <div class="title">
+        <h3>Expense Statistics</h3>
+      </div>
+      <ExpenseStatistics></ExpenseStatistics>
     </div>
   </main>
 </template>
 
 <script setup>
 import CardsContainer from "@/components/containers/CardsContainer.vue";
-import RecentTransactions from "@/components/containers/RecentTransactions.vue";
+import RecentTransactions from "@/components/RecentTransactions.vue";
+import ExpenseStatistics from "@/components/ExpenseStatistics.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -39,7 +46,7 @@ main {
   border: none;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 0 2rem;
@@ -60,20 +67,25 @@ main {
 }
 .accounts {
   width: 45rem;
-  height: 21rem;
+  height: 20rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.recent-transactions {
-  height: 21rem;
+.small-container {
+  aspect-ratio: 22 / 15.5;
   width: 100%;
   max-width: 26rem;
   min-width: 22rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: flex-start;
+  &.high {
+    width: 22rem;
+    aspect-ratio: 1 / 1;
+  }
 }
 @media (max-width: 1000px) {
   .accounts {

@@ -6,15 +6,8 @@
       :class="{ expanded: isExpanded }"
     >
       <div class="description text">
-        <div
-          class="icon"
-          :class="{ expense: transaction.transactionType === 'expense' }"
-        >
-          <i
-            class="fa-solid fa-piggy-bank"
-            v-if="transaction.transactionType === 'income'"
-          ></i>
-          <i class="fa-solid fa-money-check-dollar expense" v-else></i>
+        <div class="icon">
+          <i :class="displayIcon"></i>
         </div>
         {{ transaction.name }}
       </div>
@@ -98,6 +91,21 @@ const accountIndex = computed(() => {
 
 const displayTransactionType = computed(() => {
   return props.transaction.transactionType === "income" ? "Income" : "Expense";
+});
+
+const displayIcon = computed(() => {
+  switch (props.transaction.transactionType) {
+    case "income":
+      return `fa-solid fa-piggy-bank`;
+    case "expense":
+      return `fa-solid fa-money-check-dollar`;
+    case "entertainment":
+      return `fa-solid fa-music`;
+    case "bills":
+      return `fa-solid fa-money-bills`;
+    case "investment":
+      return `fa-solid fa-hand-holding-dollar`;
+  }
 });
 
 const displayDate = computed(() => {
@@ -258,18 +266,14 @@ const displayBalance = computed(() => {
     align-items: center;
     justify-content: center;
     margin: 0 1rem 0 0;
-    background-color: $color-green-light;
-    border-radius: 2rem;
-    &.expense {
-      background-color: $color-red-light;
-    }
     i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2rem;
+      width: 100%;
+      height: 100%;
       font-size: 1.2rem;
-      color: $color-green;
-      &.expense {
-        color: $color-red;
-        background-color: none;
-      }
     }
   }
 }
