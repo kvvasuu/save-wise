@@ -75,6 +75,8 @@ const store = useStore();
 
 const props = defineProps(["transaction"]);
 
+const hasCategory = !!props.transaction.category || false;
+
 const isExpanded = ref(false);
 
 const expandListItem = () => {
@@ -90,22 +92,29 @@ const accountIndex = computed(() => {
 });
 
 const displayTransactionType = computed(() => {
-  return props.transaction.transactionType === "income" ? "Income" : "Expense";
+  let type = "";
+  if (hasCategory) {
+    type = props.transaction.category;
+  } else {
+    type = props.transaction.transactionType;
+  }
+  return type.charAt(0).toUpperCase() + type.slice(1);
 });
 
 const displayIcon = computed(() => {
-  switch (props.transaction.transactionType) {
-    case "income":
-      return `fa-solid fa-piggy-bank`;
-    case "expense":
-      return `fa-solid fa-money-check-dollar`;
-    case "entertainment":
-      return `fa-solid fa-music`;
-    case "bills":
-      return `fa-solid fa-money-bills`;
-    case "investment":
-      return `fa-solid fa-hand-holding-dollar`;
+  if (props.transaction.transactionType === "expense") {
+    switch (props.transaction.category) {
+      case "entertainment":
+        return `fa-solid fa-music`;
+      case "bills":
+        return `fa-solid fa-money-bills`;
+      case "investment":
+        return `fa-solid fa-hand-holding-dollar`;
+      default:
+        return `fa-solid fa-money-check-dollar`;
+    }
   }
+  return `fa-solid fa-piggy-bank`;
 });
 
 const displayDate = computed(() => {

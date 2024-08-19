@@ -47,12 +47,19 @@ const goToTransactions = () => {
 };
 
 const displayIcon = (transaction) => {
-  switch (transaction.transactionType) {
-    case "income":
-      return `fa-solid fa-piggy-bank`;
-    case "expense":
-      return `fa-solid fa-money-check-dollar`;
+  if (transaction.transactionType === "expense") {
+    switch (transaction.category) {
+      case "entertainment":
+        return `fa-solid fa-music`;
+      case "bills":
+        return `fa-solid fa-money-bills`;
+      case "investment":
+        return `fa-solid fa-hand-holding-dollar`;
+      default:
+        return `fa-solid fa-money-check-dollar`;
+    }
   }
+  return `fa-solid fa-piggy-bank`;
 };
 
 const displayDate = (transaction) => {

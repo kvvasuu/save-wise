@@ -59,22 +59,27 @@ a {
 
 i {
   &.fa-piggy-bank {
+    // Income
     color: $color-green;
     background-color: $color-green-light;
   }
   &.fa-money-check-dollar {
+    // Expense
     color: $color-red;
     background-color: $color-red-light;
   }
   &.fa-hand-holding-dollar {
-    color: $color-green;
-    background-color: $color-green-light;
+    // Invest
+    color: $color-yellow;
+    background-color: $color-yellow-light;
   }
   &.fa-music {
+    // Entertainment
     color: $color-blue;
     background-color: $color-blue-light;
   }
   &.fa-money-bills {
+    // Bills
     color: $color-red;
     background-color: $color-red-light;
   }
