@@ -24,24 +24,18 @@
 import { gradientMap, currencyMap } from "@/assets/script";
 export default {
   props: ["accountNumber", "account"],
-  data() {
-    return {
-      currencyMap: currencyMap,
-      gradientMap: gradientMap,
-    };
-  },
   computed: {
     accountName() {
       return this.account.accountName;
     },
     accountCurrency() {
-      return this.currencyMap[this.account.currency];
+      return currencyMap[this.account.currency];
     },
     accountBalance() {
       return this.account.balance.toFixed(2);
     },
     passGradient() {
-      return this.gradientMap[this.account.color];
+      return gradientMap[this.account.color];
     },
   },
 };

@@ -229,7 +229,7 @@ export default {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
   .sidebar-outer {
     left: -30rem;
     &.show-sidebar {

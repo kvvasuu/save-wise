@@ -46,6 +46,44 @@ export default {
       return transactionList.slice(0, 3);
     } else return [];
   },
+  getWeeklyTransactions(state, getters) {
+    if (!!state.user && "transactions" in state.user) {
+      const transactionList = Object.values(getters.getTransactions);
+
+      const now = new Date();
+      const sevenDaysAgo = new Date(now);
+      sevenDaysAgo.setDate(now.getDate() - 7);
+
+      const last7Days = [];
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(sevenDaysAgo);
+        date.setDate(sevenDaysAgo.getDate() + i);
+        last7Days.push(date.toISOString().split("T")[0]);
+      }
+
+      const dailySums = last7Days.map((date) => ({
+        day: date,
+        income: 0,
+        expense: 0,
+      }));
+
+      transactionList.forEach((transaction) => {
+        const transactionDate = transaction.transactionDate.split("T")[0];
+        const found = dailySums.find((el) => el.day === transactionDate);
+        if (found) {
+          found[transaction.transactionType] += transaction.amount;
+        }
+      });
+      dailySums.map((el) => {
+        el.day = new Date(el.day).getDay();
+        el.income = Math.ceil(el.income);
+        el.expense = Math.ceil(el.expense);
+        return el;
+      });
+      console.log(dailySums);
+      return dailySums;
+    } else return [];
+  },
   getFavoriteAccountsQuantity(state) {
     if (!!state.user && "accounts" in state.user) {
       return state.user.accounts.filter((el) => el.favorite === true).length;

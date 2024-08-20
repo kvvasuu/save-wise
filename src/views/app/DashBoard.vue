@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="accounts">
+    <div class="small-container wide accounts">
       <div class="title">
         <h3>Accounts</h3>
         <h4 @click="goToAccountInfo()">See all</h4>
@@ -14,11 +14,17 @@
       </div>
       <RecentTransactions></RecentTransactions>
     </div>
-    <div class="small-container high">
+    <div class="small-container">
       <div class="title">
         <h3>Expense Statistics</h3>
       </div>
       <ExpenseStatistics></ExpenseStatistics>
+    </div>
+    <div class="small-container wide">
+      <div class="title">
+        <h3>Weekly Activity</h3>
+      </div>
+      <WeeklyActivity></WeeklyActivity>
     </div>
   </main>
 </template>
@@ -27,6 +33,7 @@
 import CardsContainer from "@/components/containers/CardsContainer.vue";
 import RecentTransactions from "@/components/RecentTransactions.vue";
 import ExpenseStatistics from "@/components/ExpenseStatistics.vue";
+import WeeklyActivity from "@/components/WeeklyActivity.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -76,19 +83,28 @@ main {
 .small-container {
   height: 18.5rem;
   width: 22rem;
-  max-width: 26rem;
-  min-width: 22rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  &.wide {
+    width: 45rem;
+  }
+  &.accounts {
+    width: 45rem;
+    height: 20rem;
+  }
 }
+
 @media (max-width: 1000px) {
   .accounts {
     width: 100%;
   }
+  main {
+    justify-content: center;
+  }
 }
-@media (max-width: 600px) {
+@media (max-width: 704px) {
   .small-container {
     height: 18.5rem;
     width: 100%;
