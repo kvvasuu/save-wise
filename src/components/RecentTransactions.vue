@@ -56,10 +56,10 @@ const displayIcon = (transaction) => {
       case "investment":
         return `fa-solid fa-hand-holding-dollar`;
       default:
-        return `fa-solid fa-money-check-dollar`;
+        return `fa-solid fa-arrow-up`;
     }
   }
-  return `fa-solid fa-piggy-bank`;
+  return `fa-solid fa-arrow-down`;
 };
 
 const displayDate = (transaction) => {
@@ -98,6 +98,10 @@ const displayAmount = (transaction) => {
   margin: 0.4rem 0;
   box-sizing: border-box;
   cursor: pointer;
+  transition: all 0.3s ease;
+  &:hover {
+    transform: translateY(-0.26rem);
+  }
   .no-transactions {
     opacity: 0.4;
     user-select: none;

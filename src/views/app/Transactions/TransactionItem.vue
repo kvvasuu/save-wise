@@ -111,10 +111,10 @@ const displayIcon = computed(() => {
       case "investment":
         return `fa-solid fa-hand-holding-dollar`;
       default:
-        return `fa-solid fa-money-check-dollar`;
+        return `fa-solid fa-arrow-up`;
     }
   }
-  return `fa-solid fa-piggy-bank`;
+  return `fa-solid fa-arrow-down`;
 });
 
 const displayDate = computed(() => {

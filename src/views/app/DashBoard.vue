@@ -49,7 +49,7 @@ main {
   align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 0 2rem;
+  gap: 0 1rem;
   padding: 0;
   margin: 0;
 }
@@ -74,22 +74,30 @@ main {
 }
 
 .small-container {
-  aspect-ratio: 22 / 15.5;
-  width: 100%;
+  height: 18.5rem;
+  width: 22rem;
   max-width: 26rem;
   min-width: 22rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  &.high {
-    width: 22rem;
-    aspect-ratio: 1 / 1;
-  }
 }
 @media (max-width: 1000px) {
   .accounts {
     width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .small-container {
+    height: 18.5rem;
+    width: 100%;
+    max-width: 60rem;
+    min-width: 22rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 }
 </style>

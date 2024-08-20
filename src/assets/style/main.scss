@@ -58,12 +58,12 @@ a {
 }
 
 i {
-  &.fa-piggy-bank {
+  &.fa-arrow-down {
     // Income
     color: $color-green;
     background-color: $color-green-light;
   }
-  &.fa-money-check-dollar {
+  &.fa-arrow-up {
     // Expense
     color: $color-red;
     background-color: $color-red-light;
