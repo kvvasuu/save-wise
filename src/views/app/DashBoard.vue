@@ -16,6 +16,12 @@
     </div>
     <div class="small-container">
       <div class="title">
+        <h3>Quick Transfer</h3>
+      </div>
+      <QuickTransfer></QuickTransfer>
+    </div>
+    <div class="small-container">
+      <div class="title">
         <h3>Expense Statistics</h3>
       </div>
       <ExpenseStatistics></ExpenseStatistics>
@@ -34,6 +40,7 @@ import CardsContainer from "@/components/containers/CardsContainer.vue";
 import RecentTransactions from "@/components/RecentTransactions.vue";
 import ExpenseStatistics from "@/components/ExpenseStatistics.vue";
 import WeeklyActivity from "@/components/WeeklyActivity.vue";
+import QuickTransfer from "@/components/QuickTransfer.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -96,7 +103,7 @@ main {
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .accounts {
     width: 100%;
   }

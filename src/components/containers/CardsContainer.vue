@@ -129,11 +129,10 @@ export default {
     border-radius: 0.3rem;
   }
   &::-webkit-scrollbar-thumb {
-    background: $primary-color;
-    background: linear-gradient(160deg, $primary-color, $primary-color-dark);
+    background: #dddddd;
     border-radius: 0.3rem;
     &:hover {
-      background: $primary-color;
+      background: #c9c9c9;
     }
   }
   .add-card {
