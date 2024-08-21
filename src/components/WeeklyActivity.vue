@@ -11,6 +11,10 @@
       >
     </div>
     <div class="days">
+      <hr />
+      <hr />
+      <hr />
+      <hr />
       <div class="day" v-for="amount in transactions" :title="amount.day">
         <div class="chart">
           <div
@@ -108,6 +112,27 @@ const setChartHeight = (value) => {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  hr {
+    margin: 0;
+    width: 100%;
+    position: absolute;
+    top: 10%;
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(117, 117, 117, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 0;
+    &:nth-of-type(2) {
+      top: 30%;
+    }
+    &:nth-of-type(3) {
+      top: 50%;
+    }
+    &:nth-of-type(4) {
+      top: 70%;
+    }
+  }
 }
 .day {
   display: flex;
@@ -117,6 +142,7 @@ const setChartHeight = (value) => {
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+  z-index: 2;
   .chart {
     width: 100%;
     height: 85%;
