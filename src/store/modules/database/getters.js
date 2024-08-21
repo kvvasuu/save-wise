@@ -74,13 +74,6 @@ export default {
           found[transaction.transactionType] += transaction.amount;
         }
       });
-      dailySums.map((el) => {
-        el.day = new Date(el.day).getDay();
-        el.income = Math.ceil(el.income);
-        el.expense = Math.ceil(el.expense);
-        return el;
-      });
-      console.log(dailySums);
       return dailySums;
     } else return [];
   },

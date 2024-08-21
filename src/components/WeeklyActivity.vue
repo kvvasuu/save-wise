@@ -11,18 +11,20 @@
       >
     </div>
     <div class="days">
-      <div class="day" v-for="amount in transactions">
+      <div class="day" v-for="amount in transactions" :title="amount.day">
         <div class="chart">
           <div
             class="column income"
             :style="{ height: setChartHeight(amount.income) }"
+            :title="amount.income"
           ></div>
           <div
             class="column expense"
             :style="{ height: setChartHeight(amount.expense) }"
+            :title="amount.expense"
           ></div>
         </div>
-        <div class="day-name">{{ dayNames[amount.day] }}</div>
+        <div class="day-name">{{ getDayName(amount.day) }}</div>
       </div>
     </div>
   </div>
@@ -43,6 +45,10 @@ const maxValue = transactions.value.reduce((max, day) => {
   const dayMax = Math.max(day.income, day.expense);
   return dayMax > max ? dayMax : max;
 }, 0);
+
+const getDayName = (date) => {
+  return dayNames[new Date(date).getDay()];
+};
 
 const setChartHeight = (value) => {
   let height = Math.ceil((value / maxValue) * 100);
