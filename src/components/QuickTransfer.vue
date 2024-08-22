@@ -1,29 +1,47 @@
 <template>
   <div class="widget-container">
-    <div class="account-select">
-      <div class="account" v-for="account in accounts">
-        <div class="image">
-          <span>MA</span>
+    <BasicSpinner v-if="loading"></BasicSpinner>
+    <div class="inner" v-else>
+      <div class="account-select">
+        <div class="account" v-for="account in accounts" ref="accountsRef">
+          <div
+            class="image"
+            :style="{ background: gradientMap[account.color] }"
+          >
+            <span>{{ getAccountInitials(account.accountName) }}</span>
+          </div>
+          <div class="name">{{ account.accountName }}</div>
+          <div class="currency">{{ account.currency }}</div>
         </div>
-        <div class="name"></div>
-        <div class="currency"></div>
       </div>
+      <div class="inputs"></div>
     </div>
-    <div class="inputs"></div>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import { gradientMap } from "@/assets/script";
+import BasicSpinner from "./misc/BasicSpinner.vue";
 
 const store = useStore();
+const loading = false;
+
+const accountsRef = ref([]);
 
 const accounts = computed(() => {
   return store.getters.getAccountsInfo;
 });
 
-console.log(accounts.value);
+const getAccountInitials = (accountName) => {
+  return accountName
+    .split(" ")
+    .map((el) => el.split("")[0].toUpperCase())
+    .slice(0, 2)
+    .join("");
+};
+console.log(accountsRef);
 </script>
 
 <style lang="scss" scoped>
@@ -33,10 +51,18 @@ console.log(accounts.value);
   background-color: $background-color;
   border-radius: 1rem;
   position: relative;
-  box-shadow: 0.1rem 0.2rem 0.5rem rgba(54, 54, 54, 0.2);
+  box-shadow: 0.08rem 0.8rem 0.4rem rgba(54, 54, 54, 0.1);
   padding: 1rem 1rem;
   margin: 0.4rem 0;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.inner {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .account-select {
@@ -47,24 +73,23 @@ console.log(accounts.value);
   justify-content: flex-start;
   .account {
     height: 100%;
-    width: 4rem;
+    width: 25%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: 0 0.8rem;
+    margin: 0 0.6rem;
     cursor: pointer;
     background-color: none;
     &:hover .image {
       background-color: $details-color;
       transform: translateY(-2px);
-      color: rgba(114, 114, 114, 0.836);
+      color: rgba(223, 223, 223, 0.836);
     }
     .image {
-      width: 4rem;
-      height: 4rem;
+      width: 3.8rem;
+      height: 3.8rem;
       border-radius: 10rem;
-      background-color: red;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -76,6 +101,23 @@ console.log(accounts.value);
         font-family: Montserrat;
         font-weight: 900;
       }
+    }
+    .name,
+    .currency {
+      font-size: 0.6rem;
+      font-family: Montserrat;
+      font-weight: 600;
+    }
+    .name {
+      margin: 0.6rem 0 0.2rem 0;
+      width: 100%;
+      text-overflow: ellipsis;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .currency {
+      color: $font-color-light;
     }
   }
 }
