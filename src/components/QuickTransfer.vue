@@ -1,9 +1,20 @@
 <template>
-  <div class="widget-container">
+  <div class="widget-container" ref="containerRef">
     <BasicSpinner v-if="loading"></BasicSpinner>
     <div class="inner" v-else>
       <div class="account-select">
-        <div class="account" v-for="account in accounts" ref="accountsRef">
+        <div
+          class="account"
+          v-for="(account, index) in accounts"
+          @click="selectAccount(index)"
+          :key="index"
+          :class="{
+            selected: selectedAccountIndex === index,
+            'not-selected':
+              selectedAccountIndex !== null && selectedAccountIndex !== index,
+          }"
+          :title="account.accountName"
+        >
           <div
             class="image"
             :style="{ background: gradientMap[account.color] }"
@@ -14,13 +25,17 @@
           <div class="currency">{{ account.currency }}</div>
         </div>
       </div>
-      <div class="inputs"></div>
+      <div class="inputs">
+        <span>Amount:</span>
+        <input type="number" />
+        <BasicButton></BasicButton>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, onMounted, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 import { gradientMap } from "@/assets/script";
 import BasicSpinner from "./misc/BasicSpinner.vue";
@@ -28,7 +43,8 @@ import BasicSpinner from "./misc/BasicSpinner.vue";
 const store = useStore();
 const loading = false;
 
-const accountsRef = ref([]);
+let containerRef = ref(null);
+let selectedAccountIndex = ref(null);
 
 const accounts = computed(() => {
   return store.getters.getAccountsInfo;
@@ -41,7 +57,24 @@ const getAccountInitials = (accountName) => {
     .slice(0, 2)
     .join("");
 };
-console.log(accountsRef);
+
+const selectAccount = (index) => {
+  selectedAccountIndex.value = index;
+};
+
+const handleClickOutside = (event) => {
+  if (!containerRef.value.contains(event.target)) {
+    selectedAccountIndex.value = null;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -51,7 +84,7 @@ console.log(accountsRef);
   background-color: $background-color;
   border-radius: 1rem;
   position: relative;
-  box-shadow: 0.08rem 0.8rem 0.4rem rgba(54, 54, 54, 0.1);
+  box-shadow: 0.1rem 0.2rem 0.5rem rgba(54, 54, 54, 0.2);
   padding: 1rem 1rem;
   margin: 0.4rem 0;
   box-sizing: border-box;
@@ -62,7 +95,6 @@ console.log(accountsRef);
 .inner {
   height: 100%;
   width: 100%;
-  overflow: hidden;
 }
 
 .account-select {
@@ -72,19 +104,29 @@ console.log(accountsRef);
   align-items: center;
   justify-content: flex-start;
   .account {
-    height: 100%;
     width: 25%;
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: 0 0.6rem;
+    padding: 0.8rem 0.4rem 0.6rem 0.4rem;
+    margin: 0 0.1rem;
     cursor: pointer;
     background-color: none;
-    &:hover .image {
-      background-color: $details-color;
+    transition: all 0.2s ease;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    &:hover {
       transform: translateY(-2px);
-      color: rgba(223, 223, 223, 0.836);
+      background-color: $details-color;
+    }
+    &.selected {
+      transform: translateY(-2px);
+      background-color: $details-color;
+    }
+    &.not-selected {
+      filter: grayscale(0.8);
     }
     .image {
       width: 3.8rem;
@@ -94,7 +136,7 @@ console.log(accountsRef);
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
-      box-shadow: 0.1rem 0.2rem 0.5rem rgba(54, 54, 54, 0.2);
+      box-shadow: 0.08rem 0.08rem 0.4rem rgba(54, 54, 54, 0.1);
       color: rgba(255, 255, 255, 0.836);
       span {
         font-size: 1.5rem;
@@ -125,5 +167,15 @@ console.log(accountsRef);
 .inputs {
   height: 2.5rem;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    font-size: 0.9rem;
+    font-family: Montserrat;
+    font-weight: 600;
+    margin: 0 0.5rem 0 0;
+    color: $font-color-light;
+  }
 }
 </style>

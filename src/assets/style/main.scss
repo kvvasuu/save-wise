@@ -32,6 +32,21 @@ h4 {
   color: $font-color-dark;
 }
 
+input {
+  border: 1px solid #eeeeee;
+  border-radius: 0.8rem;
+  outline: none;
+  background-color: $background-color-blue;
+  color: $font-color-light;
+  &:focus {
+    outline: 2px solid $primary-color;
+  }
+  &:disabled {
+    cursor: default;
+    filter: grayscale(1);
+  }
+}
+
 body {
   width: 100vw;
   height: 100dvh;

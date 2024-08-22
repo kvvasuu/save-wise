@@ -39,7 +39,7 @@ export default {
   methods: {
     goToAccountInfo(number) {
       if (this.getAccountsInfo) {
-        this.$router.replace(`/app/accounts/${number}`);
+        this.$router.push(`/app/accounts/${number}`);
         if (!this.$props.small) {
           this.$refs.cards[number].$refs.card.scrollIntoView({
             behavior: "smooth",
