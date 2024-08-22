@@ -28,7 +28,7 @@
       <div class="inputs">
         <span>Amount:</span>
         <input type="number" />
-        <BasicButton></BasicButton>
+        <BasicButton>Send</BasicButton>
       </div>
     </div>
   </div>
@@ -174,8 +174,46 @@ onBeforeUnmount(() => {
     font-size: 0.9rem;
     font-family: Montserrat;
     font-weight: 600;
-    margin: 0 0.5rem 0 0;
     color: $font-color-light;
+  }
+  input {
+    height: 2.2rem;
+    width: 6rem;
+    margin: 0 0 0 0.5rem;
+    border: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    height: 2.2rem;
+    width: 5rem;
+    margin: 0;
+    padding: 0 0.3rem 0 0;
+    &:hover {
+      transform: none;
+    }
+  }
+}
+@media (max-width: 704px) {
+  .small-container {
+    height: 18.5rem;
+    width: 100%;
+    max-width: 60rem;
+    min-width: 22rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 }
 </style>

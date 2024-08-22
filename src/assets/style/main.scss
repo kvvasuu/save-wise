@@ -33,11 +33,13 @@ h4 {
 }
 
 input {
+  padding: 0 1rem;
   border: 1px solid #eeeeee;
   border-radius: 0.8rem;
   outline: none;
   background-color: $background-color-blue;
   color: $font-color-light;
+  margin: 0.4rem 0;
   &:focus {
     outline: 2px solid $primary-color;
   }
