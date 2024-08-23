@@ -78,7 +78,7 @@ const sendMoney = () => {
       id: selectedAccountIndex.value,
       amount: amount.value,
     })
-    .then(() => {
+    .finally(() => {
       loading.value = false;
     });
 };
