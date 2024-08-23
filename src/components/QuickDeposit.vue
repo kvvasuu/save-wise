@@ -33,9 +33,11 @@
           min="1"
           max="9999999"
           @blur="formatInput"
+          @keydown.enter="sendMoney"
         />
         <BasicButton
           @click="sendMoney"
+          :disabled="selectedAccountIndex === null"
           :class="{ disabled: selectedAccountIndex === null }"
           >Send<i class="fa-solid fa-piggy-bank"></i
         ></BasicButton>
@@ -64,6 +66,7 @@ const formatInput = () => {
 };
 
 const sendMoney = () => {
+  if (selectedAccountIndex.value === null) return;
   loading.value = true;
 
   setTimeout(() => {
@@ -91,7 +94,8 @@ const selectAccount = (index) => {
 };
 
 const handleClickOutside = (event) => {
-  if (!containerRef.value.contains(event.target)) {
+  const path = event.composedPath();
+  if (!path.includes(containerRef.value)) {
     selectedAccountIndex.value = null;
   }
 };
