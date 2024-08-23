@@ -42,20 +42,23 @@ const store = useStore();
 const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const transactions = computed(() => {
+  console.log(store.getters.getWeeklyTransactions);
   return store.getters.getWeeklyTransactions;
 });
 
-const maxValue = transactions.value.reduce((max, day) => {
-  const dayMax = Math.max(day.income, day.expense);
-  return dayMax > max ? dayMax : max;
-}, 0);
+const maxValue = computed(() => {
+  return transactions.value.reduce((max, day) => {
+    const dayMax = Math.max(day.income, day.expense);
+    return dayMax > max ? dayMax : max;
+  }, 0);
+});
 
 const getDayName = (date) => {
   return dayNames[new Date(date).getDay()];
 };
 
 const setChartHeight = (value) => {
-  let height = Math.ceil((value / maxValue) * 100);
+  let height = Math.ceil((value / maxValue.value) * 100);
   if (height === 0) height = 0.2;
   return `${height}%`;
 };

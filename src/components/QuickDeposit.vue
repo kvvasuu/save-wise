@@ -6,7 +6,7 @@
         <div
           class="account"
           v-for="(account, index) in accounts"
-          @click="selectAccount(index)"
+          @click="selectAccount(index, account)"
           :key="index"
           :class="{
             selected: selectedAccountIndex === index,
@@ -35,6 +35,9 @@
           @blur="formatInput"
           @keydown.enter="sendMoney"
         />
+        <div class="currency" v-if="selectedAccountIndex !== null">
+          {{ selectedAccountCurrency }}
+        </div>
         <BasicButton
           @click="sendMoney"
           :disabled="selectedAccountIndex === null"
@@ -51,6 +54,7 @@ import { computed, ref, onMounted, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 import { gradientMap } from "@/assets/script";
 import BasicSpinner from "./misc/BasicSpinner.vue";
+import { currencyMap } from "@/assets/script";
 
 const store = useStore();
 const loading = ref(false);
@@ -69,13 +73,19 @@ const sendMoney = () => {
   if (selectedAccountIndex.value === null) return;
   loading.value = true;
 
-  setTimeout(() => {
-    loading.value = false;
-  }, 2000);
+  store
+    .dispatch("quickDeposit", {
+      id: selectedAccountIndex.value,
+      amount: amount.value,
+    })
+    .then(() => {
+      loading.value = false;
+    });
 };
 
 let containerRef = ref(null);
 let selectedAccountIndex = ref(null);
+let selectedAccountCurrency = ref(null);
 
 const accounts = computed(() => {
   return store.getters.getAccountsInfo;
@@ -89,7 +99,8 @@ const getAccountInitials = (accountName) => {
     .join("");
 };
 
-const selectAccount = (index) => {
+const selectAccount = (index, account) => {
+  selectedAccountCurrency.value = currencyMap[account.currency];
   selectedAccountIndex.value = index;
 };
 
@@ -202,6 +213,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   span {
     font-size: 0.9rem;
     font-family: Montserrat;
@@ -215,6 +227,7 @@ onBeforeUnmount(() => {
     border: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -223,6 +236,17 @@ onBeforeUnmount(() => {
     &:focus {
       outline: none;
     }
+  }
+  .currency {
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    position: absolute;
+    top: 0;
+    right: 7rem;
+    color: $font-color-light;
+    user-select: none;
+    pointer-events: none;
   }
   button {
     border-top-left-radius: 0;

@@ -52,7 +52,7 @@ export default {
 
       const now = new Date();
       const sevenDaysAgo = new Date(now);
-      sevenDaysAgo.setDate(now.getDate() - 7);
+      sevenDaysAgo.setDate(now.getDate() - 6);
 
       const last7Days = [];
       for (let i = 0; i < 7; i++) {

@@ -9,6 +9,7 @@ import {
   query,
   orderByChild,
   equalTo,
+  push,
 } from "firebase/database";
 import { generateTimestampID } from "@/assets/script";
 
@@ -246,6 +247,73 @@ export default {
           message: "Something went wrong",
           type: false,
         });
+      });
+  },
+  quickDeposit(context, payload) {
+    return new Promise((resolve, reject) => {
+      const updates = {};
+      const userId = context.getters.getUserId;
+
+      const account = context.getters.getSingleAccountInfo(payload.id);
+
+      const balance = Number(account.balance) + payload.amount;
+
+      updates[`users/${userId}/accounts/${payload.id}/balance`] = balance;
+
+      update(ref(firebaseDatabase), updates)
+        .then(() => {
+          context
+            .dispatch("addTransactionRecord", {
+              accountId: account.accountId,
+              amount: payload.amount,
+              balance: balance,
+              name: "Quick deposit",
+              transactionType: "income",
+            })
+            .then(() => {
+              console.log("Operation complete");
+              context.dispatch("showNotification", {
+                message: "Operation complete",
+              });
+              resolve();
+            });
+        })
+        .catch((error) => {
+          console.error("Error setting account favorite:", error);
+          context.dispatch("showNotification", {
+            message: "Something went wrong",
+            type: false,
+          });
+          reject();
+        });
+    });
+  },
+  addTransactionRecord(context, payload) {
+    const userId = context.getters.getUserId;
+    let name = payload.name;
+    let category = payload.category || "";
+    if (name === undefined || name === "") name = "Operation";
+
+    const currentDate = new Date().toISOString();
+
+    const newTransactionRef = push(
+      ref(firebaseDatabase, `users/${userId}/transactions`)
+    );
+
+    set(newTransactionRef, {
+      accountId: payload.accountId,
+      amount: payload.amount,
+      balance: payload.balance,
+      name: name,
+      transactionDate: currentDate,
+      transactionType: payload.transactionType,
+      category: category,
+    })
+      .then(() => {
+        console.log("Added new transaction");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
   },
 };
