@@ -20,7 +20,7 @@
           <div
             class="column income"
             :style="{ height: setChartHeight(amount.income) }"
-            :title="amount.income"
+            :title="amount.income.toFixed(2)"
           >
             <div class="amount" v-if="amount.income > 0">
               {{ amount.income }}
@@ -29,7 +29,7 @@
           <div
             class="column expense"
             :style="{ height: setChartHeight(amount.expense) }"
-            :title="amount.expense"
+            :title="amount.expense.toFixed(2)"
           >
             <div class="amount" v-if="amount.expense > 0">
               {{ amount.expense }}
@@ -119,7 +119,8 @@ const setChartHeight = (value) => {
 }
 .days {
   width: 100%;
-  height: calc(100% - 2rem);
+  height: calc(100% - 3rem);
+  margin: 1rem 0 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,6 +165,21 @@ const setChartHeight = (value) => {
     .column {
       width: 50%;
       border-radius: 0.6rem;
+      position: relative;
+      .amount {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Montserrat;
+        width: 100%;
+        top: -1rem;
+        height: 1rem;
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: $font-color-light;
+        user-select: none;
+      }
       &.expense {
         background-color: $color-red;
       }
