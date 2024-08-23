@@ -1,6 +1,9 @@
 <template>
   <div class="widget-container" ref="containerRef">
     <BasicSpinner v-if="loading"></BasicSpinner>
+    <div class="widget-no-data" v-else-if="accounts.length === 0">
+      <h3>No accounts</h3>
+    </div>
     <div class="inner" v-else>
       <div class="account-select">
         <div

@@ -160,7 +160,9 @@ export default {
   },
   deleteAccount(context, payload) {
     const userId = context.getters.getUserId;
-    const accountId = Number(payload.id);
+    const accountId = context.getters.getSingleAccountInfo(
+      payload.id
+    ).accountId;
     const transactionsQuery = query(
       ref(firebaseDatabase, `users/${userId}/transactions`),
       orderByChild("accountId"),
@@ -172,6 +174,7 @@ export default {
         if (snapshot.exists()) {
           const numberOfTransactions = Object.keys(snapshot.val()).length;
           snapshot.forEach((childSnapshot) => {
+            console.log(childSnapshot);
             remove(
               ref(
                 firebaseDatabase,
@@ -184,38 +187,40 @@ export default {
           console.log("No transactions to delete");
         }
       })
-      .catch((error) => {
-        console.error("Error while deleting transactions:", error);
-      });
+      .then(() => {
+        get(ref(firebaseDatabase, `users/${userId}/accounts`))
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const accounts = snapshot.val();
 
-    get(ref(firebaseDatabase, `users/${userId}/accounts`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const accounts = snapshot.val();
+              accounts.splice(payload.id, 1);
 
-          accounts.splice(accountId, 1);
+              let newArray = {};
+              accounts.forEach((item, index) => {
+                newArray[index] = item;
+              });
 
-          let newArray = {};
-          accounts.forEach((item, index) => {
-            newArray[index] = item;
-          });
-
-          set(ref(firebaseDatabase, `users/${userId}/accounts`), newArray).then(
-            () => {
-              console.log(`Account deleted successfully`);
-              context.dispatch("showNotification", {
-                message: "Account deleted successfully",
+              set(
+                ref(firebaseDatabase, `users/${userId}/accounts`),
+                newArray
+              ).then(() => {
+                console.log(`Account deleted successfully`);
+                context.dispatch("showNotification", {
+                  message: "Account deleted successfully",
+                });
               });
             }
-          );
-        }
+          })
+          .catch((error) => {
+            console.error("Error while deleting account:", error);
+            context.dispatch("showNotification", {
+              message: "Something went wrong",
+              type: false,
+            });
+          });
       })
       .catch((error) => {
-        console.error("Error while deleting account:", error);
-        context.dispatch("showNotification", {
-          message: "Something went wrong",
-          type: false,
-        });
+        console.error("Error while deleting transactions:", error);
       });
   },
   setFavorite(context, payload) {

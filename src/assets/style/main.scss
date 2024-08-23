@@ -74,6 +74,15 @@ a {
   justify-content: center;
 }
 
+.widget-no-data {
+  opacity: 0.4;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 i {
   &.fa-arrow-down {
     // Income

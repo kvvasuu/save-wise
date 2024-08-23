@@ -16,7 +16,7 @@
     <div
       class="add-card"
       :class="{ small: $props.small, active: newAccountActive }"
-      v-if="!$props.small && newAccountPossible"
+      v-if="newAccountPossible"
       @click="addAccount"
       ref="addAccount"
     >
@@ -49,7 +49,7 @@ export default {
       }
     },
     addAccount() {
-      this.$router.replace(`/app/accounts/new_account`);
+      this.$router.push(`/app/accounts/new_account`);
       this.$refs.addAccount.scrollIntoView({
         behavior: "smooth",
         block: "nearest",

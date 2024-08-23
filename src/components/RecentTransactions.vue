@@ -1,6 +1,6 @@
 <template>
   <div class="widget-container" @click="goToTransactions">
-    <div class="no-transactions" v-if="transactions.length <= 0">
+    <div class="widget-no-data" v-if="transactions.length <= 0">
       <h3>No transactions yet</h3>
     </div>
     <ul v-else>
@@ -99,16 +99,11 @@ const displayAmount = (transaction) => {
   box-sizing: border-box;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover {
     transform: translateY(-0.26rem);
-  }
-  .no-transactions {
-    opacity: 0.4;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
   }
   ul {
     padding: 0;

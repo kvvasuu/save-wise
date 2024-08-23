@@ -10,6 +10,9 @@
         Expense</span
       >
     </div>
+    <div class="widget-no-data" v-if="transactions.length === 0">
+      <h3>No transactions</h3>
+    </div>
     <div class="days">
       <hr />
       <hr />
@@ -23,7 +26,7 @@
             :title="amount.income.toFixed(2)"
           >
             <div class="amount" v-if="amount.income > 0">
-              {{ amount.income }}
+              {{ amount.income.toFixed(2) }}
             </div>
           </div>
           <div
@@ -32,7 +35,7 @@
             :title="amount.expense.toFixed(2)"
           >
             <div class="amount" v-if="amount.expense > 0">
-              {{ amount.expense }}
+              {{ amount.expense.toFixed(2) }}
             </div>
           </div>
         </div>
@@ -50,7 +53,6 @@ const store = useStore();
 const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const transactions = computed(() => {
-  console.log(store.getters.getWeeklyTransactions);
   return store.getters.getWeeklyTransactions;
 });
 
@@ -87,6 +89,11 @@ const setChartHeight = (value) => {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+.widget-no-data {
+  position: absolute;
+  height: 4rem;
+  top: calc(50% - 1.4rem);
 }
 .legend {
   width: 100%;
