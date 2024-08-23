@@ -27,8 +27,18 @@
       </div>
       <div class="inputs">
         <span>Amount:</span>
-        <input type="number" />
-        <BasicButton>Send</BasicButton>
+        <input
+          type="number"
+          v-model="amount"
+          min="1"
+          max="9999999"
+          @blur="formatInput"
+        />
+        <BasicButton
+          @click="sendMoney"
+          :class="{ disabled: selectedAccountIndex === null }"
+          >Send<i class="fa-solid fa-piggy-bank"></i
+        ></BasicButton>
       </div>
     </div>
   </div>
@@ -41,7 +51,25 @@ import { gradientMap } from "@/assets/script";
 import BasicSpinner from "./misc/BasicSpinner.vue";
 
 const store = useStore();
-const loading = false;
+const loading = ref(false);
+
+const amount = ref(5);
+
+const formatInput = () => {
+  if (amount.value > 999999) {
+    amount.value = 999999;
+  } else if (amount.value < 1) {
+    amount.value = 1;
+  }
+};
+
+const sendMoney = () => {
+  loading.value = true;
+
+  setTimeout(() => {
+    loading.value = false;
+  }, 2000);
+};
 
 let containerRef = ref(null);
 let selectedAccountIndex = ref(null);
@@ -102,7 +130,7 @@ onBeforeUnmount(() => {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   .account {
     width: 25%;
     aspect-ratio: 1 / 1;
@@ -201,6 +229,9 @@ onBeforeUnmount(() => {
     padding: 0 0.3rem 0 0;
     &:hover {
       transform: none;
+    }
+    i {
+      margin: 0 0 0 0.3rem;
     }
   }
 }

@@ -16,9 +16,9 @@
     </div>
     <div class="small-container">
       <div class="title">
-        <h3>Quick Transfer</h3>
+        <h3>Quick Deposit</h3>
       </div>
-      <QuickTransfer></QuickTransfer>
+      <QuickDeposit></QuickDeposit>
     </div>
     <div class="small-container">
       <div class="title">
@@ -40,7 +40,7 @@ import CardsContainer from "@/components/containers/CardsContainer.vue";
 import RecentTransactions from "@/components/RecentTransactions.vue";
 import ExpenseStatistics from "@/components/ExpenseStatistics.vue";
 import WeeklyActivity from "@/components/WeeklyActivity.vue";
-import QuickTransfer from "@/components/QuickTransfer.vue";
+import QuickDeposit from "@/components/QuickDeposit.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
