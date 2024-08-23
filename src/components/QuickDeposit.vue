@@ -121,11 +121,11 @@ onBeforeUnmount(() => {
 });
 
 onBeforeRouteLeave((to, from) => {
-  if (loading) {
+  if (loading.value) {
     const answer = window.confirm(
       "Do you really want to leave? You have unsaved changes!"
     );
-    return !answer ? false : this.discardAccountInfo();
+    return !!answer;
   }
 });
 </script>
@@ -265,6 +265,7 @@ onBeforeRouteLeave((to, from) => {
     width: 5rem;
     margin: 0;
     padding: 0 0.3rem 0 0;
+    font-size: 0.9rem;
     &:hover {
       transform: none;
     }

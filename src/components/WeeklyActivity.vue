@@ -21,12 +21,20 @@
             class="column income"
             :style="{ height: setChartHeight(amount.income) }"
             :title="amount.income"
-          ></div>
+          >
+            <div class="amount" v-if="amount.income > 0">
+              {{ amount.income }}
+            </div>
+          </div>
           <div
             class="column expense"
             :style="{ height: setChartHeight(amount.expense) }"
             :title="amount.expense"
-          ></div>
+          >
+            <div class="amount" v-if="amount.expense > 0">
+              {{ amount.expense }}
+            </div>
+          </div>
         </div>
         <div class="day-name">{{ getDayName(amount.day) }}</div>
       </div>
