@@ -55,6 +55,7 @@ import { useStore } from "vuex";
 import { gradientMap } from "@/assets/script";
 import BasicSpinner from "./misc/BasicSpinner.vue";
 import { currencyMap } from "@/assets/script";
+import { onBeforeRouteLeave } from "vue-router";
 
 const store = useStore();
 const loading = ref(false);
@@ -117,6 +118,15 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleClickOutside);
+});
+
+onBeforeRouteLeave((to, from) => {
+  if (loading) {
+    const answer = window.confirm(
+      "Do you really want to leave? You have unsaved changes!"
+    );
+    return !answer ? false : this.discardAccountInfo();
+  }
 });
 </script>
 
