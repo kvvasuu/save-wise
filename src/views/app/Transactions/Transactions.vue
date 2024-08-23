@@ -37,6 +37,7 @@
           <div class="type">Type</div>
           <div class="account">Account</div>
           <div class="amount">Amount</div>
+          <div class="button"></div>
         </div>
         <transaction-item
           v-for="transaction in paginatedTransactions"
@@ -325,6 +326,13 @@ main {
       text-align: right;
     }
   }
+}
+
+.button {
+  width: 2rem;
+  height: 2rem;
+  margin: 0 0 0 1rem;
+  opacity: 0;
 }
 
 .pagination {

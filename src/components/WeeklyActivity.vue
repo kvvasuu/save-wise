@@ -176,7 +176,7 @@ const setChartHeight = (value) => {
         top: -1rem;
         height: 1rem;
         font-weight: 600;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         color: $font-color-light;
         user-select: none;
       }

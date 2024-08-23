@@ -23,6 +23,9 @@
       >
         {{ displayAmount }}
       </div>
+      <div class="button">
+        <i class="fa-solid fa-angle-down" :class="{ rotate: isExpanded }"></i>
+      </div>
     </div>
     <Transition name="transaction-slide">
       <div class="transaction-expanded" v-if="isExpanded">
@@ -297,6 +300,28 @@ const displayBalance = computed(() => {
 .amount {
   width: 15%;
   text-align: right;
+}
+.button {
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  width: 2rem;
+  height: 2rem;
+  margin: 0 0 0 1rem;
+  i {
+    transition: all 0.6s ease;
+    width: 1rem;
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.rotate {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 @media (max-width: 1000px) {

@@ -3,8 +3,8 @@ import AppView from "@/views/app/AppView.vue";
 import RegisterPage from "@/views/auth/RegisterPage.vue";
 import LoginPage from "@/views/auth/LoginPage.vue";
 import PasswordReset from "@/views/auth/PasswordReset.vue";
-import EditPreferences from "@/views/app/settings/EditPreferences.vue";
-import EditProfile from "@/views/app/settings/EditProfile.vue";
+import EditPreferences from "@/views/app/Settings/EditPreferences.vue";
+import EditProfile from "@/views/app/Settings/EditProfile.vue";
 import DashBoard from "@/views/app/DashBoard.vue";
 import store from "@/store";
 
@@ -68,12 +68,6 @@ const router = createRouter({
           meta: { title: "Dashboard" },
         },
         {
-          path: "transactions",
-          name: "Transactions",
-          component: () => import("@/views/app/Transactions/Transactions.vue"),
-          meta: { title: "Transactions" },
-        },
-        {
           path: "accounts/:id?",
           name: "Accounts",
           component: () => import("@/views/app/Accounts/Accounts.vue"),
@@ -92,9 +86,21 @@ const router = createRouter({
           ],
         },
         {
+          path: "operations",
+          name: "Operations",
+          component: () => import("@/views/app/Operations/Operations.vue"),
+          meta: { title: "Operations" },
+        },
+        {
+          path: "transactions",
+          name: "Transactions",
+          component: () => import("@/views/app/Transactions/Transactions.vue"),
+          meta: { title: "Transactions" },
+        },
+        {
           path: "settings",
           name: "Settings",
-          component: () => import("@/views/app/settings/Settings.vue"),
+          component: () => import("@/views/app/Settings/Settings.vue"),
           meta: { title: "Settings" },
           children: [
             {

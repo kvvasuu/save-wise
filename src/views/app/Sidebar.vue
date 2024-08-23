@@ -32,6 +32,16 @@
               </div>
             </RouterLink>
             <RouterLink
+              to="/app/operations"
+              active-class="router-active"
+              @click="hideSidebar"
+              draggable="false"
+            >
+              <div class="list-item-inner">
+                <i class="fa-solid fa-coins"></i><span>Operations</span>
+              </div>
+            </RouterLink>
+            <RouterLink
               to="/app/transactions"
               active-class="router-active"
               @click="hideSidebar"
