@@ -68,8 +68,8 @@ const amount = ref(5);
 const formatInput = () => {
   if (amount.value > 999999) {
     amount.value = 999999;
-  } else if (amount.value < 1) {
-    amount.value = 1;
+  } else if (amount.value < 0.01) {
+    amount.value = 0.01;
   }
 };
 
