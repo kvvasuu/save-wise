@@ -73,10 +73,13 @@ const displayDate = (transaction) => {
 };
 
 const currency = (accountId) => {
-  return currencyMap[
-    store.getters.getSingleAccountInfo(store.getters.getAccountIndex(accountId))
-      .currency
-  ];
+  if (!!transactions) {
+    return currencyMap[
+      store.getters.getSingleAccountInfo(
+        store.getters.getAccountIndex(accountId)
+      ).currency
+    ];
+  }
 };
 
 const displayAmount = (transaction) => {
