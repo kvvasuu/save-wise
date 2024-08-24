@@ -23,7 +23,7 @@ const closeModal = () => {
 
 <style lang="scss" scoped>
 .outer-modal {
-  position: absolute;
+  position: fixed;
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;

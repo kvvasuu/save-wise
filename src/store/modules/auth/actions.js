@@ -121,7 +121,7 @@ export default {
               context.commit("setPhotoUrl", { photoURL: url });
               context.dispatch("showNotification", {
                 message: "Image updated!",
-                type: false,
+                type: true,
               });
               resolve();
             });

@@ -29,7 +29,7 @@ export default {
 <style lang="scss" scoped>
 .outer {
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 1rem;
   left: 0;
   display: flex;
