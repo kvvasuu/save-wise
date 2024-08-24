@@ -72,9 +72,8 @@ const chartOptions = {
           if (label) {
             label += ": ";
           }
-          // Użyj context.raw zamiast context.parsed.y
           if (context.raw !== null) {
-            label += context.raw + "%"; // Dodaje '%' do wartości w tooltipie
+            label += context.raw + "%";
           }
           return label;
         },
