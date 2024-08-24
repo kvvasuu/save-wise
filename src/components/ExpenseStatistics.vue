@@ -22,10 +22,12 @@ const transactions = computed(() => {
 });
 
 const statistics = ref({});
+const expenseSum = ref(0);
 
 Object.values(transactions.value)
   .filter((el) => el.transactionType === "expense")
   .forEach((el) => {
+    expenseSum.value += el.amount;
     if (el.hasOwnProperty("category")) {
       statistics.value.hasOwnProperty(el.category)
         ? (statistics.value[el.category] += el.amount)
@@ -36,6 +38,13 @@ Object.values(transactions.value)
         : (statistics.value.other = el.amount);
     }
   });
+
+statistics.value = Object.fromEntries(
+  Object.entries(statistics.value).map(([key, value]) => [
+    key,
+    ((value / expenseSum.value) * 100).toFixed(2),
+  ])
+);
 
 const chartData = reactive({
   labels: Object.keys(statistics.value).map((el) => {
@@ -49,10 +58,27 @@ const chartData = reactive({
     },
   ],
 });
+
 const chartOptions = {
   plugins: {
     legend: {
       position: "right",
+      onClick: null,
+    },
+    tooltip: {
+      callbacks: {
+        label: function (context) {
+          let label = context.dataset.label || "";
+          if (label) {
+            label += ": ";
+          }
+          // Użyj context.raw zamiast context.parsed.y
+          if (context.raw !== null) {
+            label += context.raw + "%"; // Dodaje '%' do wartości w tooltipie
+          }
+          return label;
+        },
+      },
     },
   },
   responsive: true,
@@ -62,7 +88,7 @@ const chartOptions = {
   },
 };
 
-console.log(chartData.value);
+console.log(chartData);
 </script>
 
 <style lang="scss" scoped>
