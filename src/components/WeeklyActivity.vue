@@ -21,21 +21,23 @@
       <div class="day" v-for="amount in transactions" :title="amount.day">
         <div class="chart">
           <div
-            class="column income"
+            class="column-wrapper"
             :style="{ height: setChartHeight(amount.income) }"
-            :title="amount.income.toFixed(2)"
           >
-            <div class="amount" v-if="amount.income > 0">
-              {{ amount.income.toFixed(2) }}
+            <div class="column income" :title="amount.income.toFixed(2)">
+              <div class="amount" v-if="amount.income > 0">
+                {{ amount.income.toFixed(2) }}
+              </div>
             </div>
           </div>
           <div
-            class="column expense"
+            class="column-wrapper"
             :style="{ height: setChartHeight(amount.expense) }"
-            :title="amount.expense.toFixed(2)"
           >
-            <div class="amount" v-if="amount.expense > 0">
-              {{ amount.expense.toFixed(2) }}
+            <div class="column expense" :title="amount.expense.toFixed(2)">
+              <div class="amount" v-if="amount.expense > 0">
+                {{ amount.expense.toFixed(2) }}
+              </div>
             </div>
           </div>
         </div>
@@ -157,29 +159,36 @@ const setChartHeight = (value) => {
     align-items: flex-end;
     justify-content: center;
     gap: 0.5rem;
-    .column {
+    .column-wrapper {
       width: 50%;
-      border-radius: 0.6rem;
       position: relative;
-      .amount {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Montserrat;
+      .column {
         width: 100%;
-        top: -1rem;
-        height: 1rem;
-        font-weight: 600;
-        font-size: 0.7rem;
-        color: $font-color-light;
-        user-select: none;
-      }
-      &.expense {
-        background-color: $color-red;
-      }
-      &.income {
-        background-color: $color-blue;
+        height: 100%;
+        border-radius: 0.6rem;
+        position: absolute;
+        bottom: 0;
+        animation: column-grow 1s ease;
+        .amount {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-family: Montserrat;
+          width: 100%;
+          top: -1rem;
+          height: 1rem;
+          font-weight: 600;
+          font-size: 0.7rem;
+          color: $font-color-light;
+          user-select: none;
+        }
+        &.expense {
+          background-color: $color-red;
+        }
+        &.income {
+          background-color: $color-blue;
+        }
       }
     }
   }
@@ -191,6 +200,15 @@ const setChartHeight = (value) => {
     font-weight: 600;
     font-size: 0.9rem;
     color: $font-color-light;
+  }
+}
+
+@keyframes column-grow {
+  0% {
+    height: 0.2%;
+  }
+  100% {
+    height: 100%;
   }
 }
 </style>
