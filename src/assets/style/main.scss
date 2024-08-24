@@ -83,6 +83,21 @@ a {
   width: 100%;
 }
 
+.widget-container {
+  height: 14.61rem;
+  width: 100%;
+  background-color: $background-color;
+  border-radius: 1rem;
+  position: relative;
+  box-shadow: 0.1rem 0.2rem 0.5rem rgba(54, 54, 54, 0.2);
+  padding: 1rem;
+  margin: 0.4rem 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 i {
   &.fa-arrow-down {
     // Income

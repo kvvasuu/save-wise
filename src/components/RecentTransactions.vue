@@ -91,20 +91,8 @@ const displayAmount = (transaction) => {
 
 <style lang="scss" scoped>
 .widget-container {
-  height: 14.61rem;
-  width: 100%;
-  background-color: $background-color;
-  border-radius: 1rem;
-  position: relative;
-  box-shadow: 0.1rem 0.2rem 0.5rem rgba(54, 54, 54, 0.2);
-  padding: 1rem 1rem;
-  margin: 0.4rem 0;
-  box-sizing: border-box;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   &:hover {
     transform: translateY(-0.26rem);
   }
@@ -160,9 +148,10 @@ const displayAmount = (transaction) => {
         .info {
           display: flex;
           align-items: flex-start;
-          justify-content: center;
+          justify-content: space-between;
           flex-direction: column;
           width: 100%;
+          height: 60%;
           .name,
           .date {
             text-overflow: ellipsis;
