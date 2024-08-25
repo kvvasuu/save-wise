@@ -45,3 +45,22 @@
 .slide-appcontainer-leave-to {
   transform: translateX(-100rem);
 }
+
+.fade-scale-enter-active {
+  animation: fade-scale 0.5s ease;
+}
+.fade-scale-leave-active {
+  animation: fade-scale 0.5s reverse ease;
+}
+
+@keyframes fade-scale {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

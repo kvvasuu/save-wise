@@ -2,7 +2,12 @@
   <div class="inner">
     <div class="account-select" @click="showSelectAccountModal">
       <h3>Select account</h3>
-      <div class="current-account">
+      <div
+        class="current-account"
+        :class="{
+          'not-selected': selectAccountModal,
+        }"
+      >
         <div
           class="image"
           :style="{
@@ -20,28 +25,30 @@
           {{ accounts[selectedAccountIndex].currency }}
         </div>
       </div>
-      <div
-        class="account-select-modal"
-        ref="containerRef"
-        v-if="selectAccountModal"
-      >
+      <Transition name="fade-scale">
         <div
-          class="account"
-          v-for="(account, index) in accounts"
-          @click="selectAccount(index, account)"
-          :key="index"
-          :title="account.accountName"
+          class="account-select-modal"
+          ref="containerRef"
+          v-if="selectAccountModal"
         >
           <div
-            class="image"
-            :style="{ background: gradientMap[account.color] }"
+            class="account"
+            v-for="(account, index) in accounts"
+            @click="selectAccount(index, account)"
+            :key="index"
+            :title="account.accountName"
           >
-            <span>{{ getAccountInitials(account.accountName) }}</span>
+            <div
+              class="image"
+              :style="{ background: gradientMap[account.color] }"
+            >
+              <span>{{ getAccountInitials(account.accountName) }}</span>
+            </div>
+            <div class="name">{{ account.accountName }}</div>
+            <div class="currency">{{ account.currency }}</div>
           </div>
-          <div class="name">{{ account.accountName }}</div>
-          <div class="currency">{{ account.currency }}</div>
         </div>
-      </div>
+      </Transition>
     </div>
     <div class="form"></div>
   </div>
@@ -137,19 +144,20 @@ onBeforeRouteLeave((to, from) => {
   width: 100%;
   border: none;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 2rem;
   box-sizing: border-box;
 }
 
 .account-select {
-  height: 100%;
-  width: 30%;
+  height: 16rem;
+  width: 16rem;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: flex-start;
+  position: relative;
   .current-account {
     width: 12rem;
     height: 12rem;
@@ -162,19 +170,17 @@ onBeforeRouteLeave((to, from) => {
     transition: all 0.2s ease;
     border-radius: 20rem;
     box-sizing: border-box;
-    &:hover {
+    &:hover:not(.not-selected) {
       .image {
         scale: 1.02;
         transform: translateY(-2px);
         box-shadow: 0 0 0.6rem rgba(54, 54, 54, 0.3);
       }
     }
-    &.selected {
-      transform: translateY(-2px);
-      background-color: $details-color;
-    }
     &.not-selected {
-      filter: grayscale(0.8);
+      cursor: default;
+      opacity: 0.5;
+      filter: grayscale(0.9);
     }
     .image {
       width: 70%;
@@ -217,14 +223,14 @@ onBeforeRouteLeave((to, from) => {
   width: 70%;
 }
 .account-select-modal {
-  height: 10rem;
-  width: 10rem;
+  width: 20rem;
+  height: 20rem;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: calc(50% - 10rem);
+  left: 0;
   .account {
     height: 100%;
     width: 100%;
@@ -233,7 +239,6 @@ onBeforeRouteLeave((to, from) => {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: 0.8rem 0.4rem 0.6rem 0.4rem;
     cursor: pointer;
     background-color: none;
     transition: all 0.2s ease;
