@@ -1,61 +1,73 @@
 <template>
-  <div class="inner">
-    <div class="account-select" @click="showSelectAccountModal">
-      <h3>Select account</h3>
-      <div
-        class="current-account"
-        :class="{
-          'not-selected': selectAccountModal,
-        }"
-      >
-        <div
-          class="image"
-          :style="{
-            background: gradientMap[accounts[selectedAccountIndex].color],
+  <div class="outer">
+    <BasicSpinner v-if="!accounts || loading"></BasicSpinner>
+    <div class="inner" v-else>
+      <div class="account-select">
+        <h3
+          :class="{
+            'not-selected': selectAccountModal,
           }"
         >
-          <span>{{
-            getAccountInitials(accounts[selectedAccountIndex].accountName)
-          }}</span>
-        </div>
-        <div class="name">
-          {{ accounts[selectedAccountIndex].accountName }}
-        </div>
-        <div class="currency">
-          {{ accounts[selectedAccountIndex].currency }}
-        </div>
-      </div>
-      <Transition name="fade-scale">
+          Select account
+        </h3>
         <div
-          class="account-select-modal"
-          ref="containerRef"
-          v-if="selectAccountModal"
+          class="current-account"
+          :class="{
+            'not-selected': selectAccountModal,
+          }"
+          @click="showSelectAccountModal"
         >
           <div
-            class="account"
-            v-for="(account, index) in accounts"
-            @click="selectAccount(index, account)"
-            :key="index"
-            :title="account.accountName"
+            class="image"
+            :style="{
+              background: gradientMap[selectedAccount.color],
+            }"
           >
-            <div
-              class="image"
-              :style="{ background: gradientMap[account.color] }"
-            >
-              <span>{{ getAccountInitials(account.accountName) }}</span>
-            </div>
-            <div class="name">{{ account.accountName }}</div>
-            <div class="currency">{{ account.currency }}</div>
+            <span>{{ getAccountInitials(selectedAccount.name) }}</span>
+          </div>
+          <div class="name">
+            {{ selectedAccount.name }}
+          </div>
+          <div class="currency">
+            {{ selectedAccount.currency }}
           </div>
         </div>
-      </Transition>
+        <Transition name="fade-scale">
+          <div
+            class="account-select-modal"
+            ref="containerRef"
+            v-if="selectAccountModal"
+          >
+            <div
+              class="account"
+              v-for="(account, index) in accounts"
+              @click="selectAccount(index, account)"
+              :key="index"
+              :title="account.accountName"
+              :class="{
+                selected: selectedAccountIndex === index,
+              }"
+              :style="getCircleItemStyle(index)"
+            >
+              <div
+                class="image"
+                :style="{ background: gradientMap[account.color] }"
+              >
+                <span>{{ getAccountInitials(account.accountName) }}</span>
+              </div>
+              <div class="name">{{ account.accountName }}</div>
+              <div class="currency">{{ account.currency }}</div>
+            </div>
+          </div>
+        </Transition>
+      </div>
+      <div class="form"></div>
     </div>
-    <div class="form"></div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, onMounted, onBeforeUnmount } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import { gradientMap, currencyMap } from "@/assets/script";
 import { onBeforeRouteLeave } from "vue-router";
@@ -75,7 +87,7 @@ const formatInput = () => {
 const sendMoney = () => {
   if (selectedAccountIndex.value === null) return;
   loading.value = true;
-  /* 
+  /*
   store
     .dispatch("quickDeposit", {
       id: selectedAccountIndex.value,
@@ -87,9 +99,9 @@ const sendMoney = () => {
 };
 
 const containerRef = ref(null);
+
 const selectedAccountIndex = ref(0);
 const selectedAccountCurrency = ref(null);
-
 const selectAccountModal = ref(false);
 
 const showSelectAccountModal = () => {
@@ -97,7 +109,18 @@ const showSelectAccountModal = () => {
 };
 
 const accounts = computed(() => {
-  return store.getters.getAccountsInfo;
+  return store.getters.getAccountsInfo || [];
+});
+
+const selectedAccount = computed(() => {
+  const account = accounts.value[selectedAccountIndex.value];
+  return account
+    ? {
+        name: account.accountName,
+        color: account.color,
+        currency: account.currency,
+      }
+    : {};
 });
 
 const getAccountInitials = (accountName) => {
@@ -111,22 +134,16 @@ const getAccountInitials = (accountName) => {
 const selectAccount = (index, account) => {
   selectedAccountCurrency.value = currencyMap[account.currency];
   selectedAccountIndex.value = index;
+  selectAccountModal.value = false;
 };
 
-const handleClickOutside = (event) => {
-  const path = event.composedPath();
-  if (!path.includes(containerRef.value)) {
-    selectedAccountIndex.value = 0;
-  }
+const getCircleItemStyle = (index) => {
+  console.log(Object.keys(accounts.value).length);
+  const angle = (360 / Object.keys(accounts.value).length) * index;
+  return {
+    transform: `translate(-50%, -50%) rotate(${angle}deg) translate(8rem) rotate(-${angle}deg)`,
+  };
 };
-
-onMounted(() => {
-  document.addEventListener("click", handleClickOutside);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener("click", handleClickOutside);
-});
 
 onBeforeRouteLeave((to, from) => {
   if (loading.value) {
@@ -139,14 +156,21 @@ onBeforeRouteLeave((to, from) => {
 </script>
 
 <style lang="scss" scoped>
-.inner {
+.outer {
   height: 40rem;
   width: 100%;
-  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner {
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
-  padding: 2rem;
+  justify-content: flex-start;
+  padding: 3rem 2rem 2rem 2rem;
   box-sizing: border-box;
 }
 
@@ -158,6 +182,14 @@ onBeforeRouteLeave((to, from) => {
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
+  h3 {
+    transition: all 0.5s ease;
+  }
+  .not-selected {
+    cursor: default;
+    opacity: 0.5;
+    filter: grayscale(0.9) blur(10px);
+  }
   .current-account {
     width: 12rem;
     height: 12rem;
@@ -167,9 +199,9 @@ onBeforeRouteLeave((to, from) => {
     flex-direction: column;
     cursor: pointer;
     background-color: none;
-    transition: all 0.2s ease;
     border-radius: 20rem;
     box-sizing: border-box;
+    transition: all 0.5s ease;
     &:hover:not(.not-selected) {
       .image {
         scale: 1.02;
@@ -177,11 +209,7 @@ onBeforeRouteLeave((to, from) => {
         box-shadow: 0 0 0.6rem rgba(54, 54, 54, 0.3);
       }
     }
-    &.not-selected {
-      cursor: default;
-      opacity: 0.5;
-      filter: grayscale(0.9);
-    }
+
     .image {
       width: 70%;
       height: 70%;
@@ -193,7 +221,7 @@ onBeforeRouteLeave((to, from) => {
       box-shadow: 0.08rem 0.08rem 0.4rem rgba(54, 54, 54, 0.1);
       color: rgba(255, 255, 255, 0.836);
       span {
-        font-size: 1.5rem;
+        font-size: 3rem;
         font-family: Montserrat;
         font-weight: 900;
       }
@@ -225,15 +253,12 @@ onBeforeRouteLeave((to, from) => {
 .account-select-modal {
   width: 20rem;
   height: 20rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: absolute;
-  top: calc(50% - 10rem);
-  left: 0;
+  top: 50%;
+  left: 50%;
+  translate: -50% -44%;
   .account {
-    height: 100%;
-    width: 100%;
+    height: 6rem;
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -244,11 +269,12 @@ onBeforeRouteLeave((to, from) => {
     transition: all 0.2s ease;
     border-radius: 10rem;
     box-sizing: border-box;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
     &:hover {
       scale: 1.01;
-    }
-    &.selected {
-      scale: 1.03;
     }
     .image {
       width: 3.8rem;
@@ -379,6 +405,13 @@ form {
     i {
       margin: 0 0 0 0.3rem;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .inner {
+    align-items: center;
+    flex-direction: column;
   }
 }
 </style>
