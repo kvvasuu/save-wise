@@ -138,10 +138,20 @@ const selectAccount = (index, account) => {
 };
 
 const getCircleItemStyle = (index) => {
-  console.log(Object.keys(accounts.value).length);
-  const angle = (360 / Object.keys(accounts.value).length) * index;
+  let angle;
+  let translate;
+  switch (Object.keys(accounts.value).length) {
+    case 3:
+      angle = index === 0 ? 90 : index === 1 ? 210 : 330;
+      translate = `translate(-50%, -60%)`;
+      break;
+    default:
+      translate = `translate(-50%, -50%)`;
+      angle = (360 / Object.keys(accounts.value).length) * index;
+  }
+
   return {
-    transform: `translate(-50%, -50%) rotate(${angle}deg) translate(8rem) rotate(-${angle}deg)`,
+    transform: `${translate} rotate(${angle}deg) translate(8rem) rotate(-${angle}deg)`,
   };
 };
 
