@@ -2,43 +2,42 @@
   <main>
     <div class="navbar">
       <ul>
-        <a
-          :class="{ active: currentPage === 'Deposit' }"
+        <RouterLink
+          to="/app/operations"
+          exact-active-class="router-active"
           @click="changePage('Deposit')"
-          ><div class="list-item-inner">Deposit</div></a
         >
-        <a
-          :class="{ active: currentPage === 'Withdraw' }"
+          <div class="list-item-inner">Deposit</div>
+        </RouterLink>
+        <RouterLink
+          to="/app/operations/withdraw"
+          exact-active-class="router-active"
           @click="changePage('Withdraw')"
-          ><div class="list-item-inner">Withdraw</div></a
         >
-        <a
-          :class="{ active: currentPage === 'Transfer' }"
-          @click="changePage('Transfer')"
-          ><div class="list-item-inner">Transfer</div></a
+          <div class="list-item-inner">Withdraw</div>
+        </RouterLink>
+        <RouterLink
+          to="/app/operations/transfer"
+          exact-active-class="router-active"
+          @click="changePage('Deposit')"
         >
+          <div class="list-item-inner">Transfer</div>
+        </RouterLink>
       </ul>
     </div>
-    <component :is="currentPageComponent"></component>
+    <RouterView></RouterView>
   </main>
 </template>
 
 <script setup>
-import Deposit from "./Deposit.vue";
-import Transfer from "./Transfer.vue";
-import Withdraw from "./Withdraw.vue";
+import { RouterLink } from "vue-router";
 import { ref, computed } from "vue";
 
-const components = {
-  Deposit,
-  Withdraw,
-  Transfer,
-};
 const currentPage = ref("Deposit");
-const changePage = (pageName) => {
-  currentPage.value = pageName;
+
+const changePage = (page) => {
+  currentPage.value = page;
 };
-const currentPageComponent = computed(() => components[currentPage.value]);
 </script>
 
 <style lang="scss" scoped>
@@ -94,7 +93,7 @@ main {
         text-align: center;
       }
     }
-    .active {
+    .router-active {
       .list-item-inner {
         color: $primary-color;
         transform: translateY(-0.13rem);

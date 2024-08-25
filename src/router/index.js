@@ -90,6 +90,23 @@ const router = createRouter({
           name: "Operations",
           component: () => import("@/views/app/Operations/Operations.vue"),
           meta: { title: "Operations" },
+          children: [
+            {
+              path: "",
+              name: "Deposit",
+              component: () => import("@/views/app/Operations/Deposit.vue"),
+            },
+            {
+              path: "withdraw",
+              name: "Withdraw",
+              component: () => import("@/views/app/Operations/Withdraw.vue"),
+            },
+            {
+              path: "transfer",
+              name: "Transfer",
+              component: () => import("@/views/app/Operations/Transfer.vue"),
+            },
+          ],
         },
         {
           path: "transactions",
