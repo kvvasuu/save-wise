@@ -55,9 +55,7 @@
 <script setup>
 import { computed, ref, onMounted, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
-import { gradientMap } from "@/assets/script";
-import BasicSpinner from "./misc/BasicSpinner.vue";
-import { currencyMap } from "@/assets/script";
+import { gradientMap, currencyMap } from "@/assets/script";
 import { onBeforeRouteLeave } from "vue-router";
 
 const store = useStore();

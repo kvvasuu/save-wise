@@ -86,8 +86,6 @@ const chartOptions = {
     padding: 16,
   },
 };
-
-console.log(chartData);
 </script>
 
 <style lang="scss" scoped>
