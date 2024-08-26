@@ -33,7 +33,7 @@
           </div>
         </div>
         <Transition name="fade-scale">
-          <div class="account-select-modal" v-show="selectAccountModal">
+          <div class="account-select-modal" v-if="selectAccountModal">
             <div
               class="account"
               v-for="(account, index) in accounts"
@@ -58,13 +58,26 @@
           </div>
         </Transition>
       </div>
-      <div class="form"></div>
+
+      <form>
+        <div class="group">
+          <label for="title">Title</label>
+          <input type="text" class="input" id="title" v-model="title" />
+        </div>
+        <div class="group">
+          <label for="amount">Amount</label>
+          <input type="number" class="input" id="amount" v-model="amount" />
+          <div class="currency">
+            {{ selectedAccount.currency }}
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, nextTick, onUnmounted, ref } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import { gradientMap, currencyMap } from "@/assets/script";
 import { onBeforeRouteLeave } from "vue-router";
@@ -276,9 +289,6 @@ onBeforeRouteLeave((to, from) => {
   }
 }
 
-.form {
-  width: 70%;
-}
 .account-select-modal {
   width: 20rem;
   height: 20rem;
@@ -303,7 +313,7 @@ onBeforeRouteLeave((to, from) => {
     transform: translate(-50%, -50%);
     padding: 0.5rem;
     &.no-selected {
-      opacity: 0.9;
+      opacity: 0.7;
       filter: grayscale(0.9);
       &:hover {
         opacity: 1;
@@ -386,26 +396,19 @@ onBeforeRouteLeave((to, from) => {
 }
 
 form {
-  height: 2.5rem;
-  width: 20rem;
+  width: 70%;
+  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  span {
-    font-size: 0.9rem;
-    font-family: Montserrat;
-    font-weight: 600;
-    color: $font-color-light;
-  }
+  justify-content: flex-start;
+  flex-direction: column;
   input {
     height: 2.2rem;
-    width: 6rem;
+    width: 100%;
     margin: 0 0 0 0.5rem;
     border: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
