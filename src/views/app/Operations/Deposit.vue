@@ -308,7 +308,6 @@ onBeforeRouteLeave((to, from) => {
       &:hover {
         opacity: 1;
         filter: grayscale(0);
-        transform: rotate(20deg);
       }
     }
 
