@@ -42,7 +42,7 @@
               :title="account.accountName"
               ref="containerRef"
               :class="{
-                selected: selectedAccountIndex === index,
+                'no-selected': selectedAccountIndex !== index,
               }"
               :style="getCircleItemStyle(index)"
             >
@@ -287,7 +287,7 @@ onBeforeRouteLeave((to, from) => {
   left: 50%;
   translate: -50% -44%;
   .account {
-    height: 6rem;
+    height: 7rem;
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -296,15 +296,22 @@ onBeforeRouteLeave((to, from) => {
     cursor: pointer;
     background-color: none;
     transition: all 0.2s ease;
-    border-radius: 10rem;
     box-sizing: border-box;
     top: 50%;
     left: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
-    &:hover {
-      scale: 1.01;
+    padding: 0.5rem;
+    &.no-selected {
+      opacity: 0.9;
+      filter: grayscale(0.9);
+      &:hover {
+        opacity: 1;
+        filter: grayscale(0);
+        transform: rotate(20deg);
+      }
     }
+
     .image {
       width: 3.8rem;
       height: 3.8rem;
