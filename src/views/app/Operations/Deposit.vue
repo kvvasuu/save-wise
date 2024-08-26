@@ -33,17 +33,14 @@
           </div>
         </div>
         <Transition name="fade-scale">
-          <div
-            class="account-select-modal"
-            ref="containerRef"
-            v-if="selectAccountModal"
-          >
+          <div class="account-select-modal" v-show="selectAccountModal">
             <div
               class="account"
               v-for="(account, index) in accounts"
               @click="selectAccount(index, account)"
               :key="index"
               :title="account.accountName"
+              ref="containerRef"
               :class="{
                 selected: selectedAccountIndex === index,
               }"
@@ -67,7 +64,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, nextTick, onUnmounted, ref } from "vue";
 import { useStore } from "vuex";
 import { gradientMap, currencyMap } from "@/assets/script";
 import { onBeforeRouteLeave } from "vue-router";
@@ -105,7 +102,15 @@ const selectedAccountCurrency = ref(null);
 const selectAccountModal = ref(false);
 
 const showSelectAccountModal = () => {
-  selectAccountModal.value = !selectAccountModal.value;
+  selectAccountModal.value = true;
+  setTimeout(() => {
+    document.addEventListener("click", handleClickOutside);
+  }, 500);
+};
+
+const hideSelectAccountModal = () => {
+  selectAccountModal.value = false;
+  document.removeEventListener("click", handleClickOutside);
 };
 
 const accounts = computed(() => {
@@ -134,7 +139,7 @@ const getAccountInitials = (accountName) => {
 const selectAccount = (index, account) => {
   selectedAccountCurrency.value = currencyMap[account.currency];
   selectedAccountIndex.value = index;
-  selectAccountModal.value = false;
+  hideSelectAccountModal();
 };
 
 const getCircleItemStyle = (index) => {
@@ -153,6 +158,20 @@ const getCircleItemStyle = (index) => {
   return {
     transform: `${translate} rotate(${angle}deg) translate(8rem) rotate(-${angle}deg)`,
   };
+};
+
+const handleClickOutside = (event) => {
+  let clickedOutside = true;
+
+  containerRef.value.forEach((container) => {
+    if (container && container.contains(event.target)) {
+      clickedOutside = false;
+    }
+  });
+
+  if (clickedOutside) {
+    hideSelectAccountModal();
+  }
 };
 
 onBeforeRouteLeave((to, from) => {
