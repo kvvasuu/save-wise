@@ -3,8 +3,8 @@ import AppView from "@/views/app/AppView.vue";
 import RegisterPage from "@/views/auth/RegisterPage.vue";
 import LoginPage from "@/views/auth/LoginPage.vue";
 import PasswordReset from "@/views/auth/PasswordReset.vue";
-import EditPreferences from "@/views/app/Settings/EditPreferences.vue";
-import EditProfile from "@/views/app/Settings/EditProfile.vue";
+import EditPreferences from "@/views/app/settings/EditPreferences.vue";
+import EditProfile from "@/views/app/settings/EditProfile.vue";
 import DashBoard from "@/views/app/DashBoard.vue";
 import store from "@/store";
 
@@ -117,7 +117,7 @@ const router = createRouter({
         {
           path: "settings",
           name: "Settings",
-          component: () => import("@/views/app/Settings/Settings.vue"),
+          component: () => import("@/views/app/settings/Settings.vue"),
           meta: { title: "Settings" },
           children: [
             {
