@@ -1,6 +1,9 @@
 <template>
   <div class="widget-container">
-    <div class="chart">
+    <div class="widget-no-data" v-if="data.length <= 0">
+      <h3>No statistics yet</h3>
+    </div>
+    <div class="chart" v-else>
       <Pie :data="chartData" :options="chartOptions"></Pie>
     </div>
   </div>
@@ -38,7 +41,6 @@ Object.values(transactions.value)
         : (statistics.value.other = el.amount);
     }
   });
-
 statistics.value = Object.fromEntries(
   Object.entries(statistics.value).map(([key, value]) => [
     key,
@@ -46,19 +48,20 @@ statistics.value = Object.fromEntries(
   ])
 );
 
+const labels = Object.keys(statistics.value).map((el) => {
+  return el.split("")[0].toUpperCase() + el.slice(1, el.length);
+});
+const data = Object.values(statistics.value);
 const chartData = reactive({
-  labels: Object.keys(statistics.value).map((el) => {
-    return el.split("")[0].toUpperCase() + el.slice(1, el.length);
-  }),
+  labels: labels,
   datasets: [
     {
-      data: Object.values(statistics.value),
+      data: data,
       backgroundColor: ["#e94444", "#2f89ff", "#ffc524", "#eeeeee"], //Bills, Entertainment, Invest, Other
       hoverOffset: 20,
     },
   ],
 });
-
 const chartOptions = {
   plugins: {
     legend: {

@@ -47,6 +47,9 @@ input {
     cursor: default;
     filter: grayscale(1);
   }
+  &[type="checkbox"] {
+    margin-right: 0.2rem;
+  }
 }
 
 body {

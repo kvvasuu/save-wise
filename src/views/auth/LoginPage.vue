@@ -237,8 +237,4 @@ export default {
   font-family: "Montserrat";
   display: inline-block;
 }
-
-input[type="checkbox"] {
-  margin-right: 0.2rem;
-}
 </style>
