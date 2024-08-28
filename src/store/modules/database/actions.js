@@ -254,7 +254,7 @@ export default {
         });
       });
   },
-  quickDeposit(context, payload) {
+  deposit(context, payload) {
     return new Promise((resolve, reject) => {
       const updates = {};
       const userId = context.getters.getUserId;
@@ -262,6 +262,8 @@ export default {
       const account = context.getters.getSingleAccountInfo(payload.id);
 
       const balance = Number(account.balance) + payload.amount;
+
+      let name = payload.name || "Quick deposit";
 
       updates[`users/${userId}/accounts/${payload.id}/balance`] = balance;
 
@@ -272,7 +274,7 @@ export default {
               accountId: account.accountId,
               amount: payload.amount,
               balance: balance,
-              name: "Quick deposit",
+              name: name,
               transactionType: "income",
             })
             .then(() => {

@@ -44,7 +44,7 @@ Object.values(transactions.value)
 statistics.value = Object.fromEntries(
   Object.entries(statistics.value).map(([key, value]) => [
     key,
-    ((value / expenseSum.value) * 100).toFixed(2),
+    Math.round((value / expenseSum.value) * 100 * 1e2) / 1e2,
   ])
 );
 

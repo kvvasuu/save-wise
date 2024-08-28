@@ -112,7 +112,7 @@ const displayAmount = (transaction) => {
     li {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       flex-direction: row;
       height: 4rem;
       width: 100%;

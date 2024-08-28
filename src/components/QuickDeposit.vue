@@ -76,7 +76,7 @@ const sendMoney = () => {
   loading.value = true;
 
   store
-    .dispatch("quickDeposit", {
+    .dispatch("deposit", {
       id: selectedAccountIndex.value,
       amount: amount.value,
     })

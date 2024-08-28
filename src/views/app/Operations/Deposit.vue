@@ -1,7 +1,6 @@
 <template>
   <div class="outer">
-    <BasicSpinner v-if="!accounts || loading"></BasicSpinner>
-    <div class="inner" v-else>
+    <div class="inner">
       <div class="account-select">
         <h3
           :class="{
@@ -59,19 +58,45 @@
         </Transition>
       </div>
 
-      <form>
-        <div class="group">
-          <label for="title">Title</label>
-          <input type="text" class="input" id="title" v-model="title" />
-        </div>
-        <div class="group">
-          <label for="amount">Amount</label>
-          <input type="number" class="input" id="amount" v-model="amount" />
-          <div class="currency">
-            {{ selectedAccount.currency }}
+      <div class="form spinner" v-if="!accounts || loading">
+        <BasicSpinner></BasicSpinner>
+      </div>
+      <div class="form" v-else>
+        <form>
+          <div class="group">
+            <label for="title">Title<span>(optional)</span></label>
+            <input
+              type="text"
+              class="input"
+              id="title"
+              v-model="title"
+              placeholder="Deposit"
+              maxlength="40"
+            />
           </div>
+          <div class="group">
+            <label for="amount">Amount</label>
+            <input
+              type="number"
+              class="input"
+              id="amount"
+              v-model="amount"
+              @change="formatAmount"
+            />
+            <div class="currency">
+              {{ selectedAccount.currency }}
+            </div>
+          </div>
+        </form>
+        <div class="button">
+          <BasicButton
+            @click="sendMoney"
+            :disabled="!isFormValid"
+            :class="{ disabled: selectedAccountIndex === null }"
+            >Send<i class="fa-solid fa-piggy-bank"></i
+          ></BasicButton>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -84,29 +109,6 @@ import { onBeforeRouteLeave } from "vue-router";
 
 const store = useStore();
 const loading = ref(false);
-const amount = ref(5);
-
-const formatInput = () => {
-  if (amount.value > 999999) {
-    amount.value = 999999;
-  } else if (amount.value < 0.01) {
-    amount.value = 0.01;
-  }
-};
-
-const sendMoney = () => {
-  if (selectedAccountIndex.value === null) return;
-  loading.value = true;
-  /*
-  store
-    .dispatch("quickDeposit", {
-      id: selectedAccountIndex.value,
-      amount: amount.value,
-    })
-    .finally(() => {
-      loading.value = false;
-    }); */
-};
 
 const containerRef = ref(null);
 
@@ -195,6 +197,41 @@ onBeforeRouteLeave((to, from) => {
     return !!answer;
   }
 });
+
+const amount = ref();
+const title = ref("");
+const isFormValid = ref(false);
+
+const formatAmount = () => {
+  if (amount.value > 999999) {
+    amount.value = 999999;
+  } else if (amount.value < 0.01) {
+    amount.value = 0.01;
+  }
+  if (amount.value <= 999999 && amount.value >= 0.01) {
+    isFormValid.value = true;
+  } else isFormValid.value = false;
+};
+
+const formatTitle = () => {
+  if (title.value === "") title.value = "Deposit";
+};
+
+const sendMoney = () => {
+  if (selectedAccountIndex.value === null) return;
+  loading.value = true;
+  formatAmount();
+  formatTitle();
+  store
+    .dispatch("deposit", {
+      id: selectedAccountIndex.value,
+      amount: Math.round(amount.value * 1e2) / 1e2,
+      name: title.value,
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -224,6 +261,7 @@ onBeforeRouteLeave((to, from) => {
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
+  margin: 0 0 2rem 0;
   h3 {
     transition: all 0.5s ease;
   }
@@ -366,56 +404,40 @@ onBeforeRouteLeave((to, from) => {
   box-sizing: border-box;
   font-family: Montserrat;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: $font-color-dark;
-  margin: 0 0 0.2rem 0;
-  .select {
-    appearance: none;
-    outline: 0;
-    color: #828a9e;
-    width: 7rem;
-    height: 1.8rem;
-    padding-left: 1rem;
-    background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
-        no-repeat right 0.5rem center / 1rem,
-      linear-gradient(to left, $primary-color 2rem, $background-color-dark 2rem);
-    border: none;
-    border-right: 1px solid $primary-color;
-    border-radius: 0.6rem;
-    cursor: pointer;
-    &::-ms-expand {
-      display: none;
-    }
-    &:focus {
-      border: 1px solid $primary-color;
-    }
-    option {
-      color: inherit;
+  margin: 0 1rem 0.6rem 1rem;
+  width: 20rem;
+  height: 5rem;
+  label {
+    span {
+      font-size: 0.7rem;
+      margin: 0 0 0 0.2rem;
+      color: $font-color-light;
     }
   }
-}
-
-form {
-  width: 70%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-  input {
-    height: 2.2rem;
+  .input {
     width: 100%;
-    margin: 0 0 0 0.5rem;
-    border: none;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    height: 3rem;
+    padding: 0 1rem;
+    border: 1px solid #eeeeee;
+    border-radius: 0.8rem;
+    outline: none;
+    background-color: $background-color-blue;
+    color: $font-color-light;
+    margin: 0.4rem 0;
+    box-sizing: border-box;
+    &:focus {
+      outline: 2px solid $primary-color;
+    }
+    &:disabled {
+      cursor: default;
+      filter: grayscale(1);
+    }
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
-    }
-    &:focus {
-      outline: none;
     }
   }
   .currency {
@@ -423,23 +445,34 @@ form {
     align-items: center;
     height: 2.5rem;
     position: absolute;
-    top: 0;
-    right: 7rem;
+    top: 1.8rem;
+    right: 1rem;
     color: $font-color-light;
     user-select: none;
     pointer-events: none;
   }
+}
+
+.form {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  &.spinner {
+    height: 16rem;
+    justify-content: center;
+  }
+  form {
+    margin: 1.4rem 0 0 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
   button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    height: 2.2rem;
-    width: 5rem;
-    margin: 0;
-    padding: 0 0.3rem 0 0;
-    font-size: 0.9rem;
-    &:hover {
-      transform: none;
-    }
     i {
       margin: 0 0 0 0.3rem;
     }
