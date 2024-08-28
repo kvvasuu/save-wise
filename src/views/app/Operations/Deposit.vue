@@ -82,6 +82,7 @@
               id="amount"
               v-model="amount"
               @change="formatAmount"
+              @keyup="validateForm"
             />
             <div class="currency">
               {{ selectedAccount.currency }}
@@ -206,15 +207,18 @@ const formatAmount = () => {
   if (amount.value > 999999) {
     amount.value = 999999;
   } else if (amount.value < 0.01) {
-    amount.value = 0.01;
+    amount.value = null;
   }
-  if (amount.value <= 999999 && amount.value >= 0.01) {
-    isFormValid.value = true;
-  } else isFormValid.value = false;
 };
 
 const formatTitle = () => {
   if (title.value === "") title.value = "Deposit";
+};
+
+const validateForm = () => {
+  if (amount.value <= 999999 && amount.value >= 0.01) {
+    isFormValid.value = true;
+  } else isFormValid.value = false;
 };
 
 const sendMoney = () => {
