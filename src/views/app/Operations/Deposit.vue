@@ -199,7 +199,7 @@ onBeforeRouteLeave((to, from) => {
   }
 });
 
-const amount = ref();
+const amount = ref(null);
 const title = ref("");
 const isFormValid = ref(false);
 
@@ -217,12 +217,13 @@ const formatTitle = () => {
 
 const validateForm = () => {
   if (amount.value <= 999999 && amount.value >= 0.01) {
+    amount.value = Math.round(amount.value * 1e2) / 1e2;
     isFormValid.value = true;
   } else isFormValid.value = false;
 };
 
 const sendMoney = () => {
-  if (selectedAccountIndex.value === null) return;
+  if (!amount.value) return;
   loading.value = true;
   formatAmount();
   formatTitle();
@@ -233,6 +234,8 @@ const sendMoney = () => {
       name: title.value,
     })
     .finally(() => {
+      amount.value = null;
+      title.value = "";
       loading.value = false;
     });
 };

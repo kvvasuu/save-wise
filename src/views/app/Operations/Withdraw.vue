@@ -1,7 +1,6 @@
 <template>
   <div class="outer">
-    <BasicSpinner v-if="!accounts || loading"></BasicSpinner>
-    <div class="inner" v-else>
+    <div class="inner">
       <div class="account-select">
         <h3
           :class="{
@@ -33,19 +32,16 @@
           </div>
         </div>
         <Transition name="fade-scale">
-          <div
-            class="account-select-modal"
-            ref="containerRef"
-            v-if="selectAccountModal"
-          >
+          <div class="account-select-modal" v-if="selectAccountModal">
             <div
               class="account"
               v-for="(account, index) in accounts"
               @click="selectAccount(index, account)"
               :key="index"
               :title="account.accountName"
+              ref="containerRef"
               :class="{
-                selected: selectedAccountIndex === index,
+                'no-selected': selectedAccountIndex !== index,
               }"
               :style="getCircleItemStyle(index)"
             >
@@ -61,7 +57,56 @@
           </div>
         </Transition>
       </div>
-      <div class="form"></div>
+
+      <div class="form spinner" v-if="!accounts || loading">
+        <BasicSpinner></BasicSpinner>
+      </div>
+      <div class="form" v-else>
+        <form>
+          <div class="group">
+            <label for="title">Title<span>(optional)</span></label>
+            <input
+              type="text"
+              class="input"
+              id="title"
+              v-model="title"
+              placeholder="Withdraw"
+              maxlength="40"
+            />
+          </div>
+          <div class="group">
+            <label for="category">Category</label>
+            <select v-model="category" id="category">
+              <option value="other">Other</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="bills">Bills</option>
+              <option value="investment">Investment</option>
+            </select>
+          </div>
+          <div class="group">
+            <label for="amount">Amount</label>
+            <input
+              type="number"
+              class="input"
+              id="amount"
+              v-model="amount"
+              @change="formatAmount"
+              @keyup="validateForm"
+            />
+            <div class="currency">
+              {{ selectedAccount.currency }}
+            </div>
+          </div>
+        </form>
+        <div class="button">
+          <BasicButton
+            @click="getMoney"
+            :disabled="!isFormValid"
+            :class="{ disabled: selectedAccountIndex === null }"
+            >Get<i class="fa-solid fa-piggy-bank"></i
+          ></BasicButton>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -74,29 +119,6 @@ import { onBeforeRouteLeave } from "vue-router";
 
 const store = useStore();
 const loading = ref(false);
-const amount = ref(5);
-
-const formatInput = () => {
-  if (amount.value > 999999) {
-    amount.value = 999999;
-  } else if (amount.value < 0.01) {
-    amount.value = 0.01;
-  }
-};
-
-const sendMoney = () => {
-  if (selectedAccountIndex.value === null) return;
-  loading.value = true;
-  /*
-    store
-      .dispatch("quickDeposit", {
-        id: selectedAccountIndex.value,
-        amount: amount.value,
-      })
-      .finally(() => {
-        loading.value = false;
-      }); */
-};
 
 const containerRef = ref(null);
 
@@ -105,7 +127,15 @@ const selectedAccountCurrency = ref(null);
 const selectAccountModal = ref(false);
 
 const showSelectAccountModal = () => {
-  selectAccountModal.value = !selectAccountModal.value;
+  selectAccountModal.value = true;
+  setTimeout(() => {
+    document.addEventListener("click", handleClickOutside);
+  }, 500);
+};
+
+const hideSelectAccountModal = () => {
+  selectAccountModal.value = false;
+  document.removeEventListener("click", handleClickOutside);
 };
 
 const accounts = computed(() => {
@@ -134,7 +164,7 @@ const getAccountInitials = (accountName) => {
 const selectAccount = (index, account) => {
   selectedAccountCurrency.value = currencyMap[account.currency];
   selectedAccountIndex.value = index;
-  selectAccountModal.value = false;
+  hideSelectAccountModal();
 };
 
 const getCircleItemStyle = (index) => {
@@ -155,6 +185,20 @@ const getCircleItemStyle = (index) => {
   };
 };
 
+const handleClickOutside = (event) => {
+  let clickedOutside = true;
+
+  containerRef.value.forEach((container) => {
+    if (container && container.contains(event.target)) {
+      clickedOutside = false;
+    }
+  });
+
+  if (clickedOutside) {
+    hideSelectAccountModal();
+  }
+};
+
 onBeforeRouteLeave((to, from) => {
   if (loading.value) {
     const answer = window.confirm(
@@ -163,6 +207,49 @@ onBeforeRouteLeave((to, from) => {
     return !!answer;
   }
 });
+
+const amount = ref(null);
+const title = ref("");
+const category = ref("other");
+const isFormValid = ref(false);
+
+const formatAmount = () => {
+  if (amount.value > 999999) {
+    amount.value = 999999;
+  } else if (amount.value < 0.01) {
+    amount.value = null;
+  }
+};
+
+const formatTitle = () => {
+  if (title.value === "") title.value = "Deposit";
+};
+
+const validateForm = () => {
+  if (amount.value <= 999999 && amount.value >= 0.01) {
+    amount.value = Math.round(amount.value * 1e2) / 1e2;
+    isFormValid.value = true;
+  } else isFormValid.value = false;
+};
+
+const getMoney = () => {
+  if (!amount.value) return;
+  loading.value = true;
+  formatAmount();
+  formatTitle();
+  store
+    .dispatch("withdraw", {
+      id: selectedAccountIndex.value,
+      amount: Math.round(amount.value * 1e2) / 1e2,
+      name: title.value,
+      category: category.value,
+    })
+    .finally(() => {
+      amount.value = null;
+      title.value = "";
+      loading.value = false;
+    });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -192,6 +279,7 @@ onBeforeRouteLeave((to, from) => {
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
+  margin: 0 0 2rem 0;
   h3 {
     transition: all 0.5s ease;
   }
@@ -257,9 +345,6 @@ onBeforeRouteLeave((to, from) => {
   }
 }
 
-.form {
-  width: 70%;
-}
 .account-select-modal {
   width: 20rem;
   height: 20rem;
@@ -268,7 +353,7 @@ onBeforeRouteLeave((to, from) => {
   left: 50%;
   translate: -50% -44%;
   .account {
-    height: 6rem;
+    height: 7rem;
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -277,15 +362,21 @@ onBeforeRouteLeave((to, from) => {
     cursor: pointer;
     background-color: none;
     transition: all 0.2s ease;
-    border-radius: 10rem;
     box-sizing: border-box;
     top: 50%;
     left: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
-    &:hover {
-      scale: 1.01;
+    padding: 0.5rem;
+    &.no-selected {
+      opacity: 0.7;
+      filter: grayscale(0.9);
+      &:hover {
+        opacity: 1;
+        filter: grayscale(0);
+      }
     }
+
     .image {
       width: 3.8rem;
       height: 3.8rem;
@@ -331,63 +422,66 @@ onBeforeRouteLeave((to, from) => {
   box-sizing: border-box;
   font-family: Montserrat;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: $font-color-dark;
-  margin: 0 0 0.2rem 0;
-  .select {
-    appearance: none;
-    outline: 0;
-    color: #828a9e;
-    width: 7rem;
-    height: 1.8rem;
-    padding-left: 1rem;
-    background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
-        no-repeat right 0.5rem center / 1rem,
-      linear-gradient(to left, $primary-color 2rem, $background-color-dark 2rem);
-    border: none;
-    border-right: 1px solid $primary-color;
-    border-radius: 0.6rem;
-    cursor: pointer;
-    &::-ms-expand {
-      display: none;
-    }
-    &:focus {
-      border: 1px solid $primary-color;
-    }
-    option {
-      color: inherit;
-    }
-  }
-}
-
-form {
-  height: 2.5rem;
+  margin: 0 1rem 0.6rem 1rem;
   width: 20rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  span {
-    font-size: 0.9rem;
-    font-family: Montserrat;
-    font-weight: 600;
-    color: $font-color-light;
+  height: 5rem;
+  label {
+    span {
+      font-size: 0.7rem;
+      margin: 0 0 0 0.2rem;
+      color: $font-color-light;
+    }
   }
-  input {
-    height: 2.2rem;
-    width: 6rem;
-    margin: 0 0 0 0.5rem;
-    border: none;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-
+  .input {
+    width: 100%;
+    height: 3rem;
+    padding: 0 1rem;
+    border: 1px solid #eeeeee;
+    border-radius: 0.8rem;
+    outline: none;
+    background-color: $background-color-blue;
+    color: $font-color-light;
+    margin: 0.4rem 0;
+    box-sizing: border-box;
+    &:focus {
+      outline: 2px solid $primary-color;
+    }
+    &:disabled {
+      cursor: default;
+      filter: grayscale(1);
+    }
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
+  }
+  select {
+    appearance: none;
+    outline: 0;
+    font-size: 0.9rem;
+    color: #828a9e;
+    width: 100%;
+    height: 3rem;
+    padding: 0.5rem 4rem 0.5rem 1rem;
+    background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
+        no-repeat right 0.8em center / 1.4em,
+      linear-gradient(to left, $primary-color 3em, $background-color-blue 3em);
+    border: none;
+    border-right: 2px solid $primary-color;
+    border-radius: 0.8rem;
+    margin: 0.4rem 0;
+    cursor: pointer;
+    &::-ms-expand {
+      display: none;
+    }
     &:focus {
-      outline: none;
+      border: 2px solid $primary-color;
+    }
+    option {
+      color: inherit;
     }
   }
   .currency {
@@ -395,23 +489,34 @@ form {
     align-items: center;
     height: 2.5rem;
     position: absolute;
-    top: 0;
-    right: 7rem;
+    top: 1.8rem;
+    right: 1rem;
     color: $font-color-light;
     user-select: none;
     pointer-events: none;
   }
+}
+
+.form {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  &.spinner {
+    height: 16rem;
+    justify-content: center;
+  }
+  form {
+    margin: 1.4rem 0 0 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
   button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    height: 2.2rem;
-    width: 5rem;
-    margin: 0;
-    padding: 0 0.3rem 0 0;
-    font-size: 0.9rem;
-    &:hover {
-      transform: none;
-    }
     i {
       margin: 0 0 0 0.3rem;
     }
