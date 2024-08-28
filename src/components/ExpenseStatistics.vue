@@ -41,6 +41,9 @@ Object.values(transactions.value)
         : (statistics.value.other = el.amount);
     }
   });
+
+console.log(statistics.value);
+
 statistics.value = Object.fromEntries(
   Object.entries(statistics.value).map(([key, value]) => [
     key,
@@ -48,10 +51,13 @@ statistics.value = Object.fromEntries(
   ])
 );
 
+console.log(statistics.value);
+
 const labels = Object.keys(statistics.value).map((el) => {
   return el.split("")[0].toUpperCase() + el.slice(1, el.length);
 });
 const data = Object.values(statistics.value);
+
 const chartData = reactive({
   labels: labels,
   datasets: [
