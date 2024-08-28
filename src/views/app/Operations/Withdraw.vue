@@ -212,6 +212,9 @@ const amount = ref(null);
 const title = ref("");
 const category = ref("other");
 const isFormValid = ref(false);
+const accountsInfo = computed(() => {
+  return Object.values(store.getters.getAccountsInfo);
+});
 
 const formatAmount = () => {
   if (amount.value > 999999) {
@@ -222,7 +225,7 @@ const formatAmount = () => {
 };
 
 const formatTitle = () => {
-  if (title.value === "") title.value = "Deposit";
+  if (title.value === "") title.value = "Withdraw";
 };
 
 const validateForm = () => {
@@ -234,9 +237,13 @@ const validateForm = () => {
 
 const getMoney = () => {
   if (!amount.value) return;
+  if (accountsInfo.value[selectedAccountIndex.value].balance < amount.value) {
+    return;
+  }
   loading.value = true;
   formatAmount();
   formatTitle();
+
   store
     .dispatch("withdraw", {
       id: selectedAccountIndex.value,
@@ -247,6 +254,7 @@ const getMoney = () => {
     .finally(() => {
       amount.value = null;
       title.value = "";
+      isFormValid.value = false;
       loading.value = false;
     });
 };

@@ -16,13 +16,13 @@
         >
           <div class="list-item-inner">Withdraw</div>
         </RouterLink>
-        <RouterLink
+        <!-- <RouterLink
           to="/app/operations/transfer"
           exact-active-class="router-active"
           @click="changePage('Deposit')"
         >
           <div class="list-item-inner">Transfer</div>
-        </RouterLink>
+        </RouterLink> -->
       </ul>
     </div>
     <RouterView></RouterView>

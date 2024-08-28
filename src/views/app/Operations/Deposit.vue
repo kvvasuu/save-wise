@@ -236,6 +236,7 @@ const sendMoney = () => {
     .finally(() => {
       amount.value = null;
       title.value = "";
+      isFormValid.value = false;
       loading.value = false;
     });
 };

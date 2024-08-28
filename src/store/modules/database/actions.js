@@ -303,7 +303,10 @@ export default {
       const account = context.getters.getSingleAccountInfo(payload.id);
 
       const balance = Number(account.balance) - payload.amount;
-
+      if (balance < 0) {
+        resolve();
+        return;
+      }
       let category = payload.category || "other";
       let name = payload.name || "Withdraw";
 
