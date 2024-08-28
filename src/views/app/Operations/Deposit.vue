@@ -244,7 +244,6 @@ const sendMoney = () => {
 
 <style lang="scss" scoped>
 .outer {
-  height: 40rem;
   width: 100%;
   display: flex;
   align-items: center;

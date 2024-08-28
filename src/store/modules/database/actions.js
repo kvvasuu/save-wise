@@ -304,7 +304,7 @@ export default {
 
       const balance = Number(account.balance) - payload.amount;
       if (balance < 0) {
-        resolve();
+        reject("You do not have enough funds in your account");
         return;
       }
       let category = payload.category || "other";

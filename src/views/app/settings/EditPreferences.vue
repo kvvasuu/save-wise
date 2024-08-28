@@ -1,9 +1,5 @@
 <template>
   <div class="content">
-    <notification-container ref="notification">
-      <span>Saved</span>
-      <i class="fa-solid fa-check"></i>
-    </notification-container>
     <div class="group">
       <label for="defaultCurrency">Default currency</label>
       <select v-model="currency" id="defaultCurrency" @change="validateForm">
@@ -43,12 +39,11 @@ export default {
   },
   methods: {
     saveUserPreferences() {
-      this.$store
-        .dispatch("setProfilePreferences", {
-          defaultCurrency: this.currency,
-          notifications: this.notifications,
-        })
-        .then(() => this.$refs.notification.show());
+      this.$store.dispatch("setProfilePreferences", {
+        defaultCurrency: this.currency,
+        notifications: this.notifications,
+      });
+      this.isFormValid = false;
     },
     validateForm() {
       const user = this.$store.getters.getUserDatabase;

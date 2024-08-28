@@ -99,6 +99,7 @@
           </div>
         </form>
         <div class="button">
+          <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
           <BasicButton
             @click="getMoney"
             :disabled="!isFormValid"
@@ -212,9 +213,7 @@ const amount = ref(null);
 const title = ref("");
 const category = ref("other");
 const isFormValid = ref(false);
-const accountsInfo = computed(() => {
-  return Object.values(store.getters.getAccountsInfo);
-});
+const errorMessage = ref(null);
 
 const formatAmount = () => {
   if (amount.value > 999999) {
@@ -233,13 +232,11 @@ const validateForm = () => {
     amount.value = Math.round(amount.value * 1e2) / 1e2;
     isFormValid.value = true;
   } else isFormValid.value = false;
+  errorMessage.value = null;
 };
 
 const getMoney = () => {
   if (!amount.value) return;
-  if (accountsInfo.value[selectedAccountIndex.value].balance < amount.value) {
-    return;
-  }
   loading.value = true;
   formatAmount();
   formatTitle();
@@ -251,10 +248,16 @@ const getMoney = () => {
       name: title.value,
       category: category.value,
     })
-    .finally(() => {
+    .then(() => {
       amount.value = null;
       title.value = "";
       isFormValid.value = false;
+    })
+    .catch((error) => {
+      errorMessage.value = error;
+      console.log(error);
+    })
+    .finally(() => {
       loading.value = false;
     });
 };
@@ -262,7 +265,6 @@ const getMoney = () => {
 
 <style lang="scss" scoped>
 .outer {
-  height: 40rem;
   width: 100%;
   display: flex;
   align-items: center;
@@ -524,7 +526,22 @@ const getMoney = () => {
     justify-content: flex-start;
     flex-direction: column;
   }
-  button {
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    .error {
+      position: absolute;
+      top: 0;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: $error-color;
+      pointer-events: none;
+      font-family: "Montserrat";
+    }
     i {
       margin: 0 0 0 0.3rem;
     }
@@ -535,6 +552,11 @@ const getMoney = () => {
   .inner {
     align-items: center;
     flex-direction: column;
+    padding: 1rem 0 0 0;
+  }
+  .form,
+  .account-select {
+    width: 100%;
   }
 }
 </style>

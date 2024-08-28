@@ -28,14 +28,16 @@ export default {
 
 <style lang="scss" scoped>
 .outer {
-  width: 100%;
+  left: 14rem;
+  width: calc(100% - 14rem);
   position: fixed;
   top: 1rem;
-  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 99;
+  user-select: none;
+  pointer-events: none;
   .notification {
     width: fit-content;
     background-color: $background-color;
@@ -59,6 +61,13 @@ export default {
     &.red {
       color: $color-red;
     }
+  }
+}
+
+@media (max-width: 1024px) {
+  .outer {
+    left: 0;
+    width: 100%;
   }
 }
 </style>
