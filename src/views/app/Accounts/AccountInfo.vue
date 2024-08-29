@@ -77,7 +77,10 @@
           >
         </div>
 
-        <div class="delete-button">
+        <div
+          class="delete-button"
+          v-if="accountsQuantity !== 1 && $route.params.id !== '0'"
+        >
           <basic-button @click="showConfirmModal" class="red"
             >Delete account</basic-button
           >
@@ -103,6 +106,9 @@ export default {
   computed: {
     setFavoritePossible() {
       return this.$store.getters.getFavoriteAccountsQuantity < 2;
+    },
+    accountsQuantity() {
+      return this.$store.getters.getAccountsQuantity;
     },
   },
   methods: {
@@ -156,6 +162,10 @@ export default {
       this.confirmContainer = true;
     },
     deleteAccount() {
+      if (this.accountsQuantity === 1 || this.$route.params.id === 0) {
+        return;
+      }
+
       this.loading = true;
       this.confirmContainer = false;
       this.isEditable = false;

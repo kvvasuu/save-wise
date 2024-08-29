@@ -159,6 +159,9 @@ export default {
       });
   },
   deleteAccount(context, payload) {
+    if (context.getters.getAccountsQuantity === 1) {
+      return;
+    }
     const userId = context.getters.getUserId;
     const accountId = context.getters.getSingleAccountInfo(
       payload.id
