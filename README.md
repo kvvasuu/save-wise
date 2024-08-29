@@ -1,5 +1,6 @@
-# Save Wise: Your Smart Savings Companion <img src="https://raw.githubusercontent.com/kvvasuu/save-wise/main/public/favicon.ico" alt="icon" width="24"/>
+# Save Wise <img src="https://raw.githubusercontent.com/kvvasuu/save-wise/main/public/favicon.ico" alt="icon" width="24"/>
 
+![App demo](https://raw.githubusercontent.com/kvvasuu/save-wise/main/demo.gif "App demo")
 
 ## :globe_with_meridians: General info
 
