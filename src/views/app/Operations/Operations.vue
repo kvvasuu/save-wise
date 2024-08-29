@@ -25,19 +25,28 @@
         </RouterLink> -->
       </ul>
     </div>
-    <RouterView></RouterView>
+    <div class="widget-no-data" v-if="accountsQuantity === 0">
+      <h3>No accounts</h3>
+    </div>
+    <RouterView v-else></RouterView>
   </main>
 </template>
 
 <script setup>
 import { RouterLink } from "vue-router";
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
 
+const store = useStore();
 const currentPage = ref("Deposit");
 
 const changePage = (page) => {
   currentPage.value = page;
 };
+
+const accountsQuantity = computed(() => {
+  return store.getters.getAccountsQuantity;
+});
 </script>
 
 <style lang="scss" scoped>
