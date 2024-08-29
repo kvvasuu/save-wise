@@ -93,6 +93,7 @@
               v-model="amount"
               @change="formatAmount"
               @keyup="validateForm"
+              placeholder="0.00"
             />
             <div class="currency">
               {{ selectedAccount.currency }}

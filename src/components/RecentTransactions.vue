@@ -105,14 +105,14 @@ const displayAmount = (transaction) => {
     font-weight: 600;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-direction: column;
     height: 100%;
     width: 100%;
     li {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
       flex-direction: row;
       height: 4rem;
       width: 100%;
