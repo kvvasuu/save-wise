@@ -48,7 +48,7 @@
           move: error,
         }"
       >
-        <div class="checkbox">
+        <div class="checkbox flex-center">
           <input
             type="checkbox"
             id="rememberMe"

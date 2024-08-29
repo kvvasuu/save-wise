@@ -61,7 +61,7 @@
           >
         </div>
       </div>
-      <div class="caption">
+      <div class="caption checkbox">
         <input
           type="checkbox"
           id="terms"
@@ -70,7 +70,7 @@
           v-model="checkbox"
           @change="validateTerms"
         />
-        <label for="terms">I agree to the </label>
+        <label for="terms">I agree to the&nbsp;</label>
         <router-link id="terms-button" to="terms"
           >terms and conditions</router-link
         >
@@ -329,6 +329,11 @@ export default {
     font-weight: 800;
     margin: 0;
   }
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
 }
 
 .other {

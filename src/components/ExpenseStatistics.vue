@@ -42,8 +42,6 @@ Object.values(transactions.value)
     }
   });
 
-console.log(statistics.value);
-
 statistics.value = Object.fromEntries(
   Object.entries(statistics.value).map(([key, value]) => [
     key,
@@ -51,11 +49,10 @@ statistics.value = Object.fromEntries(
   ])
 );
 
-console.log(statistics.value);
-
 const labels = Object.keys(statistics.value).map((el) => {
   return el.split("")[0].toUpperCase() + el.slice(1, el.length);
 });
+
 const data = Object.values(statistics.value);
 
 const chartData = reactive({
@@ -63,7 +60,16 @@ const chartData = reactive({
   datasets: [
     {
       data: data,
-      backgroundColor: ["#e94444", "#2f89ff", "#ffc524", "#eeeeee"], //Bills, Entertainment, Invest, Other
+      backgroundColor: (context) => {
+        const label = context.chart.data.labels[context.dataIndex];
+        const colorMapping = {
+          other: "#cccccc",
+          entertainment: "#2f89ff",
+          investment: "#ffc524",
+          bills: "#e94444",
+        };
+        return colorMapping[label.toLowerCase()];
+      },
       hoverOffset: 20,
     },
   ],
@@ -76,7 +82,7 @@ const chartOptions = {
     },
     tooltip: {
       callbacks: {
-        label: function (context) {
+        label: (context) => {
           let label = context.dataset.label || "";
           if (label) {
             label += ": ";

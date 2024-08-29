@@ -26,7 +26,7 @@
           >
             <div class="column income" :title="amount.income.toFixed(2)">
               <div class="amount" v-if="amount.income > 0">
-                {{ amount.income.toFixed(2) }}
+                {{ amount.income.toFixed(0) }}
               </div>
             </div>
           </div>
@@ -36,7 +36,7 @@
           >
             <div class="column expense" :title="amount.expense.toFixed(2)">
               <div class="amount" v-if="amount.expense > 0">
-                {{ amount.expense.toFixed(2) }}
+                {{ amount.expense.toFixed(0) }}
               </div>
             </div>
           </div>

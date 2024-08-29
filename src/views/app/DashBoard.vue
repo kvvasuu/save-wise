@@ -29,8 +29,16 @@
     <div class="small-container wide">
       <div class="title">
         <h3>Weekly Activity</h3>
+        <select
+          v-model="selectedAccount"
+          @change="console.log(selectedAccount)"
+        >
+          <option v-for="(account, index) in accounts" :value="index">
+            {{ account.accountName }}
+          </option>
+        </select>
       </div>
-      <WeeklyActivity></WeeklyActivity>
+      <WeeklyActivity :account="selectedAccount"></WeeklyActivity>
     </div>
   </main>
 </template>
@@ -42,12 +50,21 @@ import ExpenseStatistics from "@/components/ExpenseStatistics.vue";
 import WeeklyActivity from "@/components/WeeklyActivity.vue";
 import QuickDeposit from "@/components/QuickDeposit.vue";
 import { useRouter } from "vue-router";
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
 
 const router = useRouter();
+const store = useStore();
 
 const goToAccountInfo = () => {
   router.push("/app/accounts");
 };
+
+const accounts = computed(() => {
+  return store.getters.getAccountsInfo;
+});
+
+const selectedAccount = ref(0);
 </script>
 
 <style lang="scss" scoped>
@@ -100,6 +117,36 @@ main {
   &.accounts {
     width: 45rem;
     height: 20rem;
+  }
+}
+
+select {
+  appearance: none;
+  outline: 0;
+  font-size: 0.8rem;
+  color: #828a9e;
+  width: 12rem;
+  height: 2rem;
+  padding: 0 3rem 0 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
+      no-repeat right 0.8em center / 1.4em,
+    linear-gradient(to left, $primary-color 3em, $background-color-blue 3em);
+  border: none;
+  border-right: 2px solid $primary-color;
+  border-radius: 0.8rem;
+  margin: 0.4rem 0;
+  cursor: pointer;
+  &::-ms-expand {
+    display: none;
+  }
+  &:focus {
+    border: 2px solid $primary-color;
+  }
+  option {
+    color: inherit;
   }
 }
 

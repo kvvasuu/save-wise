@@ -94,8 +94,8 @@
             @click="sendMoney"
             :disabled="!isFormValid"
             :class="{ disabled: selectedAccountIndex === null }"
-            >Send<i class="fa-solid fa-piggy-bank"></i
-          ></BasicButton>
+            >Submit</BasicButton
+          >
         </div>
       </div>
     </div>
@@ -478,11 +478,6 @@ const sendMoney = () => {
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-  }
-  button {
-    i {
-      margin: 0 0 0 0.3rem;
-    }
   }
 }
 

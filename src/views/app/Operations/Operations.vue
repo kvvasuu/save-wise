@@ -31,7 +31,7 @@
 
 <script setup>
 import { RouterLink } from "vue-router";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 const currentPage = ref("Deposit");
 

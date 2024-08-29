@@ -74,7 +74,7 @@
               maxlength="40"
             />
           </div>
-          <div class="group">
+          <div class="group category">
             <label for="category">Category</label>
             <select v-model="category" id="category">
               <option value="other">Other</option>
@@ -82,6 +82,7 @@
               <option value="bills">Bills</option>
               <option value="investment">Investment</option>
             </select>
+            <i :class="displayIcon"></i>
           </div>
           <div class="group">
             <label for="amount">Amount</label>
@@ -104,8 +105,8 @@
             @click="getMoney"
             :disabled="!isFormValid"
             :class="{ disabled: selectedAccountIndex === null }"
-            >Get<i class="fa-solid fa-piggy-bank"></i
-          ></BasicButton>
+            >Get</BasicButton
+          >
         </div>
       </div>
     </div>
@@ -261,6 +262,19 @@ const getMoney = () => {
       loading.value = false;
     });
 };
+
+const displayIcon = computed(() => {
+  switch (category.value) {
+    case "entertainment":
+      return `fa-solid fa-music`;
+    case "bills":
+      return `fa-solid fa-money-bills`;
+    case "investment":
+      return `fa-solid fa-hand-holding-dollar`;
+    default:
+      return `fa-solid fa-arrow-up`;
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -542,8 +556,27 @@ const getMoney = () => {
       pointer-events: none;
       font-family: "Montserrat";
     }
-    i {
-      margin: 0 0 0 0.3rem;
+  }
+}
+
+.category {
+  position: relative;
+  select {
+    padding-left: 3rem;
+  }
+  i {
+    position: absolute;
+    border-radius: 1rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0.5rem;
+    top: 2.06rem;
+    &.fa-arrow-up {
+      background-color: #dddddd;
+      color: $font-color-light;
     }
   }
 }

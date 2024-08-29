@@ -101,6 +101,13 @@ a {
   justify-content: center;
 }
 
+.flex-center {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+
 i {
   &.fa-arrow-down {
     // Income
