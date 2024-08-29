@@ -13,50 +13,59 @@
     <div class="widget-no-data" v-if="transactions.length === 0">
       <h3>No transactions</h3>
     </div>
-    <div class="days">
-      <hr />
-      <hr />
-      <hr />
-      <hr />
-      <div class="day" v-for="amount in transactions" :title="amount.day">
-        <div class="chart">
-          <div
-            class="column-wrapper"
-            :style="{ height: setChartHeight(amount.income) }"
-          >
-            <div class="column income" :title="amount.income.toFixed(2)">
-              <div class="amount" v-if="amount.income > 0">
-                {{ amount.income.toFixed(0) }}
+    <Transition name="fade" mode="out-in">
+      <div class="days" :key="transactions">
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <div class="day" v-for="amount in transactions" :title="amount.day">
+          <div class="chart">
+            <div
+              class="column-wrapper"
+              :style="{ height: setChartHeight(amount.income) }"
+            >
+              <div class="column income" :title="amount.income.toFixed(2)">
+                <div class="amount" v-if="amount.income > 0">
+                  {{ amount.income.toFixed(0) }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="column-wrapper"
+              :style="{ height: setChartHeight(amount.expense) }"
+            >
+              <div class="column expense" :title="amount.expense.toFixed(2)">
+                <div class="amount" v-if="amount.expense > 0">
+                  {{ amount.expense.toFixed(0) }}
+                </div>
               </div>
             </div>
           </div>
-          <div
-            class="column-wrapper"
-            :style="{ height: setChartHeight(amount.expense) }"
-          >
-            <div class="column expense" :title="amount.expense.toFixed(2)">
-              <div class="amount" v-if="amount.expense > 0">
-                {{ amount.expense.toFixed(0) }}
-              </div>
-            </div>
-          </div>
+          <div class="day-name">{{ getDayName(amount.day) }}</div>
         </div>
-        <div class="day-name">{{ getDayName(amount.day) }}</div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, watch, ref } from "vue";
 import { useStore } from "vuex";
+
+const props = defineProps(["account"]);
 
 const store = useStore();
 const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-const transactions = computed(() => {
-  return store.getters.getWeeklyTransactions;
-});
+const transactions = ref(store.getters.getWeeklyTransactions(props.account));
+
+watch(
+  () => props.account,
+  (newValue, oldValue) => {
+    transactions.value = store.getters.getWeeklyTransactions(newValue);
+  }
+);
 
 const maxValue = computed(() => {
   return transactions.value.reduce((max, day) => {

@@ -29,10 +29,7 @@
     <div class="small-container wide">
       <div class="title">
         <h3>Weekly Activity</h3>
-        <select
-          v-model="selectedAccount"
-          @change="console.log(selectedAccount)"
-        >
+        <select v-if="accounts.length > 0" v-model="selectedAccount">
           <option v-for="(account, index) in accounts" :value="index">
             {{ account.accountName }}
           </option>

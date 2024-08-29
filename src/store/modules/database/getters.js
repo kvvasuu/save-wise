@@ -46,9 +46,16 @@ export default {
       return transactionList.slice(0, 3);
     } else return [];
   },
-  getWeeklyTransactions(state, getters) {
+  getWeeklyTransactions: (state, getters) => (accountIndex) => {
     if (!!state.user && "transactions" in state.user) {
-      const transactionList = Object.values(getters.getTransactions);
+      let transactionList = Object.values(getters.getTransactions);
+      const accountId = getters.getSingleAccountInfo(accountIndex).accountId;
+
+      transactionList = transactionList.filter((el) => {
+        return el.accountId === accountId;
+      });
+
+      if (transactionList.length === 0) return [];
 
       const now = new Date();
       const sevenDaysAgo = new Date(now);
