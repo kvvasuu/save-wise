@@ -17,7 +17,11 @@
         <div class="title">
           <h2>{{ $route.meta.title }}</h2>
         </div>
+
         <div class="user">
+          <!-- <div class="search-bar">
+            <SearchBar></SearchBar>
+          </div> -->
           <Transition name="slide-vertical" mode="out-in">
             <div class="username" :key="displayName">
               <h4>{{ displayName }}</h4>
@@ -64,14 +68,16 @@
 </template>
 
 <script>
-import { RouterView, RouterLink } from "vue-router";
+import { RouterView } from "vue-router";
 import Sidebar from "./Sidebar.vue";
 import UserAvatar from "@/components/misc/UserAvatar.vue";
+import SearchBar from "@/components/misc/SearchBar.vue";
 
 export default {
   components: {
     Sidebar,
     UserAvatar,
+    SearchBar,
   },
   data() {
     return {
@@ -179,7 +185,6 @@ export default {
     padding: 0 2rem;
     box-sizing: border-box;
     z-index: 9;
-    overflow: hidden;
     border-bottom: $border;
     .menu-button {
       display: none;
@@ -198,11 +203,20 @@ export default {
         font-weight: 700;
       }
     }
+
     .user {
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      .search-bar {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 14rem;
+        margin: 0 1rem;
+      }
       .username {
         margin: 0 1rem;
       }
@@ -255,7 +269,8 @@ export default {
         }
       }
       .user {
-        .username {
+        .username,
+        .search-bar {
           display: none;
         }
       }
