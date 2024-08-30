@@ -19,9 +19,9 @@
         </div>
 
         <div class="user">
-          <!-- <div class="search-bar">
+          <div class="search-bar">
             <SearchBar></SearchBar>
-          </div> -->
+          </div>
           <Transition name="slide-vertical" mode="out-in">
             <div class="username" :key="displayName">
               <h4>{{ displayName }}</h4>
