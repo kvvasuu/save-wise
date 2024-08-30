@@ -31,6 +31,11 @@ const query = ref("");
 const results = ref([]);
 const functionalities = ref([
   {
+    name: "Dashboard",
+    description: "Zrealizuj przelew bankowy",
+    route: "/app",
+  },
+  {
     name: "Deposit",
     description: "Zrealizuj przelew bankowy",
     route: "/app/operations",
