@@ -14,7 +14,7 @@
       <h3>No transactions</h3>
     </div>
     <Transition name="fade" mode="out-in">
-      <div class="days" :key="transactions">
+      <div class="days" :key="props.account">
         <hr />
         <hr />
         <hr />
@@ -58,7 +58,9 @@ const props = defineProps(["account"]);
 const store = useStore();
 const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-const transactions = ref(store.getters.getWeeklyTransactions(props.account));
+const transactions = computed(() => {
+  return store.getters.getWeeklyTransactions(props.account);
+});
 
 watch(
   () => props.account,

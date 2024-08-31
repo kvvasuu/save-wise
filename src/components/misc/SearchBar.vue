@@ -9,11 +9,19 @@
     <div class="list" v-if="results.length > 0">
       <ul>
         <li v-for="result in results" @click="navigate(result.route)">
-          <span v-html="highlightMatch(result.name)"></span>
+          <div class="name">
+            <span v-html="highlightMatch(result.name)"></span>
+          </div>
+          <div class="description">
+            <span v-html="highlightMatch(result.description)"></span>
+          </div>
         </li>
       </ul>
     </div>
-    <div class="list" v-else-if="query !== '' && results.length <= 0">
+    <div
+      class="list"
+      v-else-if="query !== '' && query.length >= 3 && results.length <= 0"
+    >
       <ul>
         <li class="no-results">No results</li>
       </ul>
@@ -32,57 +40,57 @@ const results = ref([]);
 const functionalities = ref([
   {
     name: "Dashboard",
-    description: "Zrealizuj przelew bankowy",
+    description: "The Dashboard is your central hub in SaveWise",
     route: "/app",
   },
   {
     name: "Deposit",
-    description: "Zrealizuj przelew bankowy",
+    description: "Make a deposit into your account",
     route: "/app/operations",
   },
   {
     name: "Withdraw",
-    description: "Zrealizuj przelew bankowy",
+    description: "Make a withdrawal from your account",
     route: "/app/operations/withdraw",
   },
   {
     name: "Accounts",
-    description: "Zarządzaj swoimi kontami",
+    description: "Manage your accounts",
     route: "/app/accounts",
   },
   {
     name: "Transactions",
-    description: "Sprawdź historię transakcji",
+    description: "Check transactions history",
     route: "/app/transactions",
   },
   {
     name: "Settings",
-    description: "Sprawdź historię transakcji",
+    description: "Settings",
     route: "/app/settings",
   },
   {
     name: "Profile",
-    description: "Sprawdź historię transakcji",
+    description: "Profile settings",
     route: "/app/settings",
   },
   {
     name: "Preferences",
-    description: "Sprawdź historię transakcji",
+    description: "Change profile preferences",
     route: "/app/settings/preferences",
   },
   {
     name: "Currency",
-    description: "Sprawdź historię transakcji",
+    description: "Change default currency",
     route: "/app/settings/preferences",
   },
   {
     name: "Notifications",
-    description: "Sprawdź historię transakcji",
+    description: "Change notifications preferences",
     route: "/app/settings/preferences",
   },
   {
     name: "Add account",
-    description: "Sprawdź historię transakcji",
+    description: "Add new account",
     route: "/app/accounts",
   },
 ]);
@@ -183,14 +191,16 @@ const navigate = (route) => {
     li {
       background-color: $background-color;
       cursor: pointer;
-      height: 1rem;
       border-radius: 0.2rem;
       padding: 0.6rem;
       span :deep(.strong) {
         font-weight: 700;
         color: $primary-color;
       }
-
+      .description {
+        font-size: 0.8rem;
+        color: $font-color-light;
+      }
       &:hover:not(.no-results) {
         background-color: $details-color;
       }
