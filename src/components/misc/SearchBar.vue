@@ -32,74 +32,18 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { functionalities } from "@/assets/script";
 
 const router = useRouter();
 
 const query = ref("");
 const results = ref([]);
-const functionalities = ref([
-  {
-    name: "Dashboard",
-    description: "The Dashboard is your central hub in SaveWise",
-    route: "/app",
-  },
-  {
-    name: "Deposit",
-    description: "Make a deposit into your account",
-    route: "/app/operations",
-  },
-  {
-    name: "Withdraw",
-    description: "Make a withdrawal from your account",
-    route: "/app/operations/withdraw",
-  },
-  {
-    name: "Accounts",
-    description: "Manage your accounts",
-    route: "/app/accounts",
-  },
-  {
-    name: "Transactions",
-    description: "Check transactions history",
-    route: "/app/transactions",
-  },
-  {
-    name: "Settings",
-    description: "Settings",
-    route: "/app/settings",
-  },
-  {
-    name: "Profile",
-    description: "Profile settings",
-    route: "/app/settings",
-  },
-  {
-    name: "Preferences",
-    description: "Change profile preferences",
-    route: "/app/settings/preferences",
-  },
-  {
-    name: "Currency",
-    description: "Change default currency",
-    route: "/app/settings/preferences",
-  },
-  {
-    name: "Notifications",
-    description: "Change notifications preferences",
-    route: "/app/settings/preferences",
-  },
-  {
-    name: "Add account",
-    description: "Add new account",
-    route: "/app/accounts",
-  },
-]);
 
 const search = () => {
   if (query.value) {
     const lowerCaseQuery = query.value.toLowerCase();
     if (query.value.length >= 2) {
-      results.value = functionalities.value
+      results.value = functionalities
         .filter(
           (func) =>
             func.name.toLowerCase().includes(lowerCaseQuery) ||

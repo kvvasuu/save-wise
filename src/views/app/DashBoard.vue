@@ -16,19 +16,19 @@
     </div>
     <div class="small-container">
       <div class="title">
-        <h3>Quick Deposit</h3>
+        <h3>Quick deposit</h3>
       </div>
       <QuickDeposit></QuickDeposit>
     </div>
     <div class="small-container">
       <div class="title">
-        <h3>Expense Statistics</h3>
+        <h3>Expense statistics</h3>
       </div>
       <ExpenseStatistics></ExpenseStatistics>
     </div>
     <div class="small-container wide">
       <div class="title">
-        <h3>Weekly Activity</h3>
+        <h3>Weekly activity</h3>
         <select v-if="accounts.length > 0" v-model="selectedAccount">
           <option v-for="(account, index) in accounts" :value="index">
             {{ account.accountName }}

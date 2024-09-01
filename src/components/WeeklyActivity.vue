@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { computed, watch, ref } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 const props = defineProps(["account"]);
@@ -61,13 +61,6 @@ const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const transactions = computed(() => {
   return store.getters.getWeeklyTransactions(props.account);
 });
-
-watch(
-  () => props.account,
-  (newValue, oldValue) => {
-    transactions.value = store.getters.getWeeklyTransactions(newValue);
-  }
-);
 
 const maxValue = computed(() => {
   return transactions.value.reduce((max, day) => {

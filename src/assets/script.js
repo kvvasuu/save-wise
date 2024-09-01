@@ -17,4 +17,77 @@ const generateTimestampID = () => {
   return Date.now().toString(36) + Math.random().toString(36).substring(2, 5);
 };
 
-export { currencyMap, gradientMap, generateTimestampID };
+const functionalities = [
+  {
+    name: "Dashboard",
+    description: "The Dashboard is your central hub in SaveWise",
+    route: "/app",
+  },
+  {
+    name: "Expense statistics",
+    description: "Expense statistics - dashboard",
+    route: "/app",
+  },
+  {
+    name: "Weekly activity",
+    description: "Weekly activity - dashboard",
+    route: "/app",
+  },
+  {
+    name: "Accounts",
+    description: "Manage your accounts",
+    route: "/app/accounts",
+  },
+  {
+    name: "Deposit",
+    description: "Make a deposit into your account",
+    route: "/app/operations",
+  },
+  {
+    name: "Withdraw",
+    description: "Make a withdrawal from your account",
+    route: "/app/operations/withdraw",
+  },
+  {
+    name: "Operations",
+    description: "Make deposit or withdrawal",
+    route: "/app/operations",
+  },
+  {
+    name: "Transactions",
+    description: "Check transactions history",
+    route: "/app/transactions",
+  },
+  {
+    name: "Settings",
+    description: "Settings",
+    route: "/app/settings",
+  },
+  {
+    name: "Profile",
+    description: "Profile settings",
+    route: "/app/settings",
+  },
+  {
+    name: "Preferences",
+    description: "Change profile preferences",
+    route: "/app/settings/preferences",
+  },
+  {
+    name: "Currency",
+    description: "Change default currency",
+    route: "/app/settings/preferences",
+  },
+  {
+    name: "Notifications",
+    description: "Change notifications preferences",
+    route: "/app/settings/preferences",
+  },
+  {
+    name: "Add account",
+    description: "Add new account",
+    route: "/app/accounts",
+  },
+];
+
+export { currencyMap, gradientMap, generateTimestampID, functionalities };
