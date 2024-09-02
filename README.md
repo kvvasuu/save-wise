@@ -57,5 +57,3 @@ npm run unit
 # run all tests
 npm test
 ```
-
-Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a>
