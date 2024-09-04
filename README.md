@@ -25,7 +25,6 @@ To get started with SaveWise, follow these steps:
 3. **Complete Your Profile**: For the best experience, fill out your profile information in the "Settings" panel.
 4. **Explore**: Navigate through the app to set saving goals, track deposits, and view your savings analytics.
 
-
 ## Technologies:
 
 - Vue (Options API & Composition API)
@@ -42,7 +41,7 @@ To get started with SaveWise, follow these steps:
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:5173
 npm run dev
 
 # build for production with minification
