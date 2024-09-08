@@ -81,6 +81,11 @@ export default {
           found[transaction.transactionType] += transaction.amount;
         }
       });
+
+      if (dailySums.every((el) => el.expense <= 0 && el.income <= 0)) {
+        return [];
+      }
+
       return dailySums;
     } else return [];
   },
